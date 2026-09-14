@@ -1,2 +1,6 @@
 pdfplumber==0.11.4
-
+pandas==2.3.3
+fastparquet==2024.11.0
+numpy==1.26.4
+scikit-learn==1.5.2
+joblib==1.4.2

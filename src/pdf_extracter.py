@@ -69,11 +69,7 @@ def find_table6_pages(pdf):
 
 
 def cluster_words_by_record(words, start_num):
-    """Group words into records using nearest Sl.No anchor.
-    Anchors must continue sequentially from start_num, since Sl.No
-    numbering runs continuously across pages, not per-page.
-    Returns (records dict, next_start_num for the following page)."""
-    anchors = []  # (record_num, top)
+    anchors = []
     expected = start_num
     for w in sorted(words, key=lambda w: w["top"]):
         if col_of(w["x0"]) == "sl_no" and w["text"].strip().isdigit():
@@ -83,19 +79,17 @@ def cluster_words_by_record(words, start_num):
                 expected += 1
 
     if not anchors:
-        return {}, start_num
+        return {}, start_num, []
 
     records = {n: [] for n, _ in anchors}
     anchor_tops = [t for _, t in anchors]
     anchor_nums = [n for n, _ in anchors]
-
     for w in words:
-        # nearest anchor by vertical distance
         diffs = [abs(w["top"] - t) for t in anchor_tops]
         idx = diffs.index(min(diffs))
         records[anchor_nums[idx]].append(w)
 
-    return records, expected
+    return records, expected, anchors
 
 
 def _split_name_block(lines):
@@ -199,26 +193,78 @@ def parse_record(record_num, words):
         "physical_progress_pct": progress,
     }
 
+MINISTRY_RE = re.compile(r"^(Ministry of|Department of|Department for)\b")
+
+def extract_headers(words, x_max=470):
+    candidates = sorted((w for w in words if w["x0"] < x_max),
+                         key=lambda w: (w["top"], w["x0"]))
+    lines, cur_top, cur = [], None, []
+    for w in candidates:
+        if cur_top is None or abs(w["top"] - cur_top) <= 3:
+            cur.append(w)
+            cur_top = cur_top if cur_top is not None else w["top"]
+        else:
+            lines.append((cur_top, cur))
+            cur, cur_top = [w], w["top"]
+    if cur:
+        lines.append((cur_top, cur))
+
+    headers, consumed = [], set()
+    for i, (top, ws) in enumerate(lines):
+        text = " ".join(w["text"] for w in sorted(ws, key=lambda w: w["x0"])).strip()
+        if MINISTRY_RE.match(text):
+            headers.append((top, text, "ministry"))
+            consumed.update(id(w) for w in ws)
+            continue
+        if re.search(r"[\d()]", text) or not text or len(text) > 70:
+            continue
+        # a bare, short, digit-free line whose next line is a lone integer
+        # is a sector heading sitting right above the next Sl.No
+        if i + 1 < len(lines):
+            nxt = " ".join(w["text"] for w in sorted(lines[i+1][1], key=lambda w: w["x0"])).strip()
+            if nxt.isdigit():
+                headers.append((top, text, "sector"))
+                consumed.update(id(w) for w in ws)
+    return headers, consumed
+
+
+def build_section_map(headers, anchors, ministry, sector):
+    events = [(top, "header", text, kind) for top, text, kind in headers]
+    events += [(top, "anchor", num, None) for num, top in anchors]
+    events.sort(key=lambda e: e[0])
+    section_map = {}
+    for top, ekind, a, b in events:
+        if ekind == "header":
+            ministry, sector = (a, sector) if b == "ministry" else (ministry, a)
+        else:
+            section_map[a] = (ministry, sector)
+    return section_map, ministry, sector
 
 def extract(pdf_path, report_month):
     pdf = pdfplumber.open(pdf_path)
     pages = find_table6_pages(pdf)
     all_records = {}
     next_num = 1
+    ministry, sector = None, None
+
     for i in pages:
         page = pdf.pages[i]
-        # drop the repeating page header (title/column headers) and
-        # footer (page number / "visit:" banner) so they don't get
-        # clustered into the nearest real record. Filtering the word
-        # list directly (rather than page.crop, which clips partially-
-        # overlapping words instead of dropping them) avoids leaving
-        # clipped header fragments at the boundary.
         all_words = page.extract_words()
         words = [w for w in all_words if 260 < w["top"] < page.height - 55]
-        clustered, next_num = cluster_words_by_record(words, next_num)
+
+        headers, header_word_ids = extract_headers(words)
+        clean_words = [w for w in words if id(w) not in header_word_ids]
+
+        clustered, next_num, anchors = cluster_words_by_record(clean_words, next_num)
+        section_map, ministry, sector = build_section_map(headers, anchors, ministry, sector)
+
         for num, ws in clustered.items():
-            all_records[num] = parse_record(num, ws)
-            all_records[num]["report_month"] = report_month
+            rec = parse_record(num, ws)
+            m, s = section_map.get(num, (ministry, sector))
+            rec["ministry"] = m
+            rec["sector"] = s
+            rec["report_month"] = report_month
+            all_records[num] = rec
 
     return [all_records[k] for k in sorted(all_records)]
 
