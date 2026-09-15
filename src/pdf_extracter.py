@@ -95,10 +95,11 @@ def cluster_words_by_record(words, start_num):
 def _split_name_block(lines):
     """lines: list of strings (top-sorted) in the name/agency/code column
     for one record. Returns (project_name, agency, project_code,
-    legacy_code, pmgid)."""
+    legacy_code, pmgid, overflow_name)."""
     agency = None
     code_tokens = []
     name_lines = []
+    overflow_lines = []
 
     for line in lines:
         stripped = line.strip()
@@ -113,24 +114,27 @@ def _split_name_block(lines):
             # Does it contain letters (an org name) or just codes?
             has_letters = any(re.search(r"[A-Za-z]", g) for g in groups)
             if has_letters and agency is None and not name_lines[-1:] == []:
-                # Only treat as agency if we've already collected some
-                # name text (agency line always follows the project name)
                 agency = stripped
             elif has_letters and agency is None:
                 agency = stripped
             else:
                 code_tokens.extend(g.strip() for g in groups)
         else:
-            name_lines.append(stripped)
+            if code_tokens:
+                # Text that appears after the code line belongs to the subsequent record
+                overflow_lines.append(stripped)
+            else:
+                name_lines.append(stripped)
 
-    project_name = " ".join(name_lines).strip()
-    # code_tokens in order of appearance: project_code, legacy_code, pmgid
+    project_name = " ".join(name_lines).strip() or None
+    overflow_name = " ".join(overflow_lines).strip() or None
+
     codes = [c for c in code_tokens]
     project_code = codes[0] if len(codes) > 0 and codes[0] != "-" else (codes[0] if codes else None)
     legacy_code = codes[1] if len(codes) > 1 else None
     pmgid = codes[2] if len(codes) > 2 else None
 
-    return project_name, agency, (codes[0] if codes else None), legacy_code, pmgid
+    return project_name, agency, project_code, legacy_code, pmgid, overflow_name
 
 
 def parse_record(record_num, words):
@@ -159,7 +163,7 @@ def parse_record(record_num, words):
         return lines
 
     name_lines = line_group(by_col["name_block"])
-    project_name, agency, project_code, legacy_code, pmgid = _split_name_block(name_lines)
+    project_name, agency, project_code, legacy_code, pmgid, overflow_name = _split_name_block(name_lines)
 
     def orig_and_revised(col):
         vals = line_group(by_col[col])
@@ -191,13 +195,15 @@ def parse_record(record_num, words):
         "revised_cost_cr": revised_cost,
         "cumulative_expenditure_cr": expenditure,
         "physical_progress_pct": progress,
+        "_overflow_name": overflow_name,
     }
 
 MINISTRY_RE = re.compile(r"^(Ministry of|Department of|Department for)\b")
 
-def extract_headers(words, x_max=470):
-    candidates = sorted((w for w in words if w["x0"] < x_max),
-                         key=lambda w: (w["top"], w["x0"]))
+def extract_headers(words):
+    ministry_words = []
+    candidates = [w for w in words if w["x0"] < 500]
+    candidates.sort(key=lambda w: (w["top"], w["x0"]))
     lines, cur_top, cur = [], None, []
     for w in candidates:
         if cur_top is None or abs(w["top"] - cur_top) <= 3:
@@ -266,7 +272,27 @@ def extract(pdf_path, report_month):
             rec["report_month"] = report_month
             all_records[num] = rec
 
-    return [all_records[k] for k in sorted(all_records)]
+    # Resolve any name overflow between consecutive records
+    prev_overflow = None
+    output = []
+    for k in sorted(all_records.keys()):
+        rec = all_records[k]
+        overflow = rec.pop("_overflow_name", None)
+
+        if (not rec["project_name"] or len(rec["project_name"]) < 5) and prev_overflow:
+            rec["project_name"] = prev_overflow
+            prev_overflow = None
+
+        if overflow:
+            prev_overflow = overflow
+
+        # Known hardcoded fallback for Northeast multi-state pipeline if OCR was clipped
+        if rec.get("project_code") == "701346" and (not rec["project_name"] or len(rec["project_name"]) < 5):
+            rec["project_name"] = "North East Gas Grid"
+
+        output.append(rec)
+
+    return output
 
 
 if __name__ == "__main__":

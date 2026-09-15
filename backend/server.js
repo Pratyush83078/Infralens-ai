@@ -1,0 +1,298 @@
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 5001;
+
+app.use(cors());
+app.use(express.json());
+
+// Paths to processed data files
+const SNAPSHOT_PATH = path.resolve(__dirname, '../data/processed/latest_snapshot.json');
+const KPIS_PATH = path.resolve(__dirname, '../data/processed/portfolio_kpis.json');
+
+let projectsData = [];
+let kpiData = {};
+
+// Load / Reload data into memory for ultra-fast sub-millisecond responses
+function loadData() {
+  try {
+    if (fs.existsSync(SNAPSHOT_PATH)) {
+      const rawSnapshot = fs.readFileSync(SNAPSHOT_PATH, 'utf-8');
+      projectsData = JSON.parse(rawSnapshot);
+      console.log(`[Data Engine] Loaded ${projectsData.length} projects from ${SNAPSHOT_PATH}`);
+    } else {
+      console.warn(`[Warning] Snapshot file not found at ${SNAPSHOT_PATH}`);
+    }
+
+    if (fs.existsSync(KPIS_PATH)) {
+      const rawKpis = fs.readFileSync(KPIS_PATH, 'utf-8');
+      kpiData = JSON.parse(rawKpis);
+      console.log(`[Data Engine] Loaded portfolio KPIs from ${KPIS_PATH}`);
+    } else {
+      console.warn(`[Warning] KPIs file not found at ${KPIS_PATH}`);
+    }
+  } catch (err) {
+    console.error('[Error] Failed to load processed data:', err.message);
+  }
+}
+
+// Initial load
+loadData();
+
+// 1. Health check
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    total_projects_loaded: projectsData.length,
+    kpis_ready: Boolean(kpiData.total_projects)
+  });
+});
+
+// 2. High-level Portfolio KPIs
+app.get('/api/kpis', (req, res) => {
+  if (!kpiData || Object.keys(kpiData).length === 0) {
+    return res.status(503).json({ error: 'KPI data not loaded yet. Run export_for_backend.py first.' });
+  }
+  res.json(kpiData);
+});
+
+// 3. Dropdown Filter Options (Ministries, States, Risk Bands, Risk Drivers)
+app.get('/api/filters', (req, res) => {
+  const ministries = [...new Set(projectsData.map(p => p.ministry).filter(Boolean))].sort();
+  const states = [...new Set(projectsData.map(p => p.state).filter(Boolean))].sort();
+  const riskBands = ['Critical', 'High', 'Medium', 'Low'];
+  const riskDrivers = [...new Set(projectsData.map(p => p.primary_risk_driver).filter(Boolean))].sort();
+
+  res.json({
+    ministries,
+    states,
+    risk_bands: riskBands,
+    risk_drivers: riskDrivers
+  });
+});
+
+// 4. Early Warning Alert Feed (Top Critical & High Risk Projects)
+app.get('/api/alerts', (req, res) => {
+  const limit = parseInt(req.query.limit) || 10;
+  const criticalAndHigh = projectsData
+    .filter(p => p.risk_band === 'Critical' || p.risk_band === 'High')
+    .sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0))
+    .slice(0, limit);
+
+  res.json({
+    total_alerts: projectsData.filter(p => p.risk_band === 'Critical' || p.risk_band === 'High').length,
+    limit,
+    projects: criticalAndHigh
+  });
+});
+
+// 5. Ministry & Sector Benchmarks
+app.get('/api/benchmarks/ministries', (req, res) => {
+  const ministryMap = {};
+
+  projectsData.forEach(p => {
+    const min = p.ministry || 'Unknown';
+    if (!ministryMap[min]) {
+      ministryMap[min] = {
+        ministry: min,
+        total_projects: 0,
+        total_original_cost: 0,
+        total_revised_cost: 0,
+        total_cost_overrun: 0,
+        cumulative_risk_score: 0,
+        total_delay_months: 0,
+        critical_count: 0,
+        high_count: 0
+      };
+    }
+
+    const m = ministryMap[min];
+    m.total_projects += 1;
+    m.total_original_cost += p.original_cost_cr || 0;
+    m.total_revised_cost += p.revised_cost_cr || 0;
+    m.total_cost_overrun += Math.max(0, (p.revised_cost_cr || 0) - (p.original_cost_cr || 0));
+    m.cumulative_risk_score += p.risk_score || 0;
+    m.total_delay_months += Math.max(0, p.doc_slip_months_so_far || 0);
+
+    if (p.risk_band === 'Critical') m.critical_count += 1;
+    if (p.risk_band === 'High') m.high_count += 1;
+  });
+
+  const benchmarkList = Object.values(ministryMap).map(m => ({
+    ministry: m.ministry,
+    total_projects: m.total_projects,
+    total_original_cost_cr: Number(m.total_original_cost.toFixed(2)),
+    total_revised_cost_cr: Number(m.total_revised_cost.toFixed(2)),
+    total_cost_overrun_cr: Number(m.total_cost_overrun.toFixed(2)),
+    avg_risk_score: Number((m.cumulative_risk_score / m.total_projects).toFixed(1)),
+    avg_delay_months: Number((m.total_delay_months / m.total_projects).toFixed(1)),
+    critical_count: m.critical_count,
+    high_count: m.high_count
+  })).sort((a, b) => b.total_cost_overrun_cr - a.total_cost_overrun_cr);
+
+  res.json(benchmarkList);
+});
+
+// 6. Search, Filter, Sort, and Paginate Projects
+app.get('/api/projects', (req, res) => {
+  let {
+    search = '',
+    risk_band = '',
+    ministry = '',
+    state = '',
+    driver = '',
+    sort_by = 'risk_score',
+    order = 'desc',
+    page = 1,
+    limit = 20
+  } = req.query;
+
+  page = parseInt(page) || 1;
+  const requestedLimit = req.query.limit === 'all' ? 5000 : parseInt(req.query.limit);
+  limit = Math.min(requestedLimit || 20, 5000);
+
+  let filtered = projectsData;
+
+  // Search by project name or code
+  if (search.trim()) {
+    const q = search.trim().toLowerCase();
+    filtered = filtered.filter(p =>
+      (p.project_name && p.project_name.toLowerCase().includes(q)) ||
+      (p.project_code && p.project_code.toString().includes(q)) ||
+      (p.agency && p.agency.toLowerCase().includes(q))
+    );
+  }
+
+  // Filter by risk band (can be comma-separated: e.g. "Critical,High")
+  if (risk_band) {
+    const bands = risk_band.split(',').map(b => b.trim().toLowerCase());
+    filtered = filtered.filter(p => p.risk_band && bands.includes(p.risk_band.toLowerCase()));
+  }
+
+  // Filter by ministry
+  if (ministry) {
+    filtered = filtered.filter(p => p.ministry && p.ministry.toLowerCase() === ministry.trim().toLowerCase());
+  }
+
+  // Filter by state
+  if (state) {
+    filtered = filtered.filter(p => p.state && p.state.toLowerCase().includes(state.trim().toLowerCase()));
+  }
+
+  // Filter by primary risk driver
+  if (driver) {
+    filtered = filtered.filter(p => p.primary_risk_driver && p.primary_risk_driver.toLowerCase() === driver.trim().toLowerCase());
+  }
+
+  // Sort
+  const validSortFields = [
+    'risk_score', 'revised_cost_cr', 'original_cost_cr',
+    'cumulative_expenditure_cr', 'physical_progress_pct',
+    'cost_overrun_ratio_so_far', 'doc_slip_months_so_far',
+    'cost_revised_up_risk_pct', 'schedule_slipped_risk_pct'
+  ];
+
+  if (validSortFields.includes(sort_by)) {
+    const isAsc = order.toLowerCase() === 'asc';
+    filtered.sort((a, b) => {
+      const valA = a[sort_by] ?? -Infinity;
+      const valB = b[sort_by] ?? -Infinity;
+      return isAsc ? valA - valB : valB - valA;
+    });
+  }
+
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / limit) || 1;
+  const startIndex = (page - 1) * limit;
+  const paginatedProjects = filtered.slice(startIndex, startIndex + limit);
+
+  res.json({
+    page,
+    limit,
+    total_projects: total,
+    total_pages: totalPages,
+    data: paginatedProjects
+  });
+});
+
+// 7. Single Project Deep-Dive Diagnostic
+app.get('/api/projects/:code', (req, res) => {
+  const code = req.params.code.trim();
+  const project = projectsData.find(p => p.project_code.toString() === code);
+
+  if (!project) {
+    return res.status(404).json({ error: `Project with code '${code}' not found.` });
+  }
+
+  // Calculate detailed financial and schedule metrics for modal/drawer
+  const originalCost = project.original_cost_cr || 0;
+  const revisedCost = project.revised_cost_cr || originalCost;
+  const expenditure = project.cumulative_expenditure_cr || 0;
+  const overrunCr = Math.max(0, revisedCost - originalCost);
+  const overrunPct = originalCost > 0 ? ((overrunCr / originalCost) * 100).toFixed(1) : 0;
+  const delayMonths = Math.max(0, project.doc_slip_months_so_far || 0);
+
+  res.json({
+    ...project,
+    analytics: {
+      cost_escalation_amount_cr: Number(overrunCr.toFixed(2)),
+      cost_escalation_pct: Number(overrunPct),
+      delay_months: delayMonths,
+      funds_spent_pct: revisedCost > 0 ? Number(((expenditure / revisedCost) * 100).toFixed(1)) : 0,
+      physical_progress_pct: project.physical_progress_pct || 0,
+      ai_assessment: generateAssessment(project)
+    }
+  });
+});
+
+// Helper: Generates explainable narrative for UI
+function generateAssessment(p) {
+  const band = p.risk_band;
+  const driver = p.primary_risk_driver || 'Timeline Deviation';
+  const delay = p.doc_slip_months_so_far || 0;
+  const costOverrun = p.cost_overrun_ratio_so_far ? (p.cost_overrun_ratio_so_far * 100).toFixed(1) : 0;
+
+  if (band === 'Critical') {
+    return `CRITICAL INTERVENTION REQUIRED: Driven primarily by ${driver}. The project exhibits a delay of ${delay} months with cost escalation of ${costOverrun}%. Immediate milestone review recommended.`;
+  }
+  if (band === 'High') {
+    return `HIGH RISK ALERT: Primary bottleneck is ${driver}. Schedule has slipped by ${delay} months. Escalation mitigation measures should be enacted.`;
+  }
+  if (band === 'Medium') {
+    return `MODERATE WATCH: Driven by ${driver}. Minor delays or spend-progress divergence detected. Regular monthly tracking advised.`;
+  }
+  return `NORMAL IMPLEMENTATION: Project performance is largely within expected variance.`;
+}
+
+// 8. Hot Reload Data (called when Python pipeline re-runs)
+app.post('/api/reload', (req, res) => {
+  loadData();
+  res.json({
+    message: 'Data successfully reloaded from disk!',
+    total_projects: projectsData.length
+  });
+});
+
+const server = app.listen(PORT, () => {
+  console.log(`====================================================`);
+  console.log(`  PAIMANA AI Monitoring API Server running on port ${PORT}`);
+  console.log(`  Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`  KPIs:         http://localhost:${PORT}/api/kpis`);
+  console.log(`  Projects:     http://localhost:${PORT}/api/projects?limit=20`);
+  console.log(`====================================================`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n[Port Conflict] Port ${PORT} is already in use by another running instance!`);
+    console.error(`To stop the previous instance, run:`);
+    console.error(`  kill -9 $(lsof -t -i:${PORT})\n`);
+  } else {
+    console.error('[Server Error]', err);
+  }
+});
+
