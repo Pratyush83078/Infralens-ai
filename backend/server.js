@@ -83,10 +83,13 @@ app.get('/api/alerts', (req, res) => {
     .sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0))
     .slice(0, limit);
 
+  const total = projectsData.filter(p => p.risk_band === 'Critical' || p.risk_band === 'High').length;
+
   res.json({
-    total_alerts: projectsData.filter(p => p.risk_band === 'Critical' || p.risk_band === 'High').length,
+    total_alerts: total,
     limit,
-    projects: criticalAndHigh
+    projects: criticalAndHigh,
+    data: criticalAndHigh
   });
 });
 
@@ -125,6 +128,7 @@ app.get('/api/benchmarks/ministries', (req, res) => {
   const benchmarkList = Object.values(ministryMap).map(m => ({
     ministry: m.ministry,
     total_projects: m.total_projects,
+    project_count: m.total_projects,
     total_original_cost_cr: Number(m.total_original_cost.toFixed(2)),
     total_revised_cost_cr: Number(m.total_revised_cost.toFixed(2)),
     total_cost_overrun_cr: Number(m.total_cost_overrun.toFixed(2)),
@@ -238,6 +242,7 @@ app.get('/api/projects/:code', (req, res) => {
 
   res.json({
     ...project,
+    ai_assessment: generateAssessment(project),
     analytics: {
       cost_escalation_amount_cr: Number(overrunCr.toFixed(2)),
       cost_escalation_pct: Number(overrunPct),
@@ -268,7 +273,96 @@ function generateAssessment(p) {
   return `NORMAL IMPLEMENTATION: Project performance is largely within expected variance.`;
 }
 
-// 8. Hot Reload Data (called when Python pipeline re-runs)
+// 8. Peer Benchmarking — "Similar projects in same ministry+state"
+app.get('/api/projects/:code/peers', (req, res) => {
+  const code = req.params.code.trim();
+  const project = projectsData.find(p => p.project_code.toString() === code);
+
+  if (!project) {
+    return res.status(404).json({ error: `Project '${code}' not found.` });
+  }
+
+  // Find peer group: same ministry + same state (exclude itself)
+  const peers = projectsData.filter(p =>
+    p.project_code.toString() !== code &&
+    p.ministry === project.ministry &&
+    p.state === project.state
+  );
+
+  if (peers.length === 0) {
+    return res.json({
+      project_code: code,
+      peer_group: { ministry: project.ministry, state: project.state, count: 0 },
+      message: 'No peer projects found in same ministry + state combination.'
+    });
+  }
+
+  // Compute peer group averages
+  const avg = (arr, key) => {
+    const vals = arr.map(p => p[key]).filter(v => v != null && isFinite(v));
+    return vals.length ? Number((vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2)) : null;
+  };
+
+  const peerStats = {
+    count: peers.length,
+    ministry: project.ministry,
+    state: project.state,
+    avg_cost_overrun_pct: Number(((avg(peers, 'cost_overrun_ratio_so_far') || 0) * 100).toFixed(1)),
+    avg_schedule_delay_months: avg(peers, 'doc_slip_months_so_far'),
+    avg_physical_progress_pct: avg(peers, 'physical_progress_pct'),
+    avg_risk_score: avg(peers, 'risk_score'),
+    risk_band_distribution: {
+      Critical: peers.filter(p => p.risk_band === 'Critical').length,
+      High: peers.filter(p => p.risk_band === 'High').length,
+      Medium: peers.filter(p => p.risk_band === 'Medium').length,
+      Low: peers.filter(p => p.risk_band === 'Low').length,
+    }
+  };
+
+  // Generate natural-language peer comparison insight
+  const thisOverrunPct = Number(((project.cost_overrun_ratio_so_far || 0) * 100).toFixed(1));
+  const peerOverrunPct = peerStats.avg_cost_overrun_pct;
+  const overrunDiff = thisOverrunPct - peerOverrunPct;
+  const thisDelay = project.doc_slip_months_so_far || 0;
+  const peerDelay = peerStats.avg_schedule_delay_months || 0;
+
+  let insight = `${peers.length} similar ${project.ministry} projects in ${project.state} `;
+  insight += `have an average cost overrun of ${peerOverrunPct}% and schedule delay of ${peerDelay} months. `;
+
+  if (overrunDiff > 5) {
+    insight += `This project's overrun (${thisOverrunPct}%) is ${overrunDiff.toFixed(1)}% above the peer average — a significant warning sign.`;
+  } else if (overrunDiff < -5) {
+    insight += `This project's overrun (${thisOverrunPct}%) is below the peer average — performing better than similar projects.`;
+  } else {
+    insight += `This project shows a similar overrun pattern (${thisOverrunPct}%) to its peers — early warning indicators align with the group trend.`;
+  }
+
+  res.json({
+    project_code: code,
+    project_name: project.project_name,
+    this_project: {
+      cost_overrun_pct: thisOverrunPct,
+      schedule_delay_months: thisDelay,
+      risk_score: project.risk_score,
+      risk_band: project.risk_band
+    },
+    peer_group: peerStats,
+    peer_insight: insight,
+    top_peers_by_risk: peers
+      .sort((a, b) => (b.risk_score || 0) - (a.risk_score || 0))
+      .slice(0, 5)
+      .map(p => ({
+        project_code: p.project_code,
+        project_name: p.project_name,
+        risk_score: p.risk_score,
+        risk_band: p.risk_band,
+        cost_overrun_pct: Number(((p.cost_overrun_ratio_so_far || 0) * 100).toFixed(1)),
+        schedule_delay_months: p.doc_slip_months_so_far
+      }))
+  });
+});
+
+// 9. Hot Reload Data (called when Python pipeline re-runs)
 app.post('/api/reload', (req, res) => {
   loadData();
   res.json({

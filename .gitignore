@@ -44,3 +44,5 @@ data/raw/*
 #data/processed/*
 # !data/raw/.gitkeep
 backend/node_modules
+frontend/dist
+frontend/node_modules
