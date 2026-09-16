@@ -4,13 +4,13 @@ import Mascot from '../components/Mascot';
 import './About.css';
 
 const SIDEBAR_ITEMS = [
-  { id: 'overview',   label: 'Executive Overview',    icon: BookOpen },
-  { id: 'pipeline',   label: '5-Step Intelligence Flow', icon: GitBranch },
-  { id: 'dual-core',  label: 'Dual-Engine System',    icon: Cpu },
-  { id: 'models',     label: 'Model Accuracy & ROC-AUC', icon: Terminal },
-  { id: 'outcomes',   label: 'SIH 26103 Compliance',  icon: ShieldCheck },
-  { id: 'api-spec',   label: 'REST API & Schema',     icon: Database },
-  { id: 'stack',      label: 'Open-Source Tech Stack', icon: Layers },
+  { id: 'overview', label: 'Executive Overview', icon: BookOpen },
+  { id: 'pipeline', label: '5-Step Intelligence Flow', icon: GitBranch },
+  { id: 'dual-core', label: 'Dual-Engine System', icon: Cpu },
+  { id: 'models', label: 'Model Accuracy & ROC-AUC', icon: Terminal },
+  { id: 'outcomes', label: 'SIH 26103 Compliance', icon: ShieldCheck },
+  { id: 'api-spec', label: 'REST API & Schema', icon: Database },
+  { id: 'stack', label: 'Open-Source Tech Stack', icon: Layers },
 ];
 
 const FLOW = [
@@ -256,7 +256,7 @@ export default function About() {
                 <span className="code-block-badge">JSON Response</span>
               </div>
               <pre className="code-block">
-{`{
+                {`{
   "project_code": 705368,
   "project_name": "Araria - Supaul (92 km) New Railway Line",
   "ministry": "Ministry of Railways",
@@ -307,8 +307,8 @@ export default function About() {
                 { area: 'Predictive ML', tools: ['scikit-learn', 'GradientBoosting', 'LogisticRegression', 'numpy'] },
                 { area: 'API Engine', tools: ['Node.js', 'Express', 'cors'] },
                 { area: 'Frontend App', tools: ['React 18', 'Vite', 'Recharts', 'Lucide Icons'] },
-                { area: 'Design System', tools: ['IBM Plex Sans', 'JetBrains Mono', 'PostHog Aesthetic'] },
-                { area: 'Deployment', tools: ['run_all.py Orchestrator', 'npm Scripts'] },
+                // { area: 'Design System', tools: ['IBM Plex Sans', 'JetBrains Mono', 'PostHog Aesthetic'] },
+                // { area: 'Deployment', tools: ['run_all.py Orchestrator', 'npm Scripts'] },
               ].map(({ area, tools }) => (
                 <div key={area} className="stack-tile">
                   <div className="stack-tile-area">{area}</div>
