@@ -85,4 +85,5 @@ Paimana-analysis/
     ├── ARCHITECTURE.md     ← Data flow, column definitions, pipeline stages
     ├── ML_DESIGN.md        ← Model choices, trade-offs, evaluation results, roadmap
     └── FEATURES_COVERAGE.md ← SIH outcome checklist (a–i) with current status
+    and many more...
 ```
