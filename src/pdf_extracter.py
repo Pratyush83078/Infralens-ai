@@ -1,7 +1,4 @@
 """
-PAIMANA Flash Report extractor — pulls "Table 6: All Ongoing Projects"
-into structured records.
-
 Approach:
   1. Find the page range covering "Table 6: All Ongoing Projects" up to
      the next table heading.
@@ -22,10 +19,6 @@ import sys
 import json
 import pdfplumber
 
-# Column boundaries (x0, in points). Derived empirically from both the
-# April 2026 and January 2026 reports; both use the same page size
-# (1080x1512pt) but the two reports shift by up to ~15pt, so bounds
-# are padded.
 COLS = {
     "sl_no":        (0, 75),
     "name_block":   (75, 470),
@@ -49,10 +42,6 @@ def col_of(x0):
 
 
 def find_table6_pages(pdf):
-    """Table 6 is the last table in the report (runs to end of doc).
-    Find its heading page (last occurrence, skipping the Contents
-    listing), then collect every subsequent page that has a data
-    table on it."""
     heading_idx = None
     for i, page in enumerate(pdf.pages):
         text = page.extract_text() or ""
@@ -93,9 +82,6 @@ def cluster_words_by_record(words, start_num):
 
 
 def _split_name_block(lines):
-    """lines: list of strings (top-sorted) in the name/agency/code column
-    for one record. Returns (project_name, agency, project_code,
-    legacy_code, pmgid, overflow_name)."""
     agency = None
     code_tokens = []
     name_lines = []
@@ -103,9 +89,6 @@ def _split_name_block(lines):
 
     for line in lines:
         stripped = line.strip()
-        # A line that is ENTIRELY one or more parenthetical groups,
-        # each group being either short alnum/dash codes, is a "code line".
-        # e.g. "(612786)"  or  "(N04000106) (-)"
         groups = re.findall(r"\(([^()]*)\)", stripped)
         is_all_parens = bool(groups) and re.fullmatch(
             r"(\s*\([^()]*\)\s*)+", stripped

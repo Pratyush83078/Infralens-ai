@@ -81,9 +81,12 @@ Paimana-analysis/
 │   ├── server.js           ← Node.js Express REST API (8 endpoints)
 │   └── package.json
 └── docs/
-    ├── README.md           ← This file
-    ├── ARCHITECTURE.md     ← Data flow, column definitions, pipeline stages
-    ├── ML_DESIGN.md        ← Model choices, trade-offs, evaluation results, roadmap
-    └── FEATURES_COVERAGE.md ← SIH outcome checklist (a–i) with current status
-    and many more...
+    ├── README.md                          ← Master documentation hub & reading guide
+    ├── 01_ARCHITECTURE_AND_FLOW.md        ← End-to-end pipeline, dual-engine & Mermaid diagrams
+    ├── 02_MODEL_AND_METHODOLOGY.md        ← ML targets, 13 features, math vs ML & evaluation
+    ├── 03_DASHBOARD_AND_METRICS_GUIDE.md  ← Web app data dictionary & UI telemetry walkthrough
+    ├── 04_PROJECT_JOURNEY_EXAMPLE.md      ← Real project case study (raw PDF to early warning)
+    ├── 05_SIH_COMPLIANCE_AND_PITCH.md     ← SIH 26103 checklist, demo flow & winning tips
+    ├── 06_DESIGN_SYSTEM.md                ← UI design tokens, neo-brutalist theme specs
+    └── archive/                           ← Preserved historical scratchpads & draft notes
 ```
