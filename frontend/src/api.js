@@ -33,20 +33,20 @@ export function fmtPct(ratio) {
 }
 
 export function riskColor(band) {
-  const map = { Critical: '#ef4444', High: '#f97316', Medium: '#eab308', Low: '#22c55e' };
-  return map[band] || '#6b7280';
+  const map = { Critical: '#cd4239', High: '#e06a14', Medium: '#c49206', Low: '#2c8c66' };
+  return map[band] || '#6c6e63';
 }
 
 export function riskBgColor(band) {
-  const map = { Critical: 'rgba(239,68,68,0.12)', High: 'rgba(249,115,22,0.12)', Medium: 'rgba(234,179,8,0.12)', Low: 'rgba(34,197,94,0.12)' };
-  return map[band] || 'rgba(107,114,128,0.12)';
+  const map = { Critical: '#f7d6d3', High: '#fae4d7', Medium: '#fbf4d7', Low: '#d9eddf' };
+  return map[band] || '#e5e7e0';
 }
 
 export function scoreColor(score) {
-  if (score >= 75) return '#ef4444';
-  if (score >= 50) return '#f97316';
-  if (score >= 25) return '#eab308';
-  return '#22c55e';
+  if (score >= 75) return '#cd4239';
+  if (score >= 50) return '#e06a14';
+  if (score >= 25) return '#c49206';
+  return '#2c8c66';
 }
 
 export function cleanState(state) {

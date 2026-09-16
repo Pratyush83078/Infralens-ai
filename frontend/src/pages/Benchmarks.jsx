@@ -1,24 +1,28 @@
 import { useState } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ScatterChart, Scatter, ZAxis,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
+import { Award, AlertTriangle, Layers, TrendingUp } from 'lucide-react';
 import { useApi } from '../hooks/useApi';
-import { api, fmtCr } from '../api';
+import { api, fmtCr, riskColor } from '../api';
 import './Benchmarks.css';
 
-const TABS = ['Ministry Rankings', 'Top Overrun Projects'];
+const TABS = ['Ministry Rankings & Telemetry', 'Cost Escalation Leaderboard'];
 
-const MinTooltip = ({ active, payload, label }) => {
+const BenchmarkTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   const d = payload[0]?.payload;
   return (
-    <div style={{ background: 'var(--bg-card-2)', border: '1px solid var(--border)', padding: '12px 14px', borderRadius: 8, fontSize: 12, maxWidth: 260 }}>
-      <div style={{ fontWeight: 700, marginBottom: 6 }}>{d?.ministry}</div>
-      <div>Projects: <strong>{d?.project_count}</strong></div>
-      <div>Avg Risk: <strong>{d?.avg_risk_score?.toFixed(1)}</strong></div>
-      <div>Critical: <strong style={{ color: '#ef4444' }}>{d?.critical_count}</strong> · High: <strong style={{ color: '#f97316' }}>{d?.high_count}</strong></div>
-      <div>Overrun: <strong style={{ color: '#818cf8' }}>{fmtCr(d?.total_cost_overrun_cr)}</strong></div>
+    <div className="custom-chart-tooltip">
+      <div className="tooltip-title">{d?.ministry}</div>
+      <div className="tooltip-sub">Projects Tracked: <strong>{d?.project_count || d?.total_projects}</strong></div>
+      <div className="tooltip-sub">Average Risk Score: <strong>{d?.avg_risk_score?.toFixed(1)}</strong></div>
+      <div className="tooltip-sub" style={{ marginTop: 4 }}>
+        Critical: <strong style={{ color: 'var(--risk-critical)' }}>{d?.critical_count}</strong> · High: <strong style={{ color: 'var(--risk-high)' }}>{d?.high_count}</strong>
+      </div>
+      <div className="tooltip-value" style={{ marginTop: 6, color: 'var(--ink)' }}>
+        Overrun: {fmtCr(d?.total_cost_overrun_cr)}
+      </div>
     </div>
   );
 };
@@ -29,12 +33,11 @@ export default function Benchmarks() {
 
   const sorted = bench?.slice(0, 12).map(m => ({
     ...m,
-    shortName: m.ministry.replace('Ministry of ', '').replace('Department of ', '').substring(0, 24),
+    shortName: m.ministry.replace('Ministry of ', '').replace('Department of ', '').substring(0, 22),
   })) || [];
 
-  // Top overrun projects (from bench data)
   const topOverrun = Array.isArray(bench)
-    ? [...bench].sort((a, b) => b.total_cost_overrun_cr - a.total_cost_overrun_cr).slice(0, 15)
+    ? [...bench].sort((a, b) => b.total_cost_overrun_cr - a.total_cost_overrun_cr)
     : [];
 
   const highestRiskMin = Array.isArray(bench) && bench.length > 0
@@ -47,101 +50,200 @@ export default function Benchmarks() {
 
   return (
     <div className="page-wrapper fade-in">
-      <div className="page-header">
-        <div>
-          <h1>Benchmarks & Comparative Analytics</h1>
-          <p className="page-subtitle">Ministry-level performance rankings · Cost overrun · Risk distribution</p>
-        </div>
+      {/* Header */}
+      <div className="benchmarks-header-strip">
+        <div className="benchmarks-eyebrow">PORTFOLIO INTELLIGENCE</div>
+        <h1 className="benchmarks-title">Ministry Benchmarks & Rankings</h1>
+        <p className="benchmarks-subtitle">
+          Comparative performance evaluation across 17 Central Government ministries · Identifying systemic delay patterns and cost inflation.
+        </p>
       </div>
 
-      {/* Summary stat cards */}
+      {/* Summary Highlight Cards */}
       {Array.isArray(bench) && bench.length > 0 && !loading && (
-        <div className="grid-3 mb-4">
-          {[
-            { label: 'Ministry with Highest Overrun', val: bench[0]?.ministry?.replace('Ministry of ',''), sub: fmtCr(bench[0]?.total_cost_overrun_cr) + ' overrun', color: '#ef4444' },
-            { label: 'Ministry with Highest Avg Risk', val: highestRiskMin?.ministry?.replace('Ministry of ','').replace('Department of ',''), sub: 'Avg score: ' + highestRiskMin?.avg_risk_score?.toFixed(1), color: '#f97316' },
-            { label: 'Most Projects', val: mostProjectsMin?.ministry?.replace('Ministry of ',''), sub: (mostProjectsMin?.project_count || mostProjectsMin?.total_projects || 0) + ' projects', color: '#818cf8' },
-          ].map(c => (
-            <div key={c.label} className="card">
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{c.label}</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: c.color }}>{c.val}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{c.sub}</div>
+        <div className="grid-3 mb-6">
+          <div className="card benchmark-stat-card">
+            <div className="stat-card-top">
+              <span className="stat-card-label">Highest Budget Overrun</span>
+              <div className="stat-card-icon" style={{ color: 'var(--risk-critical)', backgroundColor: 'var(--risk-critical-bg)' }}>
+                <TrendingUp size={16} />
+              </div>
             </div>
-          ))}
+            <div className="stat-card-name">{bench[0]?.ministry?.replace('Ministry of ', '')}</div>
+            <div className="stat-card-highlight" style={{ color: 'var(--risk-critical)' }}>
+              {fmtCr(bench[0]?.total_cost_overrun_cr)} overrun
+            </div>
+            <div className="stat-card-sub">
+              {bench[0]?.critical_count} Critical · {bench[0]?.high_count} High-risk projects
+            </div>
+          </div>
+
+          <div className="card benchmark-stat-card">
+            <div className="stat-card-top">
+              <span className="stat-card-label">Highest Average Risk Score</span>
+              <div className="stat-card-icon" style={{ color: 'var(--risk-high)', backgroundColor: 'var(--risk-high-bg)' }}>
+                <AlertTriangle size={16} />
+              </div>
+            </div>
+            <div className="stat-card-name">
+              {highestRiskMin?.ministry?.replace('Ministry of ', '').replace('Department of ', '')}
+            </div>
+            <div className="stat-card-highlight" style={{ color: 'var(--risk-high)' }}>
+              {highestRiskMin?.avg_risk_score?.toFixed(1)} / 100 avg
+            </div>
+            <div className="stat-card-sub">
+              {(highestRiskMin?.project_count || highestRiskMin?.total_projects)} ongoing projects tracked
+            </div>
+          </div>
+
+          <div className="card benchmark-stat-card">
+            <div className="stat-card-top">
+              <span className="stat-card-label">Largest Infrastructure Volume</span>
+              <div className="stat-card-icon" style={{ color: 'var(--link-teal)', backgroundColor: 'var(--accent-blue-soft)' }}>
+                <Layers size={16} />
+              </div>
+            </div>
+            <div className="stat-card-name">
+              {mostProjectsMin?.ministry?.replace('Ministry of ', '')}
+            </div>
+            <div className="stat-card-highlight" style={{ color: 'var(--ink)' }}>
+              {(mostProjectsMin?.project_count || mostProjectsMin?.total_projects)} Projects
+            </div>
+            <div className="stat-card-sub">
+              Overrun: {fmtCr(mostProjectsMin?.total_cost_overrun_cr)}
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Tabs */}
-      <div className="tabs mb-4">
+      {/* Navigation Tabs (DESIGN.md pill-tab style) */}
+      <div className="bench-pill-tabs mb-4">
         {TABS.map((t, i) => (
-          <button key={t} className={`tab-btn ${tab === i ? 'active' : ''}`} onClick={() => setTab(i)}>{t}</button>
+          <button
+            key={t}
+            className={`pill-tab ${tab === i ? 'active' : ''}`}
+            onClick={() => setTab(i)}
+          >
+            {t}
+          </button>
         ))}
       </div>
 
+      {/* Tab 0: Overview & Detailed Rankings */}
       {tab === 0 && (
         <div className="flex-col gap-6">
-          {/* Overrun bar chart */}
+          {/* Visual Overrun Chart */}
           <div className="card">
             <div className="card-header">
-              <span className="card-title">Total Cost Overrun by Ministry (₹ Cr)</span>
+              <div>
+                <span className="card-title">Cost Overrun by Ministry (₹ Cr)</span>
+                <p className="card-subtitle">Aggregated cost escalation above original sanctioned estimates</p>
+              </div>
+              <span className="card-badge">Top 12 Portfolios</span>
             </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={sorted} layout="vertical" margin={{ left: 10, right: 60, top: 4, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
-                <XAxis type="number" tickFormatter={v => `₹${(v / 100000).toFixed(0)}L`}
-                  tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis type="category" dataKey="shortName" width={160}
-                  tick={{ fill: '#94a3b8', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Tooltip content={<MinTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
-                <Bar dataKey="total_cost_overrun_cr" fill="#818cf8" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+
+            <div style={{ width: '100%', height: 320 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={sorted}
+                  layout="vertical"
+                  margin={{ left: 10, right: 30, top: 10, bottom: 10 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--hairline-soft)" horizontal={false} />
+                  <XAxis
+                    type="number"
+                    tickFormatter={v => `₹${(v / 100000).toFixed(1)}L Cr`}
+                    tick={{ fill: 'var(--mute)', fontSize: 12 }}
+                    axisLine={{ stroke: 'var(--hairline)' }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="shortName"
+                    width={160}
+                    tick={{ fill: 'var(--ink)', fontSize: 12, fontWeight: 600 }}
+                    axisLine={{ stroke: 'var(--hairline)' }}
+                    tickLine={false}
+                  />
+                  <Tooltip content={<BenchmarkTooltip />} cursor={{ fill: 'rgba(238, 239, 233, 0.6)' }} />
+                  <Bar dataKey="total_cost_overrun_cr" fill="var(--link-teal)" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
 
-          {/* Ministry table */}
-          <div className="card">
-            <div className="card-header"><span className="card-title">Ministry Detailed Rankings</span></div>
-            <div style={{ overflowX: 'auto' }}>
+          {/* Detailed Table */}
+          <div className="card p-0">
+            <div className="card-header" style={{ padding: '16px 20px 12px' }}>
+              <div>
+                <span className="card-title">Comprehensive Ministry Performance Table</span>
+                <p className="card-subtitle">Sorted by total portfolio cost overrun</p>
+              </div>
+            </div>
+
+            <div className="table-container" style={{ border: 'none' }}>
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th style={{ width: 40 }}>#</th>
                     <th>Ministry / Department</th>
                     <th>Projects</th>
-                    <th>Avg Risk</th>
+                    <th>Avg Risk Score</th>
                     <th>Critical</th>
                     <th>High</th>
-                    <th>Total Overrun</th>
-                    <th>Avg Delay</th>
+                    <th>Total Cost Overrun</th>
+                    <th>Avg Schedule Delay</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {loading
-                    ? [...Array(8)].map((_,i) => <tr key={i}><td colSpan={8}><div className="skeleton" style={{height:18}}/></td></tr>)
-                    : bench?.map((m, i) => (
-                        <tr key={m.ministry}>
-                          <td className="muted">{i + 1}</td>
-                          <td style={{ fontWeight: 500 }}>{m.ministry.replace('Ministry of ','').replace('Department of ','')}</td>
-                          <td className="muted">{m.project_count || m.total_projects}</td>
-                          <td>
-                            <span style={{ fontWeight: 700, color: m.avg_risk_score > 40 ? '#f97316' : m.avg_risk_score > 30 ? '#eab308' : '#22c55e' }}>
-                              {m.avg_risk_score?.toFixed(1)}
-                            </span>
-                          </td>
-                          <td>
-                            {m.critical_count > 0
-                              ? <span style={{ color: '#ef4444', fontWeight: 700 }}>{m.critical_count}</span>
-                              : <span className="muted">—</span>}
-                          </td>
-                          <td>
-                            {m.high_count > 0
-                              ? <span style={{ color: '#f97316', fontWeight: 700 }}>{m.high_count}</span>
-                              : <span className="muted">—</span>}
-                          </td>
-                          <td style={{ color: '#818cf8', fontWeight: 600 }}>{fmtCr(m.total_cost_overrun_cr)}</td>
-                          <td className="muted">{m.avg_delay_months?.toFixed(0)}m</td>
-                        </tr>
-                      ))}
+                  {loading ? (
+                    [...Array(8)].map((_, i) => (
+                      <tr key={i}>
+                        <td colSpan={8}>
+                          <div className="skeleton" style={{ height: 22 }} />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    bench?.map((m, i) => (
+                      <tr key={m.ministry}>
+                        <td className="muted mono">{i + 1}</td>
+                        <td className="strong">
+                          {m.ministry.replace('Ministry of ', '').replace('Department of ', '')}
+                        </td>
+                        <td className="mono">{m.project_count || m.total_projects}</td>
+                        <td>
+                          <span
+                            className="mono"
+                            style={{
+                              fontWeight: 800,
+                              color: m.avg_risk_score > 40 ? 'var(--risk-high)' : m.avg_risk_score > 30 ? 'var(--risk-medium)' : 'var(--risk-low)',
+                            }}
+                          >
+                            {m.avg_risk_score?.toFixed(1)}
+                          </span>
+                        </td>
+                        <td>
+                          {m.critical_count > 0 ? (
+                            <span className="badge badge-critical">{m.critical_count}</span>
+                          ) : (
+                            <span className="muted">—</span>
+                          )}
+                        </td>
+                        <td>
+                          {m.high_count > 0 ? (
+                            <span className="badge badge-high">{m.high_count}</span>
+                          ) : (
+                            <span className="muted">—</span>
+                          )}
+                        </td>
+                        <td style={{ color: 'var(--ink)', fontWeight: 700 }}>
+                          {fmtCr(m.total_cost_overrun_cr)}
+                        </td>
+                        <td className="muted mono">{m.avg_delay_months?.toFixed(1)} mos</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -149,28 +251,54 @@ export default function Benchmarks() {
         </div>
       )}
 
+      {/* Tab 1: Cost Escalation Leaderboard */}
       {tab === 1 && (
-        <div className="card">
-          <div className="card-header"><span className="card-title">Ministry Rankings by Total Cost Overrun</span></div>
-          <div style={{ overflowX: 'auto' }}>
+        <div className="card p-0">
+          <div className="card-header" style={{ padding: '16px 20px 12px' }}>
+            <div>
+              <span className="card-title">Ministry Overrun Severity Leaderboard</span>
+              <p className="card-subtitle">Direct comparison of cumulative fiscal slippage across portfolios</p>
+            </div>
+          </div>
+
+          <div className="table-container" style={{ border: 'none' }}>
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>#</th><th>Ministry</th><th>Projects</th>
-                  <th>Total Overrun ₹Cr</th><th>Avg Risk Score</th><th>Critical</th>
+                  <th style={{ width: 40 }}>Rank</th>
+                  <th>Ministry</th>
+                  <th>Projects Tracked</th>
+                  <th>Cumulative Overrun</th>
+                  <th>Average Risk Score</th>
+                  <th>Critical Severity Count</th>
                 </tr>
               </thead>
               <tbody>
                 {topOverrun.map((m, i) => (
                   <tr key={m.ministry}>
-                    <td className="muted">{i + 1}</td>
-                    <td style={{ fontWeight: 500, maxWidth: 300 }}>{m.ministry}</td>
-                    <td className="muted">{m.project_count || m.total_projects}</td>
-                    <td style={{ color: '#818cf8', fontWeight: 600 }}>{fmtCr(m.total_cost_overrun_cr)}</td>
-                    <td style={{ color: m.avg_risk_score > 35 ? '#f97316' : '#22c55e', fontWeight: 700 }}>{m.avg_risk_score?.toFixed(1)}</td>
-                    <td>{m.critical_count > 0
-                      ? <span style={{ color: '#ef4444', fontWeight: 700 }}>{m.critical_count}</span>
-                      : '—'}
+                    <td className="muted mono">{i + 1}</td>
+                    <td className="strong">{m.ministry}</td>
+                    <td className="mono">{m.project_count || m.total_projects}</td>
+                    <td style={{ color: 'var(--risk-critical)', fontWeight: 800 }}>
+                      {fmtCr(m.total_cost_overrun_cr)}
+                    </td>
+                    <td>
+                      <span
+                        className="mono"
+                        style={{
+                          fontWeight: 700,
+                          color: m.avg_risk_score > 35 ? 'var(--risk-high)' : 'var(--risk-low)',
+                        }}
+                      >
+                        {m.avg_risk_score?.toFixed(1)}
+                      </span>
+                    </td>
+                    <td>
+                      {m.critical_count > 0 ? (
+                        <span className="badge badge-critical">{m.critical_count} Critical</span>
+                      ) : (
+                        <span className="muted">0</span>
+                      )}
                     </td>
                   </tr>
                 ))}

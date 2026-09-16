@@ -1,84 +1,168 @@
-.navbar {
+/* ── Primary Navigation (DESIGN.md primary-nav) ─────────────────────── */
+
+.primary-nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 0 32px;
-  height: 60px;
-  background: rgba(10, 14, 26, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+  height: 56px;
+  width: 100%;
 }
 
-.navbar-brand {
+.nav-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 28px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 16px;
+    gap: 12px;
+  }
+}
+
+/* Brand */
+.nav-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-right: 40px;
+  text-decoration: none;
   flex-shrink: 0;
 }
-.brand-icon {
-  width: 34px;
-  height: 34px;
-  background: linear-gradient(135deg, #818cf8, #6366f1);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-.brand-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-.brand-sub {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 500;
-  margin-top: 1px;
+.nav-brand:hover {
+  text-decoration: none;
 }
 
-.navbar-links {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  flex: 1;
+.brand-mascot {
+  filter: drop-shadow(0 1px 2px rgba(35, 37, 29, 0.1));
 }
-.nav-link {
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mute);
+  letter-spacing: 0.01em;
+}
+
+/* Nav tabs cluster */
+.nav-links-cluster {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+}
+
+@media (max-width: 860px) {
+  .nav-links-cluster {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-links-cluster::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.product-nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-muted);
+  height: 36px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--body);
   text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
   transition: all var(--transition);
 }
-.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.nav-link.active { color: var(--accent); background: var(--accent-glow); }
 
-.navbar-status {
+.product-nav-tab:hover {
+  color: var(--ink);
+  background-color: var(--surface-soft);
+  text-decoration: none;
+}
+
+/* Active tab lifts as a crisp white card off the cream canvas */
+.product-nav-tab.active {
+  background-color: var(--surface-card);
+  color: var(--ink);
+  border-color: var(--hairline);
+  box-shadow: 0 1px 3px rgba(35, 37, 29, 0.05);
+}
+
+/* Right cluster */
+.nav-right-cluster {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
   flex-shrink: 0;
 }
-.status-dot {
+
+.nav-live-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  background-color: var(--surface-soft);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--radius-sm);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+@media (max-width: 640px) {
+  .nav-live-chip {
+    display: none;
+  }
+}
+
+.live-dot {
   width: 7px;
   height: 7px;
-  background: var(--low);
+  background-color: var(--accent-green);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(34,197,94,0.25);
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 0 2px rgba(44, 140, 102, 0.25);
+  animation: pulseGreen 2s infinite;
 }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(34,197,94,0.25); }
-  50%       { box-shadow: 0 0 0 5px rgba(34,197,94,0.1); }
+
+@keyframes pulseGreen {
+  0%, 100% {
+    box-shadow: 0 0 0 2px rgba(44, 140, 102, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(44, 140, 102, 0.05);
+  }
 }
-.status-text { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+.live-label {
+  letter-spacing: 0.02em;
+}
+
+.nav-cta-pill {
+  font-size: 12.5px;
+  height: 34px;
+  padding: 0 14px;
+  box-shadow: 0 1px 2px rgba(35, 37, 29, 0.08);
+}

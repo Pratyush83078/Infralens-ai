@@ -1,20 +1,31 @@
-import { fmtCr, scoreColor } from '../api';
 import './KpiCard.css';
 
-export default function KpiCard({ icon, label, value, sub, color, trend }) {
+export default function KpiCard({ icon, label, value, sub, accentColor, trend, pillLabel }) {
   return (
-    <div className="kpi-card fade-in">
-      <div className="kpi-icon" style={{ color, background: `${color}18` }}>{icon}</div>
-      <div className="kpi-body">
+    <div className="kpi-card">
+      <div className="kpi-top">
+        <div className="kpi-icon-wrap" style={{ color: accentColor || 'var(--ink)' }}>
+          {icon}
+        </div>
+        {pillLabel && (
+          <span className="kpi-pill-badge" style={{ borderColor: accentColor }}>
+            {pillLabel}
+          </span>
+        )}
+        {trend && (
+          <span className={`kpi-trend ${Number(trend) > 0 ? 'trend-up' : 'trend-neutral'}`}>
+            +{trend}%
+          </span>
+        )}
+      </div>
+
+      <div className="kpi-content">
         <div className="kpi-label">{label}</div>
-        <div className="kpi-value" style={{ color: color || 'var(--text)' }}>{value}</div>
+        <div className="kpi-value">{value}</div>
         {sub && <div className="kpi-sub">{sub}</div>}
       </div>
-      {trend && (
-        <div className={`kpi-trend ${trend > 0 ? 'up' : 'down'}`}>
-          {trend > 0 ? '▲' : '▼'} {Math.abs(trend).toFixed(1)}%
-        </div>
-      )}
+
+      <div className="kpi-accent-bar" style={{ backgroundColor: accentColor || 'var(--hairline)' }} />
     </div>
   );
 }
