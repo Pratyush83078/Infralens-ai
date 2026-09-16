@@ -148,8 +148,8 @@ Paimana-analysis/
 ## 📚 Deep-Dive Documentation
 
 For detailed technical references, interview preparation, and compliance audits:
-- 📖 [**Documentation Hub**](file:///Users/prem/Documents/Projects/Paimana-analysis/docs/README.md)
-- 🏗️ [**System Architecture & Diagrams**](file:///Users/prem/Documents/Projects/Paimana-analysis/docs/01_ARCHITECTURE_AND_FLOW.md)
-- 🤖 [**ML Models, Features & Evaluation**](file:///Users/prem/Documents/Projects/Paimana-analysis/docs/02_MODEL_AND_METHODOLOGY.md)
-- 📊 [**Web App Telemetry & Metrics Guide**](file:///Users/prem/Documents/Projects/Paimana-analysis/docs/03_DASHBOARD_AND_METRICS_GUIDE.md)
-- 🏆 [**SIH Outcome Compliance & Demo Pitch**](file:///Users/prem/Documents/Projects/Paimana-analysis/docs/05_SIH_COMPLIANCE_AND_PITCH.md)
+- 📖 [**Documentation Hub**](docs/README.md)
+- 🏗️ [**System Architecture & Diagrams**](docs/01_ARCHITECTURE_AND_FLOW.md)
+- 🤖 [**ML Models, Features & Evaluation**](docs/02_MODEL_AND_METHODOLOGY.md)
+- 📊 [**Web App Telemetry & Metrics Guide**](docs/03_DASHBOARD_AND_METRICS_GUIDE.md)
+- 🏆 [**SIH Outcome Compliance & Demo Pitch**](docs/05_SIH_COMPLIANCE_AND_PITCH.md)

@@ -9,7 +9,7 @@
 | :---: | :--- | :---: | :--- |
 | **a** | **Cost Overrun Prediction** | **✅ Complete** | 30-day early warning probability (`cost_revised_up_risk_pct`, ROC-AUC: 0.883). |
 | **b** | **Time Overrun Prediction** | **✅ Complete** | 30-day schedule slippage probability (`schedule_slipped_risk_pct`, ROC-AUC: 0.802). |
-| **c** | **Risk Scoring Framework** | **✅ Complete** | Calibrated 0–100 index in [`src/features.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py) split into Low, Medium, High, Critical. |
+| **c** | **Risk Scoring Framework** | **✅ Complete** | Calibrated 0–100 index in [`src/features.py`](../src/features.py) split into Low, Medium, High, Critical. |
 | **d** | **Early Warning Alert System** | **✅ Complete** | Priority feed in web UI surfacing the top 184 High & Critical projects. |
 | **e** | **Benchmarking & Comparative Analytics** | **✅ Complete** | Ministry ranking leaderboard & state-level peer cohort comparison. |
 | **f** | **Cost Escalation Driver Analysis** | **✅ Complete (Proxy)** | Root-cause isolation identifying dominant bottleneck across 5 risk dimensions. |

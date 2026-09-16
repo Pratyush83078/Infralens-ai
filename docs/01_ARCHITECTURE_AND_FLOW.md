@@ -73,12 +73,12 @@ Government bureaucrats and auditors reject black-box AI because they cannot lega
 ```
 
 ### Stage Details & Code Symbols:
-1. **Extraction** ([`src/pdf_extracter.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/pdf_extracter.py)): Uses `pdfplumber` horizontal word-coordinate clustering to reliably extract multi-line wrapped cells from Table 6.
-2. **Cleaning** ([`src/data_loader.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/data_loader.py)): Strips currency commas, parses MM/YYYY strings into `pd.Timestamp`, deduplicates on `(project_code, report_month_dt)`, outputting `full_panel.parquet`.
-3. **Feature Engineering** ([`src/features.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py)): Computes 13 snapshot & velocity metrics (e.g., `progress_gap`, `spend_vs_progress_gap`, `progress_velocity`).
-4. **Label Creation** ([`src/labels.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/labels.py)): Applies `shift(-1)` per project to establish ground truth for the next month ($T+1$).
-5. **Model Training** ([`src/model_train.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/model_train.py)): Benchmarks `LogisticRegression` against `GradientBoostingClassifier` and dumps trained binaries to `.joblib` files.
-6. **Inference & Serving** ([`src/export_for_backend.py`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/export_for_backend.py) & [`backend/server.js`](file:///Users/prem/Documents/Projects/Paimana-analysis/backend/server.js)): Runs `predict_proba()` on the latest snapshot, saving `latest_snapshot.json` served via 8 Express endpoints to the React frontend.
+1. **Extraction** ([`src/pdf_extracter.py`](../src/pdf_extracter.py)): Uses `pdfplumber` horizontal word-coordinate clustering to reliably extract multi-line wrapped cells from Table 6.
+2. **Cleaning** ([`src/data_loader.py`](../src/data_loader.py)): Strips currency commas, parses MM/YYYY strings into `pd.Timestamp`, deduplicates on `(project_code, report_month_dt)`, outputting `full_panel.parquet`.
+3. **Feature Engineering** ([`src/features.py`](../src/features.py)): Computes 13 snapshot & velocity metrics (e.g., `progress_gap`, `spend_vs_progress_gap`, `progress_velocity`).
+4. **Label Creation** ([`src/labels.py`](../src/labels.py)): Applies `shift(-1)` per project to establish ground truth for the next month ($T+1$).
+5. **Model Training** ([`src/model_train.py`](../src/model_train.py)): Benchmarks `LogisticRegression` against `GradientBoostingClassifier` and dumps trained binaries to `.joblib` files.
+6. **Inference & Serving** ([`src/export_for_backend.py`](../src/export_for_backend.py) & [`backend/server.js`](../backend/server.js)): Runs `predict_proba()` on the latest snapshot, saving `latest_snapshot.json` served via 8 Express endpoints to the React frontend.
 
 ---
 

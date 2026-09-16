@@ -9,8 +9,8 @@ The predictive engine frames early warning as **two supervised binary classifica
 
 | Target Variable | Question Answered | Definition & Threshold | Code Reference |
 | :--- | :--- | :--- | :--- |
-| **`cost_revised_up_label`** | *Will the project's official cost jump next month?* | $1$ if `revised_cost_future` $> 1.001 \times$ `revised_cost_cr`, else $0$. | [`src/labels.py:L10-L12`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/labels.py#L10-L12) |
-| **`schedule_slipped_label`** | *Will the completion deadline get pushed next month?* | $1$ if `revised_doc_future` $>$ `revised_doc`, else $0$. | [`src/labels.py:L13-L15`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/labels.py#L13-L15) |
+| **`cost_revised_up_label`** | *Will the project's official cost jump next month?* | $1$ if `revised_cost_future` $> 1.001 \times$ `revised_cost_cr`, else $0$. | [`src/labels.py:L10-L12`](../src/labels.py#L10-L12) |
+| **`schedule_slipped_label`** | *Will the completion deadline get pushed next month?* | $1$ if `revised_doc_future` $>$ `revised_doc`, else $0$. | [`src/labels.py:L13-L15`](../src/labels.py#L13-L15) |
 
 *Note: The latest monthly snapshot has unknown future values and is assigned `NaN`, automatically excluded from training data and reserved for live prediction export.*
 
@@ -57,21 +57,21 @@ The predictive engine frames early warning as **two supervised binary classifica
 
 | Component | Category | How It Is Computed | File & Line Reference |
 | :--- | :--- | :--- | :--- |
-| **`cost_overrun_ratio_so_far`** | Pure Math | `(revised_cost - original_cost) / original_cost` | [`src/features.py:L24-L26`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L24-L26) |
-| **`doc_slip_months_so_far`** | Pure Math | Calendar months between `target_doc` and `revised_doc` | [`src/features.py:L36-L38`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L36-L38) |
-| **`progress_gap`** | Pure Math | `physical_progress_pct - expected_progress_pct` | [`src/features.py:L20`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L20) |
-| **`spend_vs_progress_gap`** | Pure Math | `expenditure_util_pct - physical_progress_pct` | [`src/features.py:L32-L34`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L32-L34) |
-| **`risk_score` (0–100)** | Pure Math (Rule Engine) | `0.30*cost + 0.25*slip + 0.20*progress + 0.15*spend + 0.10*revisions` | [`src/features.py:L81-L88`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L81-L88) |
-| **`risk_band`** | Pure Math (Binning) | Threshold cuts: `Low (0–24)`, `Medium (25–49)`, `High (50–74)`, `Critical (75–100)` | [`src/features.py:L90-L94`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L90-L94) |
-| **`primary_risk_driver`** | Pure Math (Max Index) | `risk_matrix.idxmax(axis=1)` from 5 risk components | [`src/features.py:L97-L104`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L97-L104) |
-| **`cost_revised_up_risk_pct`** | **AI / Machine Learning** | Probability from trained `GradientBoostingClassifier` | [`src/model_train.py:L39-L44`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/model_train.py#L39-L44) |
-| **`schedule_slipped_risk_pct`**| **AI / Machine Learning** | Probability from trained `GradientBoostingClassifier` | [`src/model_train.py:L39-L44`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/model_train.py#L39-L44) |
+| **`cost_overrun_ratio_so_far`** | Pure Math | `(revised_cost - original_cost) / original_cost` | [`src/features.py:L24-L26`](../src/features.py#L24-L26) |
+| **`doc_slip_months_so_far`** | Pure Math | Calendar months between `target_doc` and `revised_doc` | [`src/features.py:L36-L38`](../src/features.py#L36-L38) |
+| **`progress_gap`** | Pure Math | `physical_progress_pct - expected_progress_pct` | [`src/features.py:L20`](../src/features.py#L20) |
+| **`spend_vs_progress_gap`** | Pure Math | `expenditure_util_pct - physical_progress_pct` | [`src/features.py:L32-L34`](../src/features.py#L32-L34) |
+| **`risk_score` (0–100)** | Pure Math (Rule Engine) | `0.30*cost + 0.25*slip + 0.20*progress + 0.15*spend + 0.10*revisions` | [`src/features.py:L81-L88`](../src/features.py#L81-L88) |
+| **`risk_band`** | Pure Math (Binning) | Threshold cuts: `Low (0–24)`, `Medium (25–49)`, `High (50–74)`, `Critical (75–100)` | [`src/features.py:L90-L94`](../src/features.py#L90-L94) |
+| **`primary_risk_driver`** | Pure Math (Max Index) | `risk_matrix.idxmax(axis=1)` from 5 risk components | [`src/features.py:L97-L104`](../src/features.py#L97-L104) |
+| **`cost_revised_up_risk_pct`** | **AI / Machine Learning** | Probability from trained `GradientBoostingClassifier` | [`src/model_train.py:L39-L44`](../src/model_train.py#L39-L44) |
+| **`schedule_slipped_risk_pct`**| **AI / Machine Learning** | Probability from trained `GradientBoostingClassifier` | [`src/model_train.py:L39-L44`](../src/model_train.py#L39-L44) |
 
 ---
 
 ## 4. Algorithms Evaluated & Training Pipelines
 
-Defined in [`src/model_train.py:L29-L45`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/model_train.py#L29-L45):
+Defined in [`src/model_train.py:L29-L45`](../src/model_train.py#L29-L45):
 
 ### Model 1: `LogisticRegression` (Conventional Statistical Baseline)
 - **Pipeline**: `SimpleImputer(strategy="median")` $\to$ `StandardScaler()` $\to$ `LogisticRegression(class_weight="balanced", random_state=42)`
@@ -103,14 +103,14 @@ We evaluate using **ROC-AUC** (discrimination ability across thresholds) and **P
 ## 6. Explainability Layer & SHAP Roadmap
 
 1. **Deterministic Driver Attribution (Live Today)**:
-   [`src/features.py:L97-L104`](file:///Users/prem/Documents/Projects/Paimana-analysis/src/features.py#L97-L104) decomposes distress into:
+   [`src/features.py:L97-L104`](../src/features.py#L97-L104) decomposes distress into:
    - `Cost Escalation`
    - `Schedule Delay`
    - `Slow Physical Progress`
    - `Excessive Expenditure`
    - `Repeated Revisions`
 2. **Automated Plain-English AI Narrative**:
-   [`backend/server.js:L255-L271`](file:///Users/prem/Documents/Projects/Paimana-analysis/backend/server.js#L255-L271) dynamically synthesizes plain-language directives for ministers:
+   [`backend/server.js:L255-L271`](../backend/server.js#L255-L271) dynamically synthesizes plain-language directives for ministers:
    > *"CRITICAL INTERVENTION REQUIRED: Driven primarily by Cost Escalation. The project exhibits a delay of 34 months with cost escalation of 63.3%."*
 3. **SHAP Integration (Phase 2 Roadmap)**:
    Integration of `shap.TreeExplainer(model)` to compute exact game-theoretic Shapley values per project for granular waterfall contribution plots.
