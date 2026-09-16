@@ -48,3 +48,4 @@ frontend/dist
 frontend/node_modules
 .kilo
 .agents
+frontend/.agents
