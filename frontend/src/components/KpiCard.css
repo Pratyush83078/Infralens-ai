@@ -1,7 +1,4 @@
 /* ── KPI Card (Soft Neo-Brutalist Bento Tile) ──────────────── */
-:root {
-  transition: 0.1;
-}
 
 .kpi-card {
   background: var(--surface-card);
