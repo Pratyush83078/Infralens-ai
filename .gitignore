@@ -6,14 +6,14 @@ ENV/
 env.bak/
 venv.bak/
 
-# Python cache & bytecode
+# python cache & bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
 
-# macOS system files
+# macos system files
 .DS_Store
 .AppleDouble
 .LSOverride

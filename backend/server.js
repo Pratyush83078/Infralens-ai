@@ -9,14 +9,12 @@ const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
-// Paths to processed data files
 const SNAPSHOT_PATH = path.resolve(__dirname, '../data/processed/latest_snapshot.json');
 const KPIS_PATH = path.resolve(__dirname, '../data/processed/portfolio_kpis.json');
 
 let projectsData = [];
 let kpiData = {};
 
-// Load / Reload data into memory for ultra-fast sub-millisecond responses
 function loadData() {
   try {
     if (fs.existsSync(SNAPSHOT_PATH)) {
@@ -39,7 +37,6 @@ function loadData() {
   }
 }
 
-// Initial load
 loadData();
 
 // 1. Health check
@@ -52,7 +49,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 2. High-level Portfolio KPIs
+// 2. Portfolio KPIs
 app.get('/api/kpis', (req, res) => {
   if (!kpiData || Object.keys(kpiData).length === 0) {
     return res.status(503).json({ error: 'KPI data not loaded yet. Run export_for_backend.py first.' });
@@ -60,7 +57,7 @@ app.get('/api/kpis', (req, res) => {
   res.json(kpiData);
 });
 
-// 3. Dropdown Filter Options (Ministries, States, Risk Bands, Risk Drivers)
+// 3.  (Ministries, States, Risk Bands, Risk Drivers)
 app.get('/api/filters', (req, res) => {
   const ministries = [...new Set(projectsData.map(p => p.ministry).filter(Boolean))].sort();
   const states = [...new Set(projectsData.map(p => p.state).filter(Boolean))].sort();
@@ -75,7 +72,7 @@ app.get('/api/filters', (req, res) => {
   });
 });
 
-// 4. Early Warning Alert Feed (Top Critical & High Risk Projects)
+// 4. (Top Critical & High Risk Projects)
 app.get('/api/alerts', (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const criticalAndHigh = projectsData
@@ -171,7 +168,7 @@ app.get('/api/projects', (req, res) => {
     );
   }
 
-  // Filter by risk band (can be comma-separated: e.g. "Critical,High")
+  // (can be comma-separated: e.g. "Critical,High")
   if (risk_band) {
     const bands = risk_band.split(',').map(b => b.trim().toLowerCase());
     filtered = filtered.filter(p => p.risk_band && bands.includes(p.risk_band.toLowerCase()));
