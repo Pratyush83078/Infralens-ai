@@ -109,22 +109,26 @@ export default function Projects() {
   return (
     <div className="page-wrapper fade-in">
       {/* Page Header */}
-      <div className="projects-header-strip">
+      <div className="projects-header-strip mb-6">
         <div>
-          <div className="projects-eyebrow">PORTFOLIO EXPLORER</div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="neo-badge neo-badge-yellow">PORTFOLIO EXPLORER</span>
+            <span className="handwritten-annotation text-sm">✦ Filter & deep-dive 2,059 projects</span>
+          </div>
           <h1 className="projects-title">Central Sector Projects Explorer</h1>
           <p className="projects-subtitle">
-            Search, filter, and inspect risk metrics across {(meta.total_projects || 2059).toLocaleString('en-IN')} monitored infrastructure projects.
+            Search, filter, and inspect risk telemetry across India's central sector capital investments.
           </p>
         </div>
 
         {hasFilters && (
-          <button className="btn btn-secondary btn-sm" onClick={resetFilters}>
-            <RotateCcw size={13} />
+          <button className="neo-btn neo-btn-secondary" onClick={resetFilters}>
+            <RotateCcw size={14} />
             <span>Reset Filters</span>
           </button>
         )}
       </div>
+
 
       {/* Filter Toolbar (DESIGN.md input style) */}
       <div className="filter-toolbar card">
@@ -172,9 +176,9 @@ export default function Projects() {
       </div>
 
       {/* Projects Table Card */}
-      <div className="card mt-4 p-0">
+      <div className="neo-table-wrapper mt-4">
         <div className="table-container">
-          <table className="data-table">
+          <table className="neo-table">
             <thead>
               <tr>
                 <th onClick={() => toggleSort('project_name')} className="clickable-th">
@@ -228,7 +232,7 @@ export default function Projects() {
                       <Mascot pose="magnifying" size={56} />
                       <div className="empty-title">No projects match your filter criteria</div>
                       <p className="empty-subtitle">Try adjusting your search query, ministry, or risk band filters.</p>
-                      <button className="btn btn-secondary btn-sm mt-2" onClick={resetFilters}>
+                      <button className="neo-btn neo-btn-secondary mt-2" onClick={resetFilters}>
                         Clear All Filters
                       </button>
                     </div>
@@ -280,7 +284,7 @@ export default function Projects() {
                     <td>
                       <span
                         style={{
-                          color: (p.cost_overrun_ratio_so_far || 0) > 0.4 ? 'var(--risk-critical)' : 'var(--ink)',
+                          color: (p.cost_overrun_ratio_so_far || 0) > 0.4 ? 'var(--neo-red)' : 'var(--ink)',
                           fontWeight: 700,
                         }}
                       >
@@ -292,11 +296,11 @@ export default function Projects() {
 
                     <td className="muted">
                       {p.doc_slip_months_so_far > 0 ? (
-                        <span style={{ color: p.doc_slip_months_so_far > 24 ? 'var(--risk-critical)' : 'var(--body)' }}>
+                        <span style={{ color: p.doc_slip_months_so_far > 24 ? 'var(--neo-red)' : 'var(--ink)', fontWeight: 600 }}>
                           {p.doc_slip_months_so_far} mos
                         </span>
                       ) : (
-                        <span style={{ color: 'var(--risk-low)', fontWeight: 600 }}>On schedule</span>
+                        <span style={{ color: 'var(--neo-mint)', fontWeight: 700 }}>On schedule</span>
                       )}
                     </td>
 
@@ -320,7 +324,7 @@ export default function Projects() {
                       <span
                         className="prob-cell-chip mono"
                         style={{
-                          color: p.cost_revised_up_risk_pct >= 10 ? 'var(--risk-critical)' : p.cost_revised_up_risk_pct >= 5 ? 'var(--risk-high)' : 'var(--risk-low)',
+                          color: p.cost_revised_up_risk_pct >= 10 ? 'var(--neo-red)' : p.cost_revised_up_risk_pct >= 5 ? 'var(--neo-orange)' : 'var(--neo-mint)',
                           backgroundColor: p.cost_revised_up_risk_pct >= 10 ? 'var(--risk-critical-bg)' : p.cost_revised_up_risk_pct >= 5 ? 'var(--risk-high-bg)' : 'var(--risk-low-bg)',
                         }}
                       >
@@ -332,7 +336,7 @@ export default function Projects() {
                       <span
                         className="prob-cell-chip mono"
                         style={{
-                          color: p.schedule_slipped_risk_pct >= 20 ? 'var(--risk-critical)' : p.schedule_slipped_risk_pct >= 10 ? 'var(--risk-high)' : 'var(--risk-low)',
+                          color: p.schedule_slipped_risk_pct >= 20 ? 'var(--neo-red)' : p.schedule_slipped_risk_pct >= 10 ? 'var(--neo-orange)' : 'var(--neo-mint)',
                           backgroundColor: p.schedule_slipped_risk_pct >= 20 ? 'var(--risk-critical-bg)' : p.schedule_slipped_risk_pct >= 10 ? 'var(--risk-high-bg)' : 'var(--risk-low-bg)',
                         }}
                       >
@@ -355,7 +359,8 @@ export default function Projects() {
 
           <div className="pagination-actions">
             <button
-              className="btn btn-secondary btn-sm"
+              className="neo-btn neo-btn-secondary"
+              style={{ padding: '6px 12px', fontSize: 13 }}
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
             >
@@ -366,7 +371,8 @@ export default function Projects() {
               Page <strong>{page}</strong> of <strong>{meta.total_pages || 1}</strong>
             </span>
             <button
-              className="btn btn-secondary btn-sm"
+              className="neo-btn neo-btn-secondary"
+              style={{ padding: '6px 12px', fontSize: 13 }}
               onClick={() => setPage(p => Math.min(meta.total_pages || 1, p + 1))}
               disabled={page >= (meta.total_pages || 1)}
             >
@@ -376,6 +382,7 @@ export default function Projects() {
           </div>
         </div>
       </div>
+
 
       {/* Project Drawer Overlay */}
       {selected && (

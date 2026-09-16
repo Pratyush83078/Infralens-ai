@@ -1,22 +1,27 @@
 import './KpiCard.css';
 
-export default function KpiCard({ icon, label, value, sub, accentColor, trend, pillLabel }) {
+export default function KpiCard({ icon, label, value, sub, accentColor, trend, pillLabel, bg, className = '' }) {
   return (
-    <div className="kpi-card">
+    <div 
+      className={`kpi-card ${className}`} 
+      style={bg ? { backgroundColor: bg } : undefined}
+    >
       <div className="kpi-top">
-        <div className="kpi-icon-wrap" style={{ color: accentColor || 'var(--ink)' }}>
+        <div className="kpi-icon-wrap" style={{ backgroundColor: accentColor || 'var(--surface-cream)' }}>
           {icon}
         </div>
-        {pillLabel && (
-          <span className="kpi-pill-badge" style={{ borderColor: accentColor }}>
-            {pillLabel}
-          </span>
-        )}
-        {trend && (
-          <span className={`kpi-trend ${Number(trend) > 0 ? 'trend-up' : 'trend-neutral'}`}>
-            +{trend}%
-          </span>
-        )}
+        <div className="kpi-badges">
+          {pillLabel && (
+            <span className="kpi-pill-badge">
+              {pillLabel}
+            </span>
+          )}
+          {trend && (
+            <span className={`kpi-trend ${Number(trend) > 0 ? 'trend-up' : 'trend-neutral'}`}>
+              +{trend}%
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="kpi-content">
@@ -25,7 +30,10 @@ export default function KpiCard({ icon, label, value, sub, accentColor, trend, p
         {sub && <div className="kpi-sub">{sub}</div>}
       </div>
 
-      <div className="kpi-accent-bar" style={{ backgroundColor: accentColor || 'var(--hairline)' }} />
+      {accentColor && (
+        <div className="kpi-accent-bar" style={{ backgroundColor: accentColor }} />
+      )}
     </div>
   );
 }
+

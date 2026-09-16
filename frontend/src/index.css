@@ -1,79 +1,97 @@
-/* ── PAIMANA Design System — Warm Cream & Editorial Notebook (DESIGN.md) ── */
+/* ── PAIMANA Design System — Soft Neo-Brutalist & Bento Grid Workbench ── */
+/* Inspired by Gumroad (LASTDESIGN.md) & Drizzle ORM (DESIGNDRIZZLE.md) */
 
 :root {
-  /* Surface & Canvas */
-  --canvas:             #eeefe9;
-  --surface-card:       #ffffff;
-  --surface-doc:        #fcfcfa;
-  --surface-soft:       #e5e7e0;
-  --surface-dark:       #23251d;
-  --hairline:           #bfc1b7;
-  --hairline-soft:      #dcdfd2;
+  /* Canvas & Card Surfaces */
+  --bg:                 #F4F3EF;
+  --bg-grid:            rgba(0, 0, 0, 0.08);
+  --card-bg:            #FFFFFF;
+  --card-bg-soft:       #F9F9F8;
+  --surface-dark:       #18191E;
+  --surface-card:       #FFFFFF;
+  --surface-cream:      #FCF5E5;
+  --surface-soft:       #F0EDE6;
 
-  /* Brand Primary CTA */
-  --primary:            #f7a501;
-  --primary-pressed:    #dd9001;
-  --primary-active:     #b17816;
-  --on-primary:         #23251d;
+  /* Strict Neo-Brutalist Borders & Shadows */
+  --border-color:       #000000;
+  --border-thick:       2px solid #000000;
+  --border-medium:      1.5px solid #000000;
+  --border-thin:        1px solid rgba(0,0,0,0.25);
+  --border-hairline:    1px solid rgba(0,0,0,0.12);
+  --border-neo:         2px solid #000000;
 
-  /* Typography / Ink */
-  --ink:                #23251d;
-  --body:               #4d4f46;
-  --charcoal:           #33342d;
-  --mute:               #6c6e63;
-  --ash:                #9b9c92;
-  --stone:              #b6b7af;
-  --on-dark:            #ffffff;
+  --shadow-hard:        4px 4px 0px 0px #000000;
+  --shadow-hard-lg:     6px 6px 0px 0px #000000;
+  --shadow-hard-sm:     2px 2px 0px 0px #000000;
+  --shadow-pressed:     1px 1px 0px 0px #000000;
+  --shadow-lift:        6px 6px 0px 0px #000000;
 
-  /* Links & Accents */
-  --link-blue:          #1d4ed8;
-  --link-teal:          #1078a3;
-  --accent-blue:        #2c84e0;
-  --accent-blue-soft:   #dceaf6;
-  --accent-red:         #cd4239;
-  --accent-red-soft:    #f7d6d3;
-  --accent-green:       #2c8c66;
-  --accent-green-soft:  #d9eddf;
-  --accent-purple:      #7c44a6;
-  --accent-purple-soft: #e7d8ee;
-  --focus-ring:         rgba(59, 130, 246, 0.4);
+  /* Soft Brutalist Border Radii */
+  --radius-bento:       16px;
+  --radius-card:        14px;
+  --radius-btn:         12px;
+  --radius-pill:        9999px;
+  --radius-sm:          6px;
+  --radius-xs:          4px;
 
-  /* Risk Scale */
-  --risk-critical:      #cd4239;
-  --risk-critical-bg:   #f7d6d3;
-  --risk-high:          #e06a14;
-  --risk-high-bg:       #fae4d7;
-  --risk-medium:        #c49206;
-  --risk-medium-bg:     #fbf4d7;
-  --risk-low:           #2c8c66;
-  --risk-low-bg:        #d9eddf;
+  /* High-Impact Accent Palette */
+  --accent-yellow:      #FFD500;
+  --accent-yellow-soft: #FFF2A8;
+  --accent-cobalt:      #3E7FF0;
+  --accent-cobalt-soft: #DCE8FD;
+  --accent-mint:        #22C55E;
+  --accent-mint-soft:   #D9F7E2;
+  --accent-orange:      #FF5722;
+  --accent-orange-soft: #FFE3DB;
+  --accent-pink:        #FF6B9E;
+  --accent-pink-soft:   #FFE5EE;
+  --accent-purple:      #9D7BFF;
+  --accent-purple-soft: #EFE9FF;
 
-  /* Radii */
-  --radius-xs:          2px;
-  --radius-sm:          4px;
-  --radius-md:          6px;
-  --radius-lg:          8px;
-  --radius-full:        9999px;
+  /* ── NEO Semantic Color Aliases (used across all pages) ── */
+  --neo-yellow:         #F6E752;
+  --neo-yellow-soft:    #FFF9C4;
+  --neo-cobalt:         #006EFF;
+  --neo-red:            #CD4239;
+  --neo-orange:         #FF9900;
+  --neo-mint:           #22C55E;
+  --neo-mint-soft:      #D9F7E2;
 
-  /* Spacing */
-  --spacing-xxs:        2px;
-  --spacing-xs:         4px;
-  --spacing-sm:         8px;
-  --spacing-md:         12px;
-  --spacing-lg:         16px;
-  --spacing-xl:         24px;
-  --spacing-xxl:        32px;
-  --spacing-section:    80px;
+  /* ── Risk Band Semantic Colors ── */
+  --risk-critical:      #630909;
+  --risk-high:          #CF6306;
+  --risk-medium:        #D4AC0D;
+  --risk-low:           #025E73;
+  --risk-critical-bg:   #FDECEA;
+  --risk-high-bg:       #FEF0E6;
+  --risk-medium-bg:     #FEF8E6;
+  --risk-low-bg:        #E6F4F8;
+
+  /* ── Misc Semantic Tokens ── */
+  --link-teal:          #5ED8C8;
+  --link-coral:         #FF6B6B;
+  --mute:               rgba(35, 35, 35, 0.73);
+
+  /* Typography / Inks */
+  --ink:                #000000;
+  --ink-secondary:      #2A2A2A;
+  --ink-muted:          #555555;
+  --ink-dim:            #777777;
 
   /* Fonts */
-  --font-sans:          'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono:          'JetBrains Mono', ui-monospace, 'Source Code Pro', monospace;
+  --font-display:       'Space Grotesk', -apple-system, sans-serif;
+  --font-body:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:          'JetBrains Mono', ui-monospace, monospace;
+  --font-hand:          'Caveat', cursive;
 
   /* Transitions */
-  --transition:         0.15s ease-in-out;
+  --transition-fast:    0.12s ease-in-out;
+  --transition-smooth:  0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition:         0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Global Reset ────────────────────────────────────────── */
+/* ── Reset & Canvas ──────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -81,9 +99,11 @@
 }
 
 html {
-  background-color: var(--canvas);
-  color: var(--body);
-  font-family: var(--font-sans);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--bg-grid) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+  color: var(--ink);
+  font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -92,8 +112,8 @@ html {
 }
 
 body {
-  background-color: var(--canvas);
-  color: var(--body);
+  background: transparent;
+  color: var(--ink);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -107,64 +127,58 @@ body {
 
 main {
   flex: 1;
+  padding-top: 20px;
 }
 
 /* ── Typography Hierarchy ────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
   color: var(--ink);
-  font-family: var(--font-sans);
-  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
 h1 {
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.3;
-  letter-spacing: -0.5px;
+  font-size: 28px;
+  line-height: 1.2;
 }
 
 h2 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: -0.3px;
+  font-size: 22px;
+  line-height: 1.25;
 }
 
 h3 {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.4;
+  font-size: 17px;
+  line-height: 1.3;
 }
 
 h4 {
   font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 p {
-  color: var(--body);
-  line-height: 1.6;
+  color: var(--ink-secondary);
+  line-height: 1.55;
 }
 
-a {
-  color: var(--link-teal);
-  text-decoration: none;
-  transition: color var(--transition);
-}
-a:hover {
-  text-decoration: underline;
-}
-
-code, kbd, samp, pre {
-  font-family: var(--font-mono);
+/* Drizzle-style signature handwritten annotation */
+.handwritten {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  color: var(--accent-cobalt);
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
 }
 
-/* ── Layout & Containers ─────────────────────────────────── */
+/* ── Layout & Bento Containers ───────────────────────────── */
 .page-wrapper {
   max-width: 1320px;
   margin: 0 auto;
-  padding: 24px 28px 48px;
+  padding: 28px 28px 48px;
   width: 100%;
 }
 
@@ -174,21 +188,63 @@ code, kbd, samp, pre {
   }
 }
 
-/* ── Cards (Flat on cream, thin olive border) ────────────── */
-.card {
-  background: var(--surface-card);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  padding: 20px 24px;
-  position: relative;
-  transition: border-color var(--transition);
+/* ── Bento Grid System (LASTDESIGN.md) ───────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.card-doc {
-  background: var(--surface-doc);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  padding: 24px;
+.col-span-1 { grid-column: span 1; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+.row-span-2 { grid-row: span 2; }
+
+@media (max-width: 1100px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col-span-3, .col-span-4 {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 680px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .col-span-1, .col-span-2, .col-span-3, .col-span-4 {
+    grid-column: span 1;
+  }
+}
+
+/* ── Bento Cards (Stark White, 2.5px Black Border, Hard Shadow) */
+.card, .bento-card {
+  background: var(--card-bg);
+  border: var(--border-thick);
+  border-radius: var(--radius-bento);
+  box-shadow: var(--shadow-hard);
+  padding: 22px 24px;
+  position: relative;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.bento-card-yellow {
+  background: var(--accent-yellow);
+}
+
+.bento-card-cobalt {
+  background: var(--accent-cobalt);
+  color: #FFFFFF;
+}
+.bento-card-cobalt h1, .bento-card-cobalt h2, .bento-card-cobalt h3, .bento-card-cobalt p {
+  color: #FFFFFF;
+}
+
+.bento-card-pink {
+  background: var(--accent-pink);
 }
 
 .card-header {
@@ -200,11 +256,12 @@ code, kbd, samp, pre {
 }
 
 .card-title {
-  font-size: 12px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
   color: var(--ink);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -212,353 +269,310 @@ code, kbd, samp, pre {
 
 .card-subtitle {
   font-size: 12px;
-  color: var(--mute);
+  font-weight: 500;
+  color: var(--ink-muted);
   margin-top: 2px;
 }
 
-.card-badge {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--mute);
-  background: var(--surface-soft);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-}
-
-/* ── Buttons (DESIGN.md specs) ───────────────────────────── */
-.btn {
+/* ── Tactile Neo-Brutalist Buttons (Press-Down Physics) ──── */
+.neo-btn, .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   line-height: 1;
-  padding: 8px 16px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  height: 42px;
+  border-radius: var(--radius-btn);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-hard-sm);
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: all var(--transition);
+  background: var(--card-bg);
+  color: var(--ink);
   text-decoration: none;
   white-space: nowrap;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
-/* button-primary: The single saturated yellow CTA pill */
-.btn-primary {
-  background-color: var(--primary);
-  color: var(--on-primary);
-  border-color: #e59700;
-}
-.btn-primary:hover {
-  background-color: var(--primary-pressed);
-  color: var(--on-primary);
+.neo-btn:hover, .btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-hard);
   text-decoration: none;
-}
-.btn-primary:active {
-  background-color: var(--primary-active);
+  color: var(--ink);
 }
 
-/* button-secondary: soft alternative on cream */
-.btn-secondary {
-  background-color: var(--surface-soft);
-  color: var(--ink);
-  border-color: var(--hairline);
-}
-.btn-secondary:hover {
-  background-color: #dadcd4;
-  color: var(--ink);
-  text-decoration: none;
+/* Tactile physical click-down effect */
+.neo-btn:active, .btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
 }
 
-/* button-ghost / tertiary */
-.btn-tertiary, .btn-ghost {
-  background-color: transparent;
+/* Primary Yellow Button */
+.btn-primary, .neo-btn-primary {
+  background-color: var(--accent-yellow);
   color: var(--ink);
+}
+.btn-primary:hover, .neo-btn-primary:hover {
+  background-color: #f5cc00;
+}
+
+/* Cobalt Button (Drizzle accent) */
+.btn-cobalt, .neo-btn-cobalt {
+  background-color: var(--accent-cobalt);
+  color: #FFFFFF;
+}
+.btn-cobalt:hover, .neo-btn-cobalt:hover {
+  background-color: #2e6edb;
+  color: #FFFFFF;
+}
+
+/* Secondary Button */
+.btn-secondary, .neo-btn-secondary {
+  background-color: var(--card-bg-soft);
+  color: var(--ink);
+}
+
+/* Ghost Button */
+.btn-ghost {
+  background: transparent;
   border-color: transparent;
+  box-shadow: none;
 }
-.btn-tertiary:hover, .btn-ghost:hover {
-  background-color: var(--surface-soft);
-  color: var(--ink);
-  text-decoration: none;
+.btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: none;
+  transform: none;
 }
 
-.btn-sm {
-  height: 32px;
-  padding: 6px 12px;
-  font-size: 13px;
+.btn-sm, .neo-btn-sm {
+  height: 34px;
+  padding: 6px 14px;
+  font-size: 12px;
   border-radius: var(--radius-sm);
 }
 
 .btn-pill {
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
 }
 
-/* ── Tabs (DESIGN.md product-tab & pill-tab) ──────────────── */
-.product-tabs {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--surface-soft);
-  padding: 3px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--hairline);
-}
-
-.product-tab {
-  background: transparent;
-  color: var(--body);
-  border: none;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.product-tab.active {
-  background: var(--surface-card);
-  color: var(--ink);
-  border: 1px solid var(--hairline);
-}
-
-.pill-tab {
-  background: transparent;
-  color: var(--body);
-  border: 1px solid var(--hairline);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.pill-tab:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-.pill-tab.active {
-  background: var(--ink);
-  color: var(--on-dark);
-  border-color: var(--ink);
-}
-
-/* ── Callout Banners Family (DESIGN.md) ───────────────────── */
-.callout {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 18px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink);
-  border-left: 4px solid transparent;
-}
-
-.callout-icon {
-  font-size: 16px;
-  line-height: 1.3;
-  flex-shrink: 0;
-}
-
-.callout-blue {
-  background-color: var(--accent-blue-soft);
-  border-color: var(--accent-blue);
-}
-
-.callout-green {
-  background-color: var(--accent-green-soft);
-  border-color: var(--accent-green);
-}
-
-.callout-red {
-  background-color: var(--accent-red-soft);
-  border-color: var(--accent-red);
-}
-
-.callout-purple {
-  background-color: var(--accent-purple-soft);
-  border-color: var(--accent-purple);
-}
-
-/* ── Risk Badges ─────────────────────────────────────────── */
+/* ── Tactile Badges & Pills ──────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  border: 1px solid transparent;
+  border: var(--border-medium);
+  box-shadow: 1.5px 1.5px 0px #000;
+  line-height: 1.2;
 }
 
 .badge-critical {
-  background: var(--risk-critical-bg);
-  color: var(--risk-critical);
-  border-color: rgba(205, 66, 57, 0.4);
+  background: var(--accent-orange);
+  color: #FFFFFF;
 }
 .badge-high {
-  background: var(--risk-high-bg);
-  color: var(--risk-high);
-  border-color: rgba(224, 106, 20, 0.4);
+  background: var(--accent-yellow);
+  color: #000000;
 }
 .badge-medium {
-  background: var(--risk-medium-bg);
-  color: var(--risk-medium);
-  border-color: rgba(196, 146, 6, 0.4);
+  background: var(--accent-yellow-soft);
+  color: #000000;
 }
 .badge-low {
-  background: var(--risk-low-bg);
-  color: var(--risk-low);
-  border-color: rgba(44, 140, 102, 0.4);
+  background: var(--accent-mint);
+  color: #000000;
+}
+.badge-cobalt {
+  background: var(--accent-cobalt);
+  color: #FFFFFF;
 }
 
-/* ── Form Inputs ─────────────────────────────────────────── */
+/* ── Tactile Form Inputs ─────────────────────────────────── */
 .input {
-  background: var(--surface-card);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: var(--border-thick);
+  border-radius: var(--radius-btn);
+  box-shadow: var(--shadow-hard-sm);
   color: var(--ink);
-  padding: 8px 12px;
+  padding: 8px 14px;
   font-size: 14px;
-  font-family: var(--font-sans);
-  height: 38px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  height: 42px;
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
   width: 100%;
 }
 .input:focus {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  box-shadow: var(--shadow-hard);
+  transform: translate(-1px, -1px);
 }
 .input::placeholder {
-  color: var(--ash);
+  color: var(--ink-dim);
+  font-weight: 500;
 }
 
 select.input {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234d4f46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 32px;
+  background-position: right 12px center;
+  padding-right: 36px;
   cursor: pointer;
 }
 
-/* ── Tables ──────────────────────────────────────────────── */
+/* ── Neo-Brutalist Data Tables ───────────────────────────── */
 .table-container {
   width: 100%;
   overflow-x: auto;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--hairline);
-  background: var(--surface-card);
+  border-radius: var(--radius-bento);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-hard);
+  background: var(--card-bg);
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 13.5px;
   text-align: left;
 }
 
 .data-table thead th {
-  background: var(--surface-soft);
+  background: #F1EFEA;
   color: var(--ink);
+  font-family: var(--font-display);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--hairline);
+  letter-spacing: 0.06em;
+  padding: 12px 16px;
+  border-bottom: var(--border-thick);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.15);
   white-space: nowrap;
   user-select: none;
 }
+.data-table thead th:last-child {
+  border-right: none;
+}
 
 .data-table tbody tr {
-  border-bottom: 1px solid var(--hairline-soft);
-  transition: background-color var(--transition);
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.12);
+  transition: background-color var(--transition-fast);
   cursor: pointer;
 }
 .data-table tbody tr:hover {
-  background-color: #f7f8f4;
+  background-color: var(--accent-yellow-soft);
 }
 .data-table tbody tr:last-child {
   border-bottom: none;
 }
 
 .data-table td {
-  padding: 12px 14px;
-  color: var(--body);
+  padding: 12px 16px;
+  color: var(--ink);
+  border-right: 1.5px solid rgba(0, 0, 0, 0.08);
   vertical-align: middle;
+}
+.data-table td:last-child {
+  border-right: none;
 }
 
 .data-table td.strong {
+  font-weight: 700;
   color: var(--ink);
-  font-weight: 600;
-}
-.data-table td.muted {
-  color: var(--mute);
 }
 .data-table td.mono {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-weight: 600;
+}
+.data-table td.muted {
+  color: var(--ink-muted);
 }
 
-/* ── Code Blocks (surface-dark inverted island) ──────────── */
+/* ── Code Blocks (Drizzle terminal style) ────────────────── */
 .code-block {
   background: var(--surface-dark);
-  color: var(--on-dark);
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
+  color: #FFFFFF;
+  border-radius: var(--radius-card);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-hard);
+  padding: 18px 22px;
   font-family: var(--font-mono);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.55;
   overflow-x: auto;
-  border: 1px solid #383a30;
 }
 
 .inline-code {
-  background: var(--surface-soft);
+  background: var(--accent-yellow-soft);
   color: var(--ink);
-  border: 1px solid var(--hairline-soft);
-  border-radius: var(--radius-xs);
+  border: 1.5px solid #000;
+  border-radius: var(--radius-sm);
   padding: 2px 6px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12.5px;
+  font-weight: 700;
 }
 
-/* ── Progress Bar ────────────────────────────────────────── */
+/* ── Progress Bar (Brutalist style) ──────────────────────── */
 .progress-bar-wrap {
-  background: var(--surface-soft);
-  border-radius: var(--radius-full);
-  height: 6px;
+  background: #E2E0DA;
+  border-radius: var(--radius-pill);
+  height: 8px;
   overflow: hidden;
   position: relative;
+  /* No border: progress bars are too small for hard black borders */
 }
 
 .progress-bar-fill {
   height: 100%;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-pill);
+  background: var(--accent-cobalt); /* default; override via inline style for risk-aware coloring */
   transition: width 0.6s ease;
 }
 
-/* ── Grids ───────────────────────────────────────────────── */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
-@media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+/* ── Recharts Neo-Brutalist Tooltips ─────────────────────── */
+.custom-chart-tooltip {
+  background: var(--card-bg);
+  border: var(--border-thick);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  padding: 12px 16px;
+  font-family: var(--font-body);
 }
-@media (max-width: 640px) {
-  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; gap: 16px; }
+
+.tooltip-title {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.tooltip-value {
+  font-size: 15px;
+  font-weight: 900;
+  font-family: var(--font-display);
+}
+
+.tooltip-sub {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-weight: 500;
+  margin-top: 4px;
 }
 
 /* ── Utilities ───────────────────────────────────────────── */
@@ -580,35 +594,35 @@ select.input {
 .w-full { width: 100%; }
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ── Loading Skeleton ────────────────────────────────────── */
+/* ── Shimmer / Skeleton ──────────────────────────────────── */
 .skeleton {
-  background: linear-gradient(90deg, #e5e7e0 25%, #f2f3ee 50%, #e5e7e0 75%);
+  background: linear-gradient(90deg, #EAE8E2 25%, #F4F3EF 50%, #EAE8E2 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-md);
+  border: var(--border-thick);
+  border-radius: var(--radius-bento);
+  box-shadow: var(--shadow-hard);
 }
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
-/* ── Scrollbar ───────────────────────────────────────────── */
+/* ── Custom Scrollbar ────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--canvas);
+  background: var(--bg);
+  border-left: 1.5px solid #000;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--stone);
-  border-radius: var(--radius-full);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--mute);
+  background: #000;
+  border-radius: var(--radius-pill);
 }
 
-/* ── Micro-animations ────────────────────────────────────── */
+/* Fade in */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -616,3 +630,101 @@ select.input {
 .fade-in {
   animation: fadeIn 0.25s ease-out forwards;
 }
+
+/* ── Global Micro-Transitions ─────────────────────────────── */
+
+/* Cards — lift on hover with shadow pop */
+.card, .bento-card {
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition-fast);
+}
+.card:hover, .bento-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Badges — subtle scale on hover */
+.badge {
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+.badge:hover {
+  transform: scale(1.04);
+}
+
+/* Table rows — smooth bg color flash */
+.data-table tbody tr,
+.neo-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+/* Inputs — glow lift on focus */
+.input {
+  transition:
+    box-shadow var(--transition),
+    transform var(--transition),
+    border-color var(--transition-fast);
+}
+
+/* Links — underline slide in */
+a:not(.bento-nav-brand):not(.bento-nav-tab):not(.neo-btn):not(.btn) {
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+a:not(.bento-nav-brand):not(.bento-nav-tab):not(.neo-btn):not(.btn):hover {
+  opacity: 0.75;
+}
+
+/* Skeleton shimmer keeps running */
+.skeleton {
+  transition: none;
+}
+
+/* Drawer backdrop blur in */
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.drawer-backdrop {
+  animation: backdropIn 0.18s ease-out forwards;
+}
+
+/* Drawer panel slide in from right */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0.5; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.drawer-panel {
+  animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Page-level staggered bento tile entrance */
+@keyframes tileIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+.bento-grid > * {
+  animation: tileIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.bento-grid > *:nth-child(1) { animation-delay: 0.04s; }
+.bento-grid > *:nth-child(2) { animation-delay: 0.08s; }
+.bento-grid > *:nth-child(3) { animation-delay: 0.12s; }
+.bento-grid > *:nth-child(4) { animation-delay: 0.16s; }
+
+/* Progress bar fill — always smooth */
+.progress-bar-fill {
+  transition: width 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Nav tabs transition */
+.bento-nav-tab {
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+

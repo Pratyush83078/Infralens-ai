@@ -1,168 +1,192 @@
-/* ── Primary Navigation (DESIGN.md primary-nav) ─────────────────────── */
+/* ── Neo-Brutalist Bento Navbar (LASTDESIGN.md & DESIGNDRIZZLE.md) ──── */
 
-.primary-nav {
+.bento-nav-wrapper {
   position: sticky;
-  top: 0;
+  top: 14px;
   z-index: 100;
-  background-color: var(--canvas);
-  border-bottom: 1px solid var(--hairline);
-  height: 56px;
-  width: 100%;
-}
-
-.nav-container {
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 28px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
-  .nav-container {
-    padding: 0 16px;
-    gap: 12px;
+  .bento-nav-wrapper {
+    top: 8px;
+    padding: 0 14px;
   }
 }
 
-/* Brand */
-.nav-brand {
+.bento-nav-container {
+  background-color: var(--card-bg);
+  border: var(--border-thick);
+  border-radius: 20px;
+  box-shadow: var(--shadow-hard);
+  padding: 8px 18px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 20px;
+  transition: transform var(--transition-fast);
+}
+
+/* Brand */
+.bento-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
 }
-.nav-brand:hover {
+.bento-nav-brand:hover {
   text-decoration: none;
 }
 
-.brand-mascot {
-  filter: drop-shadow(0 1px 2px rgba(35, 37, 29, 0.1));
-}
-
-.brand-text {
+.nav-mascot-badge {
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-yellow-soft);
+  border: var(--border-medium);
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 0px #000;
 }
 
 .brand-title {
-  font-family: var(--font-sans);
-  font-size: 17px;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 900;
   color: var(--ink);
-  letter-spacing: -0.5px;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.brand-tag {
+  font-size: 9.5px;
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--accent-yellow);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #000;
+  letter-spacing: 0.04em;
 }
 
 .brand-subtitle {
   font-size: 11px;
-  font-weight: 500;
-  color: var(--mute);
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-top: 3px;
   letter-spacing: 0.01em;
 }
 
-/* Nav tabs cluster */
-.nav-links-cluster {
+/* Nav Tabs */
+.bento-nav-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
-@media (max-width: 860px) {
-  .nav-links-cluster {
+@media (max-width: 900px) {
+  .bento-nav-links {
     overflow-x: auto;
     scrollbar-width: none;
   }
-  .nav-links-cluster::-webkit-scrollbar {
+  .bento-nav-links::-webkit-scrollbar {
     display: none;
   }
 }
 
-.product-nav-tab {
+.bento-nav-tab {
   display: flex;
   align-items: center;
   gap: 7px;
   padding: 6px 14px;
   height: 36px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--body);
-  text-decoration: none;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  transition: all var(--transition);
-}
-
-.product-nav-tab:hover {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: var(--ink);
-  background-color: var(--surface-soft);
   text-decoration: none;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  transition: all var(--transition-fast);
 }
 
-/* Active tab lifts as a crisp white card off the cream canvas */
-.product-nav-tab.active {
-  background-color: var(--surface-card);
+.bento-nav-tab:hover {
   color: var(--ink);
-  border-color: var(--hairline);
-  box-shadow: 0 1px 3px rgba(35, 37, 29, 0.05);
+  background-color: var(--card-bg-soft);
+  border-color: #000000;
+  text-decoration: none;
+  transform: translate(-1px, -1px);
 }
 
-/* Right cluster */
-.nav-right-cluster {
+/* Active tab pops with bold yellow and tactile hard shadow */
+.bento-nav-tab.active {
+  background-color: var(--accent-yellow);
+  color: var(--ink);
+  border: var(--border-medium);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+/* Right Cluster */
+.bento-nav-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
-.nav-live-chip {
+.nav-status-badge {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 10px;
-  background-color: var(--surface-soft);
-  border: 1px solid var(--hairline-soft);
-  border-radius: var(--radius-sm);
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--charcoal);
+  gap: 6px;
+  padding: 5px 10px;
+  background-color: var(--card-bg-soft);
+  border: var(--border-medium);
+  border-radius: var(--radius-pill);
+  box-shadow: 1.5px 1.5px 0px #000;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--ink);
 }
 
-@media (max-width: 640px) {
-  .nav-live-chip {
+@media (max-width: 680px) {
+  .nav-status-badge {
     display: none;
   }
 }
 
-.live-dot {
+.status-live-dot {
   width: 7px;
   height: 7px;
-  background-color: var(--accent-green);
+  background-color: var(--accent-mint);
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(44, 140, 102, 0.25);
-  animation: pulseGreen 2s infinite;
+  border: 1px solid #000;
+  animation: pulseMint 2s infinite;
 }
 
-@keyframes pulseGreen {
+@keyframes pulseMint {
   0%, 100% {
-    box-shadow: 0 0 0 2px rgba(44, 140, 102, 0.3);
+    box-shadow: 0 0 0 1px #000;
   }
   50% {
-    box-shadow: 0 0 0 5px rgba(44, 140, 102, 0.05);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.4);
   }
 }
 
-.live-label {
-  letter-spacing: 0.02em;
-}
-
-.nav-cta-pill {
-  font-size: 12.5px;
-  height: 34px;
+.nav-action-btn {
+  height: 36px;
   padding: 0 14px;
-  box-shadow: 0 1px 2px rgba(35, 37, 29, 0.08);
+  font-size: 12px;
+  border-radius: 10px;
+  box-shadow: 2.5px 2.5px 0px #000;
 }

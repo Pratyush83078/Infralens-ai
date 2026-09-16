@@ -88,27 +88,28 @@ export default function About() {
           {/* Section: Overview */}
           <section id="overview" className="card-doc mb-6">
             <div className="doc-badge-row">
-              <span className="badge badge-low">SIH 26103 Problem Statement</span>
-              <span className="badge badge-uppercase">MoSPI / IPMD Official Data</span>
+              <span className="neo-badge neo-badge-yellow">SIH 26103 Problem Statement</span>
+              <span className="neo-badge neo-badge-cobalt">MoSPI / IPMD Official Data</span>
             </div>
 
-            <h1 className="doc-h1 mt-2">
+            <h1 className="doc-h1 mt-3">
               Transforming Infrastructure Surveillance from Descriptive to Predictive
             </h1>
 
-            <p className="doc-lead mt-2">
+            <p className="doc-lead mt-3">
               India's <strong>₹43.2 lakh crore</strong> central infrastructure portfolio faces over <strong>₹5.63 lakh crore</strong> in
               cumulative cost overruns. Conventional reporting systems only show <em>what already happened</em> months after budgets have leaked.
               PAIMANA AI provides an early warning radar to anticipate <em>what will happen next month</em>.
             </p>
 
-            <div className="callout callout-blue mt-4">
+            <div className="neo-callout mt-4">
               <span className="callout-icon">💡</span>
-              <div>
+              <div className="callout-text">
                 <strong>The Core Distinction:</strong> We combine an exact, auditable <strong>Rules Engine</strong> (ground truth for today)
                 with a machine learning <strong>Early Warning System</strong> (probabilistic forecast for the next 30 days).
               </div>
             </div>
+
 
             <div className="doc-stats-strip mt-4">
               <div className="doc-stat-tile">

@@ -51,8 +51,11 @@ export default function Benchmarks() {
   return (
     <div className="page-wrapper fade-in">
       {/* Header */}
-      <div className="benchmarks-header-strip">
-        <div className="benchmarks-eyebrow">PORTFOLIO INTELLIGENCE</div>
+      <div className="benchmarks-header-strip mb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="neo-badge neo-badge-cobalt">PORTFOLIO INTELLIGENCE</span>
+          <span className="handwritten-annotation text-sm">✦ 17 Central Government Ministries Ranked</span>
+        </div>
         <h1 className="benchmarks-title">Ministry Benchmarks & Rankings</h1>
         <p className="benchmarks-subtitle">
           Comparative performance evaluation across 17 Central Government ministries · Identifying systemic delay patterns and cost inflation.
@@ -62,15 +65,15 @@ export default function Benchmarks() {
       {/* Summary Highlight Cards */}
       {Array.isArray(bench) && bench.length > 0 && !loading && (
         <div className="grid-3 mb-6">
-          <div className="card benchmark-stat-card">
+          <div className="bento-card benchmark-stat-card">
             <div className="stat-card-top">
               <span className="stat-card-label">Highest Budget Overrun</span>
-              <div className="stat-card-icon" style={{ color: 'var(--risk-critical)', backgroundColor: 'var(--risk-critical-bg)' }}>
+              <div className="stat-card-icon" style={{ color: '#000', backgroundColor: 'var(--neo-red)' }}>
                 <TrendingUp size={16} />
               </div>
             </div>
             <div className="stat-card-name">{bench[0]?.ministry?.replace('Ministry of ', '')}</div>
-            <div className="stat-card-highlight" style={{ color: 'var(--risk-critical)' }}>
+            <div className="stat-card-highlight" style={{ color: 'var(--neo-red)' }}>
               {fmtCr(bench[0]?.total_cost_overrun_cr)} overrun
             </div>
             <div className="stat-card-sub">
@@ -78,17 +81,17 @@ export default function Benchmarks() {
             </div>
           </div>
 
-          <div className="card benchmark-stat-card">
+          <div className="bento-card benchmark-stat-card">
             <div className="stat-card-top">
               <span className="stat-card-label">Highest Average Risk Score</span>
-              <div className="stat-card-icon" style={{ color: 'var(--risk-high)', backgroundColor: 'var(--risk-high-bg)' }}>
+              <div className="stat-card-icon" style={{ color: '#000', backgroundColor: 'var(--neo-yellow)' }}>
                 <AlertTriangle size={16} />
               </div>
             </div>
             <div className="stat-card-name">
               {highestRiskMin?.ministry?.replace('Ministry of ', '').replace('Department of ', '')}
             </div>
-            <div className="stat-card-highlight" style={{ color: 'var(--risk-high)' }}>
+            <div className="stat-card-highlight" style={{ color: 'var(--ink)' }}>
               {highestRiskMin?.avg_risk_score?.toFixed(1)} / 100 avg
             </div>
             <div className="stat-card-sub">
@@ -96,17 +99,17 @@ export default function Benchmarks() {
             </div>
           </div>
 
-          <div className="card benchmark-stat-card">
+          <div className="bento-card benchmark-stat-card">
             <div className="stat-card-top">
               <span className="stat-card-label">Largest Infrastructure Volume</span>
-              <div className="stat-card-icon" style={{ color: 'var(--link-teal)', backgroundColor: 'var(--accent-blue-soft)' }}>
+              <div className="stat-card-icon" style={{ color: '#fff', backgroundColor: 'var(--neo-cobalt)' }}>
                 <Layers size={16} />
               </div>
             </div>
             <div className="stat-card-name">
               {mostProjectsMin?.ministry?.replace('Ministry of ', '')}
             </div>
-            <div className="stat-card-highlight" style={{ color: 'var(--ink)' }}>
+            <div className="stat-card-highlight" style={{ color: 'var(--neo-cobalt)' }}>
               {(mostProjectsMin?.project_count || mostProjectsMin?.total_projects)} Projects
             </div>
             <div className="stat-card-sub">
@@ -115,6 +118,7 @@ export default function Benchmarks() {
           </div>
         </div>
       )}
+
 
       {/* Navigation Tabs (DESIGN.md pill-tab style) */}
       <div className="bench-pill-tabs mb-4">
@@ -133,13 +137,13 @@ export default function Benchmarks() {
       {tab === 0 && (
         <div className="flex-col gap-6">
           {/* Visual Overrun Chart */}
-          <div className="card">
+          <div className="bento-card">
             <div className="card-header">
               <div>
-                <span className="card-title">Cost Overrun by Ministry (₹ Cr)</span>
+                <h2 className="card-title">Cost Overrun by Ministry (₹ Cr)</h2>
                 <p className="card-subtitle">Aggregated cost escalation above original sanctioned estimates</p>
               </div>
-              <span className="card-badge">Top 12 Portfolios</span>
+              <span className="neo-badge neo-badge-cobalt">Top 12 Portfolios</span>
             </div>
 
             <div style={{ width: '100%', height: 320 }}>
@@ -149,40 +153,46 @@ export default function Benchmarks() {
                   layout="vertical"
                   margin={{ left: 10, right: 30, top: 10, bottom: 10 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--hairline-soft)" horizontal={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
                   <XAxis
                     type="number"
                     tickFormatter={v => `₹${(v / 100000).toFixed(1)}L Cr`}
-                    tick={{ fill: 'var(--mute)', fontSize: 12 }}
-                    axisLine={{ stroke: 'var(--hairline)' }}
-                    tickLine={false}
+                    tick={{ fill: '#475569', fontSize: 12, fontFamily: 'var(--font-mono)' }}
+                    axisLine={{ stroke: '#000', strokeWidth: 2 }}
+                    tickLine={{ stroke: '#000' }}
                   />
                   <YAxis
                     type="category"
                     dataKey="shortName"
                     width={160}
-                    tick={{ fill: 'var(--ink)', fontSize: 12, fontWeight: 600 }}
-                    axisLine={{ stroke: 'var(--hairline)' }}
+                    tick={{ fill: '#000', fontSize: 12, fontWeight: 700 }}
+                    axisLine={{ stroke: '#000', strokeWidth: 2 }}
                     tickLine={false}
                   />
-                  <Tooltip content={<BenchmarkTooltip />} cursor={{ fill: 'rgba(238, 239, 233, 0.6)' }} />
-                  <Bar dataKey="total_cost_overrun_cr" fill="var(--link-teal)" radius={[0, 4, 4, 0]} />
+                  <Tooltip content={<BenchmarkTooltip />} cursor={{ fill: 'rgba(255, 213, 0, 0.15)' }} />
+                  <Bar 
+                    dataKey="total_cost_overrun_cr" 
+                    fill="var(--neo-cobalt)" 
+                    stroke="#000" 
+                    strokeWidth={2}
+                    radius={[0, 6, 6, 0]} 
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Detailed Table */}
-          <div className="card p-0">
-            <div className="card-header" style={{ padding: '16px 20px 12px' }}>
+          <div className="neo-table-wrapper">
+            <div className="card-header" style={{ padding: '20px 22px 14px' }}>
               <div>
-                <span className="card-title">Comprehensive Ministry Performance Table</span>
+                <h2 className="card-title">Comprehensive Ministry Performance Table</h2>
                 <p className="card-subtitle">Sorted by total portfolio cost overrun</p>
               </div>
             </div>
 
-            <div className="table-container" style={{ border: 'none' }}>
-              <table className="data-table">
+            <div className="table-container">
+              <table className="neo-table">
                 <thead>
                   <tr>
                     <th style={{ width: 40 }}>#</th>
@@ -200,7 +210,7 @@ export default function Benchmarks() {
                     [...Array(8)].map((_, i) => (
                       <tr key={i}>
                         <td colSpan={8}>
-                          <div className="skeleton" style={{ height: 22 }} />
+                          <div className="skeleton" style={{ height: 24 }} />
                         </td>
                       </tr>
                     ))
@@ -211,13 +221,12 @@ export default function Benchmarks() {
                         <td className="strong">
                           {m.ministry.replace('Ministry of ', '').replace('Department of ', '')}
                         </td>
-                        <td className="mono">{m.project_count || m.total_projects}</td>
+                        <td className="mono font-bold">{m.project_count || m.total_projects}</td>
                         <td>
                           <span
-                            className="mono"
+                            className="mono font-bold"
                             style={{
-                              fontWeight: 800,
-                              color: m.avg_risk_score > 40 ? 'var(--risk-high)' : m.avg_risk_score > 30 ? 'var(--risk-medium)' : 'var(--risk-low)',
+                              color: m.avg_risk_score > 40 ? 'var(--neo-red)' : m.avg_risk_score > 30 ? 'var(--neo-orange)' : 'var(--neo-mint)',
                             }}
                           >
                             {m.avg_risk_score?.toFixed(1)}
@@ -237,10 +246,10 @@ export default function Benchmarks() {
                             <span className="muted">—</span>
                           )}
                         </td>
-                        <td style={{ color: 'var(--ink)', fontWeight: 700 }}>
+                        <td style={{ color: 'var(--ink)', fontWeight: 800 }}>
                           {fmtCr(m.total_cost_overrun_cr)}
                         </td>
-                        <td className="muted mono">{m.avg_delay_months?.toFixed(1)} mos</td>
+                        <td className="mono font-bold">{m.avg_delay_months?.toFixed(1)} mos</td>
                       </tr>
                     ))
                   )}
@@ -253,16 +262,16 @@ export default function Benchmarks() {
 
       {/* Tab 1: Cost Escalation Leaderboard */}
       {tab === 1 && (
-        <div className="card p-0">
-          <div className="card-header" style={{ padding: '16px 20px 12px' }}>
+        <div className="neo-table-wrapper">
+          <div className="card-header" style={{ padding: '20px 22px 14px' }}>
             <div>
-              <span className="card-title">Ministry Overrun Severity Leaderboard</span>
+              <h2 className="card-title">Ministry Overrun Severity Leaderboard</h2>
               <p className="card-subtitle">Direct comparison of cumulative fiscal slippage across portfolios</p>
             </div>
           </div>
 
-          <div className="table-container" style={{ border: 'none' }}>
-            <table className="data-table">
+          <div className="table-container">
+            <table className="neo-table">
               <thead>
                 <tr>
                   <th style={{ width: 40 }}>Rank</th>
@@ -278,16 +287,15 @@ export default function Benchmarks() {
                   <tr key={m.ministry}>
                     <td className="muted mono">{i + 1}</td>
                     <td className="strong">{m.ministry}</td>
-                    <td className="mono">{m.project_count || m.total_projects}</td>
-                    <td style={{ color: 'var(--risk-critical)', fontWeight: 800 }}>
+                    <td className="mono font-bold">{m.project_count || m.total_projects}</td>
+                    <td style={{ color: 'var(--neo-red)', fontWeight: 900 }}>
                       {fmtCr(m.total_cost_overrun_cr)}
                     </td>
                     <td>
                       <span
-                        className="mono"
+                        className="mono font-bold"
                         style={{
-                          fontWeight: 700,
-                          color: m.avg_risk_score > 35 ? 'var(--risk-high)' : 'var(--risk-low)',
+                          color: m.avg_risk_score > 35 ? 'var(--neo-orange)' : 'var(--neo-mint)',
                         }}
                       >
                         {m.avg_risk_score?.toFixed(1)}
@@ -310,3 +318,4 @@ export default function Benchmarks() {
     </div>
   );
 }
+
