@@ -50,3 +50,6 @@ frontend/node_modules
 .agents
 frontend/.agents
 docs/archive
+node_modules/
+.next/
+out/

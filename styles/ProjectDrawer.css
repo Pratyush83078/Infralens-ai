@@ -1,0 +1,458 @@
+/* ── Project Detail Drawer (Soft Neo-Brutalist Inspector) ──────────── */
+
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  animation: backdropIn 0.2s ease-out forwards;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.drawer-panel {
+  width: min(740px, 100vw);
+  height: 100vh;
+  max-height: 100vh;
+  border-left: 2.5px solid #000;
+  display: flex;
+  background-color: var(--card-bg);
+  flex-direction: column;
+  box-shadow: -8px 0px 0px rgba(0, 0, 0, 0.5);
+  animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* Header */
+.drawer-header {
+  padding: 22px 26px;
+  background-color: var(--card-bg-soft);
+  border-bottom: 2px solid #000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.drawer-header-left {
+  flex: 1;
+}
+
+.drawer-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.drawer-code {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  font-weight: 700;
+}
+
+.drawer-project-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.drawer-meta-line {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.drawer-close-btn {
+  color: var(--ink);
+  background: var(--card-bg);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+  padding: 6px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.drawer-close-btn:hover {
+  background: var(--accent-yellow);
+  color: #000;
+}
+
+.drawer-close-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* Content */
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.drawer-section {
+  padding: 22px 26px;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.drawer-section:last-child {
+  border-bottom: none;
+}
+
+.drawer-section-heading {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Callouts in drawer */
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border: 2px solid #000;
+  box-shadow: 2.5px 2.5px 0px #000;
+  line-height: 1.5;
+  background-color: var(--card-bg-soft);
+  color: var(--ink);
+}
+
+.callout-red {
+  background-color: rgba(239, 68, 68, 0.16);
+  border-color: var(--neo-red);
+}
+
+.callout-blue {
+  background-color: rgba(59, 130, 246, 0.16);
+  border-color: var(--neo-cobalt);
+}
+
+.callout-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Financial Cards */
+.fin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .fin-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fin-tile {
+  background: var(--card-bg-soft);
+  border: 2px solid #000;
+  border-radius: var(--radius-card);
+  box-shadow: 2px 2px 0px #000;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fin-tile-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.fin-tile-val {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.fin-tile-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  margin-top: 6px;
+}
+
+.fin-overrun-pill {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--neo-red);
+  border: 1.5px solid #000;
+  box-shadow: 1.5px 1.5px 0px #000;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  margin-top: 6px;
+  align-self: flex-start;
+}
+
+/* Score Composite */
+.score-composite-wrap {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  background: var(--card-bg-soft);
+  border: 2px solid #000;
+  border-radius: var(--radius-card);
+  box-shadow: 3px 3px 0px #000;
+  padding: 22px 24px;
+}
+
+@media (max-width: 600px) {
+  .score-composite-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.score-gauge-box {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.score-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.score-gauge-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.score-scale {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  margin-top: 2px;
+}
+
+.score-bars-box {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.risk-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.risk-bar-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  width: 115px;
+  flex-shrink: 0;
+}
+
+.risk-bar-track {
+  flex: 1;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.risk-bar-fill {
+  height: 100%;
+  transition: width 0.5s ease-out;
+}
+
+.risk-bar-val {
+  font-size: 11.5px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ink-secondary);
+  width: 52px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.primary-driver-box {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.driver-caption {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.driver-name-chip {
+  font-size: 12px;
+  font-weight: 800;
+  color: #000;
+  background-color: var(--neo-yellow);
+  padding: 3px 10px;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid #000;
+  box-shadow: 1.5px 1.5px 0px #000;
+}
+
+/* Schedule */
+.schedule-grid {
+  gap: 14px;
+}
+
+.schedule-tile {
+  background-color: var(--card-bg-soft);
+  border: 2px solid #000;
+  border-radius: var(--radius-card);
+  box-shadow: 2px 2px 0px #000;
+  padding: 16px;
+}
+
+.sched-lbl {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.sched-num {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.sched-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  margin-top: 6px;
+}
+
+/* ML Prob Meters */
+.prob-meters-grid {
+  gap: 14px;
+}
+
+.prob-meter-card {
+  background-color: var(--card-bg-soft);
+  border: 2px solid #000;
+  border-radius: var(--radius-card);
+  box-shadow: 2px 2px 0px #000;
+  padding: 18px;
+}
+
+.prob-meter-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.prob-meter-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prob-meter-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.prob-meter-value {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.prob-meter-caption {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.ml-model-note {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background-color: var(--card-bg);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}

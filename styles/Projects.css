@@ -1,0 +1,269 @@
+/* ── Projects Page (Soft Neo-Brutalist Explorer) ────────────── */
+
+.projects-header-strip {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.projects-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+}
+
+.projects-subtitle {
+  font-size: 14px;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+}
+
+/* Filter Toolbar */
+.filter-toolbar {
+  background: var(--surface-card);
+  border: var(--border-neo);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.search-text-input {
+  padding-left: 40px;
+  height: 44px;
+  font-size: 14px;
+  background: var(--card-bg-soft);
+  color: var(--ink);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+  width: 100%;
+  font-family: var(--font-sans);
+}
+
+.search-text-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.filter-selects-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .filter-selects-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .filter-selects-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-select {
+  height: 42px;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: var(--card-bg-soft);
+  color: var(--ink);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+  padding: 0 12px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--neo-cobalt);
+}
+
+/* Table Specifics */
+.clickable-th {
+  cursor: pointer;
+  user-select: none;
+}
+.clickable-th:hover {
+  background-color: rgba(255, 230, 0, 0.12); /* Subtle neo-yellow hover highlight */
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.project-row-primary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.proj-cell-name {
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.35;
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proj-cell-sub {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.proj-cell-state {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.proj-cell-ministry {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  margin-top: 3px;
+}
+
+/* Score cell */
+.score-cell-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 70px;
+}
+
+.score-number {
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.score-track-mini {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Progress cell */
+.prog-cell-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 60px;
+}
+
+.prog-track-mini {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.cost-sub-val {
+  font-size: 11.5px;
+  color: var(--ink-secondary);
+  margin-top: 2px;
+}
+
+.prob-cell-chip {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid #000;
+  box-shadow: 1.5px 1.5px 0px #000;
+  display: inline-block;
+}
+
+/* Empty State */
+.empty-projects-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.empty-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 16px;
+}
+
+.empty-subtitle {
+  font-size: 14px;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+  max-width: 440px;
+}
+
+/* Pagination Bar */
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  background: var(--card-bg-soft);
+  border-top: 2px solid #000;
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+@media (max-width: 600px) {
+  .pagination-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.pagination-summary {
+  color: var(--ink-secondary);
+}
+
+.pagination-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-page-indicator {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+

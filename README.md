@@ -4,7 +4,7 @@
 
 ## 🚀 Quick Start (Copy & Paste to Run Everything)
 
-Run this single block in your terminal from the project root folder. It will set up the Python environment, generate the machine learning data, install frontend/backend dependencies, and **start both the backend and frontend simultaneously**:
+Run this single block in your terminal from the project root folder. It sets up the Python environment, generates the ML data, installs unified Next.js dependencies, and **starts the full-stack system**:
 
 ```bash
 python3 -m venv venv
@@ -12,25 +12,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 python src/run_all.py
 
-(cd backend && npm install) && (cd frontend && npm install)
-
-(cd backend && npm run dev) & (cd frontend && npm run dev)
+npm install
+npm run dev
 ```
 
 Once running, open your web browser:
-- 🌐 **Interactive Dashboard**: [http://localhost:5173](http://localhost:5173)
-- ⚙️ **Backend REST API**: [http://localhost:5001/api/kpis](http://localhost:5001/api/kpis)
+- 🌐 **Interactive Dashboard**: [http://localhost:3000](http://localhost:3000)
+- ⚙️ **Unified REST API**: [http://localhost:3000/api/kpis](http://localhost:3000/api/kpis)
+- 🩺 **System Health**: [http://localhost:3000/api/health](http://localhost:3000/api/health)
 
-*(To stop the servers anytime, press `Ctrl + C` or close the terminal.)*
+*(To stop the server anytime, press `Ctrl + C`.)*
 
 ---
 
-### Step-by-Step Alternative (If you prefer separate terminals)
+### Step-by-Step Breakdown
 
 <details>
-<summary>👉 Click here to view step-by-step instructions for separate terminals</summary>
+<summary>👉 Click here to view step-by-step instructions</summary>
 
-#### Terminal 1 — Python ML Pipeline & Data Generation
+#### Step 1 — Python ML Pipeline & Data Extraction
 ```bash
 python3 -m venv venv
 source venv/bin/activate
@@ -38,23 +38,14 @@ pip install -r requirements.txt
 python src/run_all.py
 ```
 
-#### Terminal 2 — Backend API (Node.js/Express)
+#### Step 2 — Unified Full-Stack Web Application (Next.js 15)
 ```bash
 # from root directory of the project
-cd backend
 npm install
 npm run dev
-# Running on http://localhost:5001
+# Running on http://localhost:3000
 ```
-
-#### Terminal 3 — Frontend UI (React/Vite)
-```bash
-# from root directory of the project
-cd frontend
-npm install
-npm run dev
-# Running on http://localhost:5173
-```
+Both the Next.js frontend pages and the serverless REST API route handlers (`/api/...`) run on a single unified port (3000) with zero CORS configuration required.
 </details>
 
 ---

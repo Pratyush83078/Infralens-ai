@@ -1,0 +1,468 @@
+/* ── Dashboard (Soft Neo-Brutalist & Bento Grid Workbench) ────────── */
+/* All design tokens now live in index.css */
+
+.bento-hero-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 980px) {
+  .bento-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-hero-main {
+  background: var(--surface-card);
+  border: var(--border-neo);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-meta-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+.hero-headline-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.hero-note {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--neo-cobalt);
+  margin-top: 4px;
+}
+
+.hero-desc {
+  font-size: 14.5px;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+/* Hero Right Stat Card */
+.bento-hero-stat {
+  background: var(--surface-card);
+  border: var(--border-neo);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-stat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hero-stat-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.hero-stat-desc {
+  font-size: 13px;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+.hero-metrics-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hero-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--surface-cream);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.metric-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.metric-val {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--neo-cobalt);
+}
+
+.hero-metric-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--neo-mint-soft);
+  color: #065F46;
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+/* ── 2-Column Bento Row ── */
+.bento-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .bento-2-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Bento Card Base ── */
+.bento-card {
+  background: var(--surface-card);
+  border: var(--border-neo);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  padding: 24px;
+  position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.bento-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Card Header inside Bento */
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.card-subtitle {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+}
+
+/* Donut Chart Container */
+.donut-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .donut-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.donut-chart-box {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  flex-shrink: 0;
+}
+
+.donut-center-metric {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.donut-center-val {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+}
+
+.donut-center-lbl {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.donut-legend-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.donut-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px #000;
+  font-size: 13px;
+}
+
+.legend-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  border: 1.5px solid #000;
+  flex-shrink: 0;
+}
+
+.legend-name {
+  font-weight: 700;
+  color: var(--ink);
+  flex: 1;
+}
+
+.legend-count {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.legend-share {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  width: 44px;
+  text-align: right;
+}
+
+/* Driver List */
+.driver-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.driver-item-card {
+  background: var(--surface-card);
+  border: 2px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px #000;
+  padding: 10px 14px;
+}
+
+.driver-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.driver-item-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.driver-item-count {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+
+/* Ministry Chart */
+.ministry-chart-container {
+  width: 100%;
+}
+
+/* Chart Tooltips */
+.custom-chart-tooltip {
+  background-color: var(--card-bg);
+  border: 2.5px solid #000;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.tooltip-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.tooltip-value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.tooltip-sub {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Neo Callout Banner */
+.neo-callout {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--neo-yellow-soft);
+  border: 2.5px solid #000;
+  border-radius: var(--radius-sm);
+  box-shadow: 3px 3px 0px #000;
+  margin-bottom: 20px;
+}
+
+.callout-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.callout-text {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* Neo Table Styling */
+.neo-table-wrapper {
+  overflow-x: auto;
+  border: 2.5px solid #000;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-hard);
+  background: var(--card-bg);
+}
+
+.neo-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.neo-table thead {
+  background: var(--card-bg-soft);
+  border-bottom: 2.5px solid #000;
+}
+
+.neo-table th {
+  padding: 14px 16px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.neo-table td {
+  padding: 14px 16px;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  vertical-align: middle;
+}
+
+.neo-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.neo-table tbody tr:hover {
+  background-color: rgba(255, 230, 0, 0.12);
+  /* Subtle high-impact yellow highlight */
+}
+
+.neo-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.project-sub-meta {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.risk-score-display {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.prob-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1.5px solid #000;
+  box-shadow: 1.5px 1.5px 0px #000;
+  display: inline-block;
+}

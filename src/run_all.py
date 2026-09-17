@@ -140,17 +140,24 @@ def step4_export_backend():
 
 def step5_reload_backend():
     print("\n========================================================")
-    print("STEP 5: NOTIFYING NODE.JS BACKEND SERVER")
+    print("STEP 5: NOTIFYING NEXT.JS FULL-STACK SERVER")
     print("========================================================")
-    url = "http://localhost:5001/api/reload"
-    try:
-        req = urllib.request.Request(url, data=b"{}", headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=2) as response:
-            if response.status == 200:
-                print("  ✓ Node.js backend successfully notified and reloaded fresh data in-memory!")
-    except Exception:
-        print("  ℹ Node.js backend is not currently running on port 5001.")
-        print("    (Start it anytime with: cd backend && npm start)")
+    ports = [3000, 5001]
+    reloaded = False
+    for port in ports:
+        url = f"http://localhost:{port}/api/reload"
+        try:
+            req = urllib.request.Request(url, data=b"{}", headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=2) as response:
+                if response.status == 200:
+                    print(f"  ✓ Next.js server on port {port} successfully reloaded fresh data in-memory!")
+                    reloaded = True
+                    break
+        except Exception:
+            continue
+    if not reloaded:
+        print("  ℹ Next.js server is not currently running on port 3000.")
+        print("    (Start it anytime from project root with: npm run dev)")
 
 
 def main():
