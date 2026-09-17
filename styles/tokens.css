@@ -4,12 +4,54 @@
    Documentation: docs/COLOR_SCHEME.md
    ═══════════════════════════════════════════════════════════════════════════════ */
 
+/* ── Official Vercel Geist Fonts (Sans, Mono, Pixel) ───────────────────────── */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Pixel';
+  src: url('/fonts/GeistPixel-Square.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Pixel Grid';
+  src: url('/fonts/GeistPixel-Grid.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Pixel Circle';
+  src: url('/fonts/GeistPixel-Circle.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* ── 1. PRIMITIVES (Fonts & Core Scales) ────────────────────────────────── */
-  --font-display:       'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-  --font-body:          'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-  --font-sans:          'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-  --font-mono:          'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --font-display:       'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:          'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans:          'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:          'Geist Mono', ui-monospace, monospace;
+  --font-pixel:         'Geist Pixel', monospace;
   --font-hand:          'Caveat', cursive;
 
   /* Transitions */

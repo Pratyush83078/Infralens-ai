@@ -1,6 +1,5 @@
 import './globals.css';
 import SupermemorySidebar from '@/components/SupermemorySidebar';
-import ThemeController from '@/components/ThemeController';
 
 export const metadata = {
   title: 'INFRALENS AI — Infrastructure Risk Intelligence Radar',
@@ -25,7 +24,6 @@ export default function RootLayout({ children }) {
             {children}
           </main>
         </div>
-        <ThemeController />
       </body>
     </html>
   );

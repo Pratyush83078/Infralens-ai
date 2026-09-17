@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Sliders, RotateCcw, AlertTriangle, ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { fmtCr } from '@/lib/api';
+import PrecisionSlider from '@/components/PrecisionSlider';
 
 const LANDMARK_PRESETS = [
   {
@@ -43,19 +44,6 @@ const LANDMARK_PRESETS = [
     doc_slip_months_so_far: 8,
     risk_score: 28.5,
     risk_band: 'Low',
-  },
-  {
-    project_code: '10198',
-    project_name: 'Polavaram Irrigation Project',
-    ministry: 'Ministry of Jal Shakti',
-    state: 'Andhra Pradesh',
-    physical_progress_pct: 48.0,
-    cumulative_expenditure_cr: 21400.0,
-    revised_cost_cr: 31000.0,
-    original_cost_cr: 16000.0,
-    doc_slip_months_so_far: 42,
-    risk_score: 92.4,
-    risk_band: 'Critical',
   },
 ];
 
@@ -217,67 +205,44 @@ export default function WhatIfSimulator({ project: externalProject }) {
         {/* Sliders Controls Column */}
         <div className="sm-sim-controls">
           {/* Slider 1: Physical Progress */}
-          <div className="sm-sim-slider-row">
-            <div className="sm-sim-label-row">
-              <span>Simulated Physical Progress</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span className="sm-sim-val-pill">{progress}%</span>
-                <span style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)', fontFamily: 'var(--font-mono)' }}>
-                  (Baseline: {baselineProgress}%)
-                </span>
-              </div>
-            </div>
-            <input
-              type="range"
-              min={5}
-              max={100}
-              value={progress}
-              onChange={(e) => setProgress(Number(e.target.value))}
-              className="sm-range-slider"
-            />
-          </div>
+          <PrecisionSlider
+            label="Simulated Physical Progress"
+            value={progress}
+            onChange={setProgress}
+            min={5}
+            max={100}
+            step={1}
+            unit="%"
+            baseline={baselineProgress}
+            quickNudge={5}
+          />
 
           {/* Slider 2: Capital Spend */}
-          <div className="sm-sim-slider-row">
-            <div className="sm-sim-label-row">
-              <span>Capital Expenditure (% of Outlay)</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span className="sm-sim-val-pill">{spendPct}%</span>
-                <span style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)', fontFamily: 'var(--font-mono)' }}>
-                  (Baseline: {baselineSpendPct}%)
-                </span>
-              </div>
-            </div>
-            <input
-              type="range"
-              min={10}
-              max={180}
-              value={spendPct}
-              onChange={(e) => setSpendPct(Number(e.target.value))}
-              className="sm-range-slider"
-            />
-          </div>
+          <PrecisionSlider
+            label="Capital Expenditure (% of Outlay)"
+            value={spendPct}
+            onChange={setSpendPct}
+            min={10}
+            max={180}
+            step={1}
+            unit="%"
+            baseline={baselineSpendPct}
+            quickNudge={10}
+          />
 
           {/* Slider 3: Schedule Delay */}
-          <div className="sm-sim-slider-row">
-            <div className="sm-sim-label-row">
-              <span>Schedule Delay (Months)</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span className="sm-sim-val-pill">+{delay} mos</span>
-                <span style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)', fontFamily: 'var(--font-mono)' }}>
-                  (Baseline: +{baselineDelay}mo)
-                </span>
-              </div>
-            </div>
-            <input
-              type="range"
-              min={0}
-              max={120}
-              value={delay}
-              onChange={(e) => setDelay(Number(e.target.value))}
-              className="sm-range-slider"
-            />
-          </div>
+          <PrecisionSlider
+            label="Schedule Delay (Months)"
+            value={delay}
+            onChange={setDelay}
+            min={0}
+            max={120}
+            step={1}
+            unit=" mos"
+            prefix="+"
+            baseline={baselineDelay}
+            quickNudge={6}
+          />
         </div>
 
         {/* Live Recomputed Result Gauge */}

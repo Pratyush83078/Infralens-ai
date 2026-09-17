@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useApi } from '@/hooks/useApi';
 import { api, riskColor, cleanState, fmtCr } from '@/lib/api';
-import { getProjectSummary, getConfidenceScore, exportToCsv } from '@/lib/intelligence';
+import { getProjectSummary, getConfidenceScore, getBottleneckSignal, exportToCsv } from '@/lib/intelligence';
 import ProjectDrawer from '@/components/ProjectDrawer';
 
 const BANDS = ['', 'Critical', 'High', 'Medium', 'Low'];
@@ -344,7 +344,7 @@ function ProjectsContent() {
                   </div>
                 </th>
                 <th>Confidence</th>
-                <th>AI Risk Narrative</th>
+                <th>Primary Bottleneck</th>
                 <th style={{ textAlign: 'right' }}>Action</th>
               </tr>
             </thead>
@@ -471,9 +471,11 @@ function ProjectsContent() {
                         </span>
                       </td>
 
-                      {/* Plain Language Summary */}
-                      <td style={{ maxWidth: 260, fontSize: 11, color: 'var(--ink-secondary, #475569)', lineHeight: 1.4 }}>
-                        {summary}
+                      {/* Primary Bottleneck Chip */}
+                      <td>
+                        <span className="sm-driver-chip" title={summary}>
+                          {getBottleneckSignal(p)}
+                        </span>
                       </td>
 
                       {/* Action */}

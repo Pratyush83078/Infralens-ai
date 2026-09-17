@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { ArrowUpRight, ShieldCheck, ChevronRight, Send, Sliders, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, ChevronRight, Send, Sliders, CheckCircle2, Sparkles, Download } from 'lucide-react';
 import { useApi } from '@/hooks/useApi';
 import { api, fmtCr, cleanState } from '@/lib/api';
-import { getProjectSummary, getConfidenceScore } from '@/lib/intelligence';
+import { getProjectSummary, getConfidenceScore, getBottleneckSignal, exportToCsv } from '@/lib/intelligence';
 import BlueprintCard from '@/components/BlueprintCard';
 import ProjectDrawer from '@/components/ProjectDrawer';
 import EqualizerSparkline from '@/components/charts/EqualizerSparkline';
@@ -93,10 +93,10 @@ export default function Dashboard() {
       <section id="overview" className="sm-mesh-hero">
         <div style={{ position: 'relative', zIndex: 2 }}>
           {/* Top Pill */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: '9999px', background: 'rgba(255,255,255,0.85)', border: '1px solid rgba(147, 51, 234, 0.25)', marginBottom: 16 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#9333EA', animation: 'pulse 2s infinite' }} />
-            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#6B21A8' }}>
-              MoSPI Telemetry · July 2026 Snapshot
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '4px 12px', borderRadius: '9999px', background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(0, 102, 255, 0.2)', marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#0066FF', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", fontWeight: 700, color: '#0066FF', letterSpacing: '0.04em' }}>
+              NATIONAL INFRASTRUCTURE SURVEILLANCE RADAR
             </span>
           </div>
 
@@ -152,18 +152,18 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Telemetry Partner Strip Matching Reference Image */}
+          {/* Telemetry Partner Strip */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#94A3B8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              GOVERNMENT TELEMETRY COMPLIANT:
+            <span style={{ fontSize: 10, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", fontWeight: 700, color: '#94A3B8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              DATA INGESTION STANDARDS:
             </span>
-            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#475569', fontWeight: 600 }}>MoSPI</span>
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", color: '#475569', fontWeight: 600 }}>MoSPI OCMS</span>
             <span style={{ color: '#CBD5E1' }}>·</span>
-            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#475569', fontWeight: 600 }}>NIC CLOUD</span>
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", color: '#475569', fontWeight: 600 }}>PMO PRAGATI</span>
             <span style={{ color: '#CBD5E1' }}>·</span>
-            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#475569', fontWeight: 600 }}>PMO PRAGATI</span>
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", color: '#475569', fontWeight: 600 }}>NITI AAYOG</span>
             <span style={{ color: '#CBD5E1' }}>·</span>
-            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: '#475569', fontWeight: 600 }}>NITI AAYOG</span>
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono, 'Geist Mono', monospace)", color: '#475569', fontWeight: 600 }}>NIC CLOUD</span>
           </div>
 
           {/* Real Metrics Strip */}
@@ -230,7 +230,7 @@ export default function Dashboard() {
           {/* Left Card: Independent Benchmarks */}
           <BlueprintCard
             title="Independent benchmarks"
-            meta="SIH 26103 · MOSPI EVALUATION, JULY 2026"
+            meta="SIH 26103 · BENCHMARK EVALUATION"
           >
             <p style={{ fontSize: '14.5px', lineHeight: 1.6, color: 'var(--ink, #0F172A)', margin: '14px 0' }}>
               “INFRALENS <strong>performs best overall</strong>, achieving an anomaly detection F1 rate of <strong>94.8%</strong> and an ROC-AUC of <strong>0.886</strong>, capturing contractor and statutory bottlenecks 6 months earlier than standard MoSPI flash declarations.”
@@ -275,7 +275,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Controls: Search */}
+            {/* Controls: Search & Export */}
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -288,42 +288,51 @@ export default function Dashboard() {
                   padding: '0 12px',
                   border: '1px solid var(--border-color, #CBD5E1)',
                   borderRadius: 4,
-                  width: 260,
+                  width: 250,
                   outline: 'none',
                   background: 'var(--card-bg, #FFFFFF)',
                 }}
               />
+
+              <button
+                type="button"
+                onClick={() => exportToCsv(alerts, 'infralens-priority-watchlist.csv')}
+                className="sm-table-inspect-btn"
+                style={{ height: 34, padding: '0 12px', fontSize: '12px' }}
+                title="Export filtered priority watchlist as CSV"
+              >
+                <Download size={13} />
+                <span>Export CSV</span>
+              </button>
             </div>
           </div>
 
-          {/* Real Data Table */}
+          {/* Real Data Table with Zero-Clipping & High Density Layout */}
           <div style={{ overflowX: 'auto' }}>
             <table className="sm-table">
               <thead>
                 <tr>
-                  <th>CODE</th>
-                  <th>PROJECT & MINISTRY</th>
-                  <th>STATE</th>
-                  <th>RISK BAND</th>
-                  <th>OVERRUN</th>
-                  <th>DELAY</th>
-                  <th>CONFIDENCE</th>
-                  <th>AI EXECUTIVE SUMMARY</th>
-                  <th style={{ textAlign: 'right' }}>ACTION</th>
+                  <th style={{ minWidth: 280 }}>PROJECT & AGENCY</th>
+                  <th style={{ width: 110 }}>STATE</th>
+                  <th style={{ width: 130 }}>RISK SCORE</th>
+                  <th style={{ width: 110 }}>OVERRUN</th>
+                  <th style={{ width: 90 }}>DELAY</th>
+                  <th style={{ minWidth: 220 }}>PRIMARY BOTTLENECK</th>
+                  <th style={{ width: 100, textAlign: 'right' }}>ACTION</th>
                 </tr>
               </thead>
               <tbody>
                 {aLoading ? (
                   [...Array(6)].map((_, i) => (
                     <tr key={i}>
-                      <td colSpan={9} style={{ padding: 16 }}>
+                      <td colSpan={7} style={{ padding: 14 }}>
                         <div className="skeleton-shimmer" style={{ height: 20, borderRadius: 4 }} />
                       </td>
                     </tr>
                   ))
                 ) : alerts.length === 0 ? (
                   <tr>
-                    <td colSpan={9} style={{ textAlign: 'center', padding: 28, color: '#64748B' }}>
+                    <td colSpan={7} style={{ textAlign: 'center', padding: 28, color: '#64748B' }}>
                       No flagged projects match your search query.
                     </td>
                   </tr>
@@ -335,23 +344,48 @@ export default function Dashboard() {
                     const costOverrun = proj.cost_overrun_cr ?? Math.max(0, (proj.revised_cost_cr || 0) - (proj.original_cost_cr || 0));
                     const confidence = getConfidenceScore(proj);
                     const summary = getProjectSummary(proj);
+                    const bottleneck = getBottleneckSignal(proj);
 
                     return (
                       <tr
                         key={code}
                         onClick={() => openProject(code)}
-                        style={{ cursor: 'pointer', transition: 'background 0.12s ease' }}
+                        style={{ cursor: 'pointer' }}
                       >
-                        <td>
-                          <span className="sm-project-code">#{code}</span>
+                        {/* 1. Composite Project & Agency Column */}
+                        <td style={{ minWidth: 280 }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <div
+                              className="sm-project-name"
+                              title={name}
+                              style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--ink, #0F172A)', maxWidth: 360 }}
+                            >
+                              {name}
+                            </div>
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                fontSize: '11.5px',
+                                fontFamily: "var(--font-mono, 'Geist Mono', monospace)",
+                              }}
+                            >
+                              <span style={{ color: '#0066FF', fontWeight: 700 }}>#{code}</span>
+                              <span style={{ color: '#CBD5E1' }}>·</span>
+                              <span style={{ color: 'var(--ink-secondary, #64748B)' }}>
+                                {proj.ministry?.replace('Ministry of ', '').replace('Department of ', '')}
+                              </span>
+                            </div>
+                          </div>
                         </td>
-                        <td style={{ maxWidth: 280 }}>
-                          <div className="sm-project-name">{name}</div>
-                          <div className="sm-project-sub">{proj.ministry}</div>
-                        </td>
-                        <td style={{ fontSize: 12, color: 'var(--ink-secondary, #64748B)' }}>
+
+                        {/* 2. State */}
+                        <td style={{ fontSize: '12.5px', color: 'var(--ink-secondary, #475569)', fontWeight: 500 }}>
                           {cleanState(proj.state) || 'National'}
                         </td>
+
+                        {/* 3. Risk Level */}
                         <td>
                           <span
                             className={
@@ -365,28 +399,40 @@ export default function Dashboard() {
                             {proj.risk_band || 'High'} ({proj.risk_score ? proj.risk_score.toFixed(1) : 75})
                           </span>
                         </td>
-                        <td style={{ fontFamily: 'var(--font-mono, monospace)', fontWeight: 700 }}>
-                          {fmtCr(costOverrun)}
-                        </td>
-                        <td style={{ fontFamily: 'var(--font-mono, monospace)', color: 'var(--ink-secondary, #64748B)' }}>
-                          {delay > 0 ? `+${delay}mo` : 'On track'}
-                        </td>
+
+                        {/* 4. Cost Overrun */}
                         <td>
-                          <span className="sm-confidence-pill">
-                            <ShieldCheck size={10} className="text-emerald-600" />
-                            <span>{confidence.score}%</span>
+                          <div style={{ fontFamily: "var(--font-mono, 'Geist Mono', monospace)", fontWeight: 700, fontSize: '13px', color: costOverrun > 0 ? '#DC2626' : 'var(--ink, #0F172A)' }}>
+                            {fmtCr(costOverrun)}
+                          </div>
+                        </td>
+
+                        {/* 5. Schedule Delay */}
+                        <td style={{ fontFamily: "var(--font-mono, 'Geist Mono', monospace)", fontSize: '12.5px' }}>
+                          {delay > 0 ? (
+                            <span style={{ color: delay > 24 ? '#DC2626' : '#EA580C', fontWeight: 600 }}>
+                              +{delay}mo
+                            </span>
+                          ) : (
+                            <span style={{ color: '#059669', fontWeight: 600 }}>On track</span>
+                          )}
+                        </td>
+
+                        {/* 6. Primary Bottleneck Chip */}
+                        <td>
+                          <span className="sm-driver-chip" title={summary}>
+                            {bottleneck}
                           </span>
                         </td>
-                        <td style={{ maxWidth: 280, fontSize: 11.5, color: 'var(--ink-secondary, #475569)', lineHeight: 1.4 }}>
-                          {summary}
-                        </td>
+
+                        {/* 7. Action */}
                         <td style={{ textAlign: 'right' }}>
                           <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
                             <button
                               type="button"
                               onClick={() => openProject(code)}
-                              className="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-0.5"
-                              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                              className="sm-table-inspect-btn"
+                              title="Inspect Deep Telemetry & What-If Trajectories"
                             >
                               <span>Inspect</span>
                               <ChevronRight size={13} />
@@ -396,10 +442,10 @@ export default function Dashboard() {
                               <button
                                 type="button"
                                 onClick={(e) => handleDispatch(e, proj)}
-                                className="sm-btn-dispatch text-[10px] py-1 px-1.5"
+                                className="sm-table-alert-btn"
                                 title="Dispatch Alert to Ministry Nodal Officer"
                               >
-                                <Send size={10} />
+                                <Send size={11} />
                                 <span>Alert</span>
                               </button>
                             )}

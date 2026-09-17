@@ -112,7 +112,7 @@ export default function ProjectDrawer({ project, onClose, peers }) {
         <div className="drawer-header" style={{ borderTop: `4px solid ${colors.text}` }}>
           <div className="drawer-header-left">
             <div className="drawer-eyebrow">
-              <span className="badge" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>
+              <span className="drawer-badge" style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}>
                 {project.risk_band} Risk
               </span>
               <span className="drawer-code mono">#{project.project_code}</span>

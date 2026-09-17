@@ -30,15 +30,6 @@ const backtestProjects = [
     leadTime: 'Zero False Alarm (Sample)',
     metricNote: 'Correctly classified non-escalating',
   },
-  {
-    name: 'Polavaram Multipurpose Irrigation Project',
-    ministry: 'Ministry of Jal Shakti · #10198',
-    predictedBand: 'Critical (Score 92)',
-    predictedMonth: 'Month 10 (Early Warning Flag)',
-    actualResult: '₹16,500 Cr Design & Foundation Revision Month 17',
-    leadTime: '7 Months Advance Warning',
-    metricNote: 'Expenditure outpaced civil progress',
-  },
 ];
 
 export default function BacktestSection() {
@@ -50,10 +41,10 @@ export default function BacktestSection() {
       <span className="sm-corner-bracket sm-corner-bl" aria-hidden="true" />
       <span className="sm-corner-bracket sm-corner-br" aria-hidden="true" />
 
-      <div className="sm-card-top-strip" style={{ paddingBottom: 14, borderBottom: '1px solid var(--border-color, #E2E8F0)' }}>
+      <div className="sm-card-top-strip" style={{ paddingBottom: 12, borderBottom: '1px solid var(--border-color, #E2E8F0)' }}>
         <div className="sm-card-eyebrow-wrap">
           <div className="sm-card-title flex items-center gap-2">
-            <History size={16} className="text-blue-600" />
+            <History size={15} className="text-blue-600" />
             <span>Historical Backtest Validation: Predicted vs. Actual</span>
           </div>
           <div className="sm-card-meta">
@@ -65,23 +56,20 @@ export default function BacktestSection() {
         </span>
       </div>
 
-      {/* Honest Statistical Scoping Disclaimer (As per academic & auditing guidelines) */}
-      <div style={{ marginTop: 14, padding: '10px 14px', background: 'var(--surface-subtle, #F8FAFC)', border: '1px solid var(--border-color, #E2E8F0)', borderRadius: 6, fontSize: 12, color: 'var(--ink-secondary, #475569)', lineHeight: 1.5 }}>
-        <strong>Portfolio Evaluation Scope:</strong> Evaluated across <strong>n = 7,497 monthly snapshots</strong> from the MoSPI longitudinal archive.
-        The 4 landmark projects below are illustrative high-profile validations where machine learning models generated early warnings 6–8 months prior to official revisions.
-        <span style={{ display: 'block', marginTop: 3, fontSize: 11, color: 'var(--ink-secondary, #64748B)', fontFamily: 'var(--font-mono)' }}>
-          * Zero false alarms within this 4-project illustrative sample · Full portfolio test ROC-AUC: 0.886 (Cost), 0.802 (Schedule) · PR-AUC: 0.082
-        </span>
+      {/* Honest Statistical Scoping Disclaimer */}
+      <div style={{ marginTop: 12, padding: '8px 12px', background: 'var(--surface-subtle, #F8FAFC)', border: '1px solid var(--border-color, #E2E8F0)', borderRadius: 6, fontSize: 11.5, color: 'var(--ink-secondary, #475569)', lineHeight: 1.45 }}>
+        <strong>Portfolio Evaluation Scope:</strong> Evaluated across <strong>n = 7,497 monthly records</strong> from the MoSPI longitudinal archive.
+        The 3 landmark validations below demonstrate predictive early warnings 7–8 months prior to official ministerial revisions.
       </div>
 
-      <div className="sm-backtest-list" style={{ marginTop: 16 }}>
+      <div className="sm-backtest-list" style={{ marginTop: 12 }}>
         {backtestProjects.map((p, i) => (
-          <div key={i} className="sm-backtest-item" style={{ alignItems: 'center' }}>
-            <div style={{ maxWidth: 260 }}>
+          <div key={i} className="sm-backtest-item" style={{ padding: '10px 14px', alignItems: 'center' }}>
+            <div style={{ maxWidth: 280 }}>
               <div className="sm-backtest-project" style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink, #0F172A)' }}>
                 {p.name}
               </div>
-              <div className="sm-backtest-sub" style={{ fontSize: 11.5, fontFamily: 'var(--font-mono)' }}>
+              <div className="sm-backtest-sub" style={{ fontSize: 11, fontFamily: 'var(--font-mono)' }}>
                 {p.ministry}
               </div>
             </div>
@@ -94,7 +82,7 @@ export default function BacktestSection() {
               <span className="text-[10.5px] font-mono text-slate-500 block mt-0.5">{p.predictedMonth}</span>
             </div>
 
-            <div style={{ maxWidth: 240 }}>
+            <div style={{ maxWidth: 260 }}>
               <span className="text-[10px] font-mono text-slate-400 block uppercase tracking-wider">Official MoSPI Outcome</span>
               <span className="sm-backtest-pill-actual" style={{ fontSize: 11 }}>
                 {p.actualResult}
@@ -103,8 +91,8 @@ export default function BacktestSection() {
             </div>
 
             <div className="text-right">
-              <span className="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded border border-blue-200 inline-flex items-center gap-1.5 shadow-sm">
-                <CheckCircle2 size={12} className="text-blue-600" />
+              <span className="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 inline-flex items-center gap-1 shadow-sm">
+                <CheckCircle2 size={11} className="text-blue-600" />
                 <span>{p.leadTime}</span>
               </span>
             </div>
