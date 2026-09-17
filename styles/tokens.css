@@ -6,10 +6,10 @@
 
 :root {
   /* ── 1. PRIMITIVES (Fonts & Core Scales) ────────────────────────────────── */
-  --font-display:       'Space Grotesk', -apple-system, sans-serif;
-  --font-body:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-sans:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono:          'JetBrains Mono', ui-monospace, monospace;
+  --font-display:       'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-body:          'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-sans:          'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-mono:          'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
   --font-hand:          'Caveat', cursive;
 
   /* Transitions */
@@ -53,35 +53,8 @@
   --link-coral:         #FB7185;
 }
 
-/* ── 2. DARK THEME (Warm Obsidian / Carbon — Default Anti-AI-Slop) ────────── */
+/* ── 2. LIGHT THEME (Crisp Architectural Paper / Alabaster — Default) ────── */
 :root,
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* Canvas & Card Surfaces (NO COLD NAVY BLUE) */
-  --bg:                 #0E0E11;
-  --bg-grid:            rgba(255, 255, 255, 0.035);
-  --card-bg:            #17171A;
-  --card-bg-soft:       #1E1E23;
-  --surface-dark:       #0A0A0C;
-  --surface-card:       #17171A;
-  --surface-cream:      #26262D;
-  --surface-soft:       #212127;
-
-  /* Inks / Text */
-  --ink:                #F4F4F6;
-  --ink-secondary:      #A1A1AA;
-  --ink-muted:          #71717A;
-  --ink-dim:            #52525C;
-  --mute:               rgba(255, 255, 255, 0.60);
-
-  /* Borders & Rules */
-  --border-color:       #2D2D34;
-  --border-subtle:      rgba(255, 255, 255, 0.08);
-  --border-hairline:    1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* ── 3. LIGHT THEME (Crisp Architectural Paper / Alabaster) ──────────────── */
 [data-theme="light"] {
   color-scheme: light;
 
@@ -112,11 +85,68 @@
   --accent-yellow-soft: rgba(217, 119, 6, 0.12);
 }
 
+/* ── 3. DARK THEME (Warm Obsidian / Carbon — Anti-AI-Slop) ─────────────────── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Canvas & Card Surfaces (NO COLD NAVY BLUE) */
+  --bg:                 #0E0E11;
+  --bg-grid:            rgba(255, 255, 255, 0.035);
+  --card-bg:            #17171A;
+  --card-bg-soft:       #1E1E23;
+  --surface-dark:       #0A0A0C;
+  --surface-card:       #17171A;
+  --surface-cream:      #26262D;
+  --surface-soft:       #212127;
+
+  /* Inks / Text */
+  --ink:                #F4F4F6;
+  --ink-secondary:      #A1A1AA;
+  --ink-muted:          #71717A;
+  --ink-dim:            #52525C;
+  --mute:               rgba(255, 255, 255, 0.60);
+
+  /* Borders & Rules */
+  --border-color:       #2D2D34;
+  --border-subtle:      rgba(255, 255, 255, 0.08);
+  --border-hairline:    1px solid rgba(255, 255, 255, 0.08);
+
+  /* Accent */
+  --accent-yellow:      #F5C518;
+  --accent-yellow-soft: rgba(245, 197, 24, 0.12);
+}
+
 /* ── 4. MULTI-PARADIGM UI LAYOUT PRESETS ─────────────────────────────────── */
 
-/* 🥊 Preset A: Soft Neo-Brutalist (Default)
-   Heavy borders, hard physical offset shadows, punchy tactile interactions */
+/* ⚪ Preset A: Minimalist (Swiss Precision — Default)
+   Zero shadows, compact clean radii, razor-sharp hairlines, pure whitespace */
 :root,
+[data-style="minimalist"] {
+  --radius-bento:       8px;
+  --radius-card:        8px;
+  --radius-btn:         6px;
+  --radius-pill:        9999px;
+  --radius-sm:          4px;
+  --radius-xs:          2px;
+
+  --border-thick:       1px solid var(--border-color);
+  --border-medium:      1px solid var(--border-color);
+  --border-thin:        1px solid var(--border-subtle);
+  --border-neo:         1px solid var(--border-color);
+
+  --shadow-hard:        none;
+  --shadow-hard-lg:     none;
+  --shadow-hard-sm:     none;
+  --shadow-pressed:     none;
+  --shadow-lift:        none;
+}
+
+[data-theme="light"][data-style="minimalist"] {
+  --border-color:       #E2E8F0;
+}
+
+/* 🥊 Preset B: Soft Neo-Brutalist
+   Heavy borders, hard physical offset shadows, punchy tactile interactions */
 [data-style="brutalist"] {
   --radius-bento:       16px;
   --radius-card:        14px;
@@ -137,9 +167,7 @@
   --shadow-lift:        6px 6px 0px 0px #000000;
 }
 
-[data-theme="light"][data-style="brutalist"],
-[data-theme="light"] {
-  /* In light brutalist mode, stark black borders give the authentic Gumroad look */
+[data-theme="light"][data-style="brutalist"] {
   --border-color:       #000000;
   --border-thick:       2px solid #000000;
   --border-medium:      1.5px solid #000000;
@@ -148,7 +176,7 @@
   --shadow-hard-sm:     2px 2px 0px 0px #000000;
 }
 
-/* 🍱 Preset B: Modern Bento Grid (Apple / Linear / Supabase style)
+/* 🍱 Preset C: Modern Bento Grid (Apple / Linear / Supabase style)
    Generous rounded curves, refined ambient depth, hairline structural borders */
 [data-style="bento"] {
   --radius-bento:       24px;

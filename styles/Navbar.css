@@ -20,7 +20,7 @@
 .bento-nav-container {
   background-color: var(--card-bg);
   border: var(--border-thick);
-  border-radius: 20px;
+  border-radius: var(--radius-bento);
   box-shadow: var(--shadow-hard);
   padding: 8px 18px;
   display: flex;
@@ -48,11 +48,11 @@
   height: 40px;
   background-color: var(--accent-yellow-soft);
   border: var(--border-medium);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 2px 2px 0px #000;
+  box-shadow: var(--shadow-hard-sm);
 }
 
 .brand-title {
@@ -117,7 +117,7 @@
   letter-spacing: 0.02em;
   color: var(--ink);
   text-decoration: none;
-  border-radius: 10px;
+  border-radius: var(--radius-btn);
   border: 2px solid transparent;
   transition: all var(--transition-fast);
 }
@@ -125,7 +125,7 @@
 .bento-nav-tab:hover {
   color: var(--ink);
   background-color: var(--card-bg-soft);
-  border-color: #000000;
+  border-color: var(--border-color);
   text-decoration: none;
   transform: translate(-1px, -1px);
 }
@@ -135,7 +135,7 @@
   background-color: var(--accent-yellow);
   color: #000000;
   border: var(--border-medium);
-  box-shadow: 2px 2px 0px #000000;
+  box-shadow: var(--shadow-hard-sm);
 }
 
 /* Right Cluster */

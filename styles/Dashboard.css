@@ -266,8 +266,8 @@
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   background: var(--surface-card);
-  border: 2px solid var(--border-color);
-  box-shadow: 2px 2px 0px #000;
+  border: var(--border-medium);
+  box-shadow: var(--shadow-hard-sm);
   font-size: 13px;
 }
 
@@ -275,7 +275,7 @@
   width: 12px;
   height: 12px;
   border-radius: 4px;
-  border: 1.5px solid #000;
+  border: var(--border-medium);
   flex-shrink: 0;
 }
 
@@ -307,9 +307,9 @@
 
 .driver-item-card {
   background: var(--surface-card);
-  border: 2px solid var(--border-color);
+  border: var(--border-medium);
   border-radius: var(--radius-sm);
-  box-shadow: 2px 2px 0px #000;
+  box-shadow: var(--shadow-hard-sm);
   padding: 10px 14px;
 }
 
@@ -340,10 +340,10 @@
 /* Chart Tooltips */
 .custom-chart-tooltip {
   background-color: var(--card-bg);
-  border: 2px solid var(--border-color);
+  border: var(--border-medium);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
-  box-shadow: 3px 3px 0px #000;
+  box-shadow: var(--shadow-hard-sm);
 }
 
 .tooltip-title {
@@ -374,9 +374,9 @@
   gap: 14px;
   padding: 14px 18px;
   background: var(--neo-yellow-soft);
-  border: 2px solid var(--accent-yellow);
+  border: var(--border-medium);
   border-radius: var(--radius-sm);
-  box-shadow: 3px 3px 0px #000;
+  box-shadow: var(--shadow-hard-sm);
   margin-bottom: 20px;
 }
 
@@ -394,7 +394,7 @@
 /* Neo Table Styling */
 .neo-table-wrapper {
   overflow-x: auto;
-  border: 2px solid var(--border-color);
+  border: var(--border-neo);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-hard);
   background: var(--card-bg);
@@ -409,7 +409,7 @@
 
 .neo-table thead {
   background: var(--card-bg-soft);
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: var(--border-medium);
 }
 
 .neo-table th {
@@ -425,7 +425,7 @@
 
 .neo-table td {
   padding: 14px 16px;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
 }
 
@@ -435,8 +435,7 @@
 }
 
 .neo-table tbody tr:hover {
-  background-color: rgba(245, 197, 24, 0.08);
-  /* Subtle high-impact yellow highlight */
+  background-color: var(--accent-yellow-soft);
 }
 
 .neo-table tbody tr:last-child td {

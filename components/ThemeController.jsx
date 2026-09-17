@@ -11,15 +11,15 @@ const STYLES = [
 ];
 
 export default function ThemeController() {
-  const [theme, setTheme] = useState('dark');
-  const [style, setStyle] = useState('brutalist');
+  const [theme, setTheme] = useState('light');
+  const [style, setStyle] = useState('minimalist');
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('paimana-theme') || 'dark';
-    const savedStyle = localStorage.getItem('paimana-style') || 'brutalist';
+    const savedTheme = localStorage.getItem('paimana-theme') || 'light';
+    const savedStyle = localStorage.getItem('paimana-style') || 'minimalist';
     setTheme(savedTheme);
     setStyle(savedStyle);
     document.documentElement.setAttribute('data-theme', savedTheme);

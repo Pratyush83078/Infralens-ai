@@ -1,28 +1,33 @@
 import './globals.css';
-import Navbar from '@/components/Navbar';
+import SupermemorySidebar from '@/components/SupermemorySidebar';
 import ThemeController from '@/components/ThemeController';
 
 export const metadata = {
-  title: 'PAIMANA AI — Infrastructure Risk Intelligence',
-  description: 'MoSPI Central Sector Infrastructure Risk Radar & Early Warning Intelligence System. SIH 26103.',
+  title: 'INFRALENS AI — Infrastructure Risk Intelligence Radar',
+  description: 'National Central Sector Infrastructure Risk Intelligence & Early Warning System. MoSPI SIH 26103.',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="light" data-style="minimalist" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body>
-        <Navbar />
-        <main>{children}</main>
+        <div className="sm-app-container">
+          <SupermemorySidebar />
+          <main className="sm-content-area">
+            {children}
+          </main>
+        </div>
         <ThemeController />
       </body>
     </html>
   );
 }
+

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { X, TrendingUp, Calendar, AlertTriangle, Cpu, DollarSign, Activity } from 'lucide-react';
 import { cleanState, fmtCr } from '@/lib/api';
 import Mascot from './Mascot';
+import WhatIfSimulator from './WhatIfSimulator';
 
 function getRiskColors(band) {
   switch (band) {
@@ -294,6 +295,11 @@ export default function ProjectDrawer({ project, onClose, peers }) {
             <div className="ml-model-note">
               <span>Model: Gradient Boosting Classifier · ROC-AUC 0.886 (Cost) · 0.802 (Schedule) · Trained on 7,497 monthly records</span>
             </div>
+          </section>
+
+          {/* Section: Live What-If Stress-Testing */}
+          <section className="drawer-section">
+            <WhatIfSimulator project={project} />
           </section>
 
           {/* Section: Peer Comparison */}
