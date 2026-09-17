@@ -53,3 +53,5 @@ docs/archive
 node_modules/
 .next/
 out/
+frontend/
+backend/

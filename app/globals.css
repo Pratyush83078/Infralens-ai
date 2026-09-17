@@ -1,4 +1,5 @@
 /* ── PAIMANA Next.js Global Stylesheet ── */
+@import '../styles/tokens.css';
 @import '../styles/index.css';
 @import '../styles/Navbar.css';
 @import '../styles/KpiCard.css';
@@ -8,4 +9,5 @@
 @import '../styles/Benchmarks.css';
 @import '../styles/About.css';
 @import '../styles/Skeleton.css';
+@import '../styles/ThemeController.css';
 

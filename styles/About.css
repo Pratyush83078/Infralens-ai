@@ -84,8 +84,8 @@
 
 .doc-sidebar-item.active {
   color: #000;
-  background-color: var(--neo-yellow);
-  border: 2px solid #000;
+  background-color: var(--accent-yellow);
+  border: var(--border-medium);
   box-shadow: 2px 2px 0px #000;
   font-weight: 900;
 }
@@ -97,8 +97,7 @@
 
 .sidebar-mascot-box {
   background: var(--surface-cream);
-  border: 2px solid #000;
-  border-radius: var(--radius-sm);
+  border: var(--border-medium);
   box-shadow: 2px 2px 0px #000;
   padding: 12px 14px;
   display: flex;
@@ -186,7 +185,7 @@
 
 .doc-stat-tile {
   background: var(--surface-cream);
-  border: 2px solid #000;
+  border: var(--border-medium);
   box-shadow: 3px 3px 0px #000;
   border-radius: var(--radius-sm);
   padding: 14px 16px;
@@ -217,7 +216,7 @@
 
 .flow-step-card {
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: var(--border-neo);
   border-radius: var(--radius-card);
   box-shadow: 3px 3px 0px #000;
   padding: 16px 20px;
@@ -234,8 +233,8 @@
   font-size: 12px;
   font-weight: 900;
   color: #000;
-  background: var(--neo-yellow);
-  border: 1.5px solid #000;
+  background: var(--accent-yellow);
+  border: var(--border-medium);
   box-shadow: 1.5px 1.5px 0px #000;
   padding: 2px 8px;
   border-radius: var(--radius-xs);
@@ -262,7 +261,7 @@
 /* Engines */
 .engine-card {
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: var(--border-neo);
   border-radius: var(--radius-card);
   box-shadow: 3px 3px 0px #000;
   padding: 20px 22px;
@@ -273,8 +272,8 @@
   font-size: 12px;
   font-weight: 800;
   color: #000;
-  background: var(--neo-yellow-soft);
-  border: 1.5px solid #000;
+  background: var(--accent-yellow-soft);
+  border: var(--border-medium);
   box-shadow: 1.5px 1.5px 0px #000;
   padding: 4px 10px;
   border-radius: var(--radius-xs);
@@ -304,8 +303,8 @@
 
 /* Code block container */
 .code-block-container {
-  background: #000;
-  border: 2.5px solid #000;
+  background: #09090B;
+  border: var(--border-thick);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-hard);
   overflow: hidden;
@@ -316,13 +315,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 18px;
-  background: #111;
-  border-bottom: 2px solid #222;
+  background: #121215;
+  border-bottom: var(--border-medium);
 }
 
 .code-block-title {
   font-size: 13px;
-  color: var(--neo-yellow);
+  color: var(--accent-yellow);
   font-weight: 800;
 }
 
@@ -351,7 +350,7 @@
 
 .outcome-item-card {
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: var(--border-neo);
   border-radius: var(--radius-card);
   box-shadow: 3px 3px 0px #000;
   padding: 14px 18px;
@@ -382,7 +381,7 @@
 /* Tech Stack */
 .stack-tile {
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: var(--border-neo);
   border-radius: var(--radius-card);
   box-shadow: 3px 3px 0px #000;
   padding: 18px;

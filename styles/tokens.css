@@ -1,0 +1,238 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PAIMANA DESIGN SYSTEM — TOKENS ARCHITECTURE
+   Central Source of Truth for Colors, Typography, Radii & Multi-Paradigm Layouts
+   Documentation: docs/COLOR_SCHEME.md
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── 1. PRIMITIVES (Fonts & Core Scales) ────────────────────────────────── */
+  --font-display:       'Space Grotesk', -apple-system, sans-serif;
+  --font-body:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:          'JetBrains Mono', ui-monospace, monospace;
+  --font-hand:          'Caveat', cursive;
+
+  /* Transitions */
+  --transition-fast:    0.12s ease-in-out;
+  --transition-smooth:  0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition:         0.18s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shared Accents (Signal & Semantic Hues) */
+  --accent-yellow:      #F5C518;
+  --accent-yellow-soft: rgba(245, 197, 24, 0.12);
+  --accent-cobalt:      #3B82F6;
+  --accent-cobalt-soft: rgba(59, 130, 246, 0.15);
+  --accent-mint:        #10B981;
+  --accent-mint-soft:   rgba(16, 185, 129, 0.15);
+  --accent-orange:      #F97316;
+  --accent-orange-soft: rgba(249, 115, 22, 0.15);
+  --accent-pink:        #EC4899;
+  --accent-pink-soft:   rgba(236, 72, 153, 0.15);
+  --accent-purple:      #A855F7;
+  --accent-purple-soft: rgba(168, 85, 247, 0.15);
+
+  /* Risk Band Semantics */
+  --risk-critical:      #EF4444;
+  --risk-high:          #F97316;
+  --risk-medium:        #F59E0B;
+  --risk-low:           #10B981;
+  --risk-critical-bg:   rgba(239, 68, 68, 0.15);
+  --risk-high-bg:       rgba(249, 115, 22, 0.15);
+  --risk-medium-bg:     rgba(245, 158, 11, 0.15);
+  --risk-low-bg:        rgba(16, 185, 129, 0.15);
+
+  /* Legacy Aliases */
+  --neo-yellow:         var(--accent-yellow);
+  --neo-yellow-soft:    var(--accent-yellow-soft);
+  --neo-cobalt:         var(--accent-cobalt);
+  --neo-red:            var(--risk-critical);
+  --neo-orange:         var(--accent-orange);
+  --neo-mint:           var(--accent-mint);
+  --neo-mint-soft:      var(--accent-mint-soft);
+  --link-teal:          #2DD4BF;
+  --link-coral:         #FB7185;
+}
+
+/* ── 2. DARK THEME (Warm Obsidian / Carbon — Default Anti-AI-Slop) ────────── */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Canvas & Card Surfaces (NO COLD NAVY BLUE) */
+  --bg:                 #0E0E11;
+  --bg-grid:            rgba(255, 255, 255, 0.035);
+  --card-bg:            #17171A;
+  --card-bg-soft:       #1E1E23;
+  --surface-dark:       #0A0A0C;
+  --surface-card:       #17171A;
+  --surface-cream:      #26262D;
+  --surface-soft:       #212127;
+
+  /* Inks / Text */
+  --ink:                #F4F4F6;
+  --ink-secondary:      #A1A1AA;
+  --ink-muted:          #71717A;
+  --ink-dim:            #52525C;
+  --mute:               rgba(255, 255, 255, 0.60);
+
+  /* Borders & Rules */
+  --border-color:       #2D2D34;
+  --border-subtle:      rgba(255, 255, 255, 0.08);
+  --border-hairline:    1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── 3. LIGHT THEME (Crisp Architectural Paper / Alabaster) ──────────────── */
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Canvas & Card Surfaces */
+  --bg:                 #F8F9FB;
+  --bg-grid:            rgba(0, 0, 0, 0.04);
+  --card-bg:            #FFFFFF;
+  --card-bg-soft:       #F1F3F7;
+  --surface-dark:       #E2E8F0;
+  --surface-card:       #FFFFFF;
+  --surface-cream:      #EAECEF;
+  --surface-soft:       #F1F3F7;
+
+  /* Inks / Text */
+  --ink:                #0F172A;
+  --ink-secondary:      #475569;
+  --ink-muted:          #64748B;
+  --ink-dim:            #94A3B8;
+  --mute:               rgba(0, 0, 0, 0.55);
+
+  /* Borders & Rules */
+  --border-color:       #E2E8F0;
+  --border-subtle:      rgba(0, 0, 0, 0.08);
+  --border-hairline:    1px solid rgba(0, 0, 0, 0.08);
+
+  /* High contrast accent for light mode */
+  --accent-yellow:      #D97706;
+  --accent-yellow-soft: rgba(217, 119, 6, 0.12);
+}
+
+/* ── 4. MULTI-PARADIGM UI LAYOUT PRESETS ─────────────────────────────────── */
+
+/* 🥊 Preset A: Soft Neo-Brutalist (Default)
+   Heavy borders, hard physical offset shadows, punchy tactile interactions */
+:root,
+[data-style="brutalist"] {
+  --radius-bento:       16px;
+  --radius-card:        14px;
+  --radius-btn:         12px;
+  --radius-pill:        9999px;
+  --radius-sm:          6px;
+  --radius-xs:          4px;
+
+  --border-thick:       2px solid var(--border-color);
+  --border-medium:      1.5px solid var(--border-color);
+  --border-thin:        1px solid var(--border-color);
+  --border-neo:         2px solid var(--border-color);
+
+  --shadow-hard:        4px 4px 0px 0px #000000;
+  --shadow-hard-lg:     6px 6px 0px 0px #000000;
+  --shadow-hard-sm:     2px 2px 0px 0px #000000;
+  --shadow-pressed:     1px 1px 0px 0px #000000;
+  --shadow-lift:        6px 6px 0px 0px #000000;
+}
+
+[data-theme="light"][data-style="brutalist"],
+[data-theme="light"] {
+  /* In light brutalist mode, stark black borders give the authentic Gumroad look */
+  --border-color:       #000000;
+  --border-thick:       2px solid #000000;
+  --border-medium:      1.5px solid #000000;
+  --border-neo:         2px solid #000000;
+  --shadow-hard:        4px 4px 0px 0px #000000;
+  --shadow-hard-sm:     2px 2px 0px 0px #000000;
+}
+
+/* 🍱 Preset B: Modern Bento Grid (Apple / Linear / Supabase style)
+   Generous rounded curves, refined ambient depth, hairline structural borders */
+[data-style="bento"] {
+  --radius-bento:       24px;
+  --radius-card:        20px;
+  --radius-btn:         14px;
+  --radius-pill:        9999px;
+  --radius-sm:          10px;
+  --radius-xs:          6px;
+
+  --border-thick:       1px solid var(--border-color);
+  --border-medium:      1px solid var(--border-color);
+  --border-thin:        1px solid var(--border-subtle);
+  --border-neo:         1px solid var(--border-color);
+
+  --shadow-hard:        0 10px 30px -5px rgba(0, 0, 0, 0.25), 0 0 1px 1px var(--border-subtle);
+  --shadow-hard-lg:     0 20px 40px -10px rgba(0, 0, 0, 0.35);
+  --shadow-hard-sm:     0 4px 14px rgba(0, 0, 0, 0.12);
+  --shadow-pressed:     0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-lift:        0 18px 36px -8px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"][data-style="bento"] {
+  --border-color:       #E2E8F0;
+  --shadow-hard:        0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-hard-lg:     0 20px 40px -10px rgba(0, 0, 0, 0.08);
+  --shadow-hard-sm:     0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lift:        0 16px 32px -6px rgba(0, 0, 0, 0.08);
+}
+
+/* ⚪ Preset C: Minimalist (Stripe / Swiss Precision)
+   Zero shadows, compact clean radii, razor-sharp hairlines, pure whitespace */
+[data-style="minimalist"] {
+  --radius-bento:       8px;
+  --radius-card:        8px;
+  --radius-btn:         6px;
+  --radius-pill:        9999px;
+  --radius-sm:          4px;
+  --radius-xs:          2px;
+
+  --border-thick:       1px solid var(--border-color);
+  --border-medium:      1px solid var(--border-color);
+  --border-thin:        1px solid var(--border-subtle);
+  --border-neo:         1px solid var(--border-color);
+
+  --shadow-hard:        none;
+  --shadow-hard-lg:     none;
+  --shadow-hard-sm:     none;
+  --shadow-pressed:     none;
+  --shadow-lift:        none;
+}
+
+[data-theme="light"][data-style="minimalist"] {
+  --border-color:       #E2E8F0;
+}
+
+/* 🏆 Preset D: Awwwards-Level Cinematic (Luxury Editorial & Soft Glass)
+   Floating depth, soft backdrop filters, pill navigation, fluid organic curves */
+[data-style="awwwards"] {
+  --radius-bento:       28px;
+  --radius-card:        22px;
+  --radius-btn:         9999px;
+  --radius-pill:        9999px;
+  --radius-sm:          12px;
+  --radius-xs:          8px;
+
+  --border-thick:       1px solid rgba(255, 255, 255, 0.12);
+  --border-medium:      1px solid rgba(255, 255, 255, 0.08);
+  --border-thin:        1px solid rgba(255, 255, 255, 0.06);
+  --border-neo:         1px solid rgba(255, 255, 255, 0.12);
+
+  --shadow-hard:        0 24px 48px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --shadow-hard-lg:     0 36px 72px -16px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --shadow-hard-sm:     0 8px 20px rgba(0, 0, 0, 0.4);
+  --shadow-pressed:     0 4px 10px rgba(0, 0, 0, 0.4);
+  --shadow-lift:        0 30px 60px -10px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  --transition-smooth:  0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-theme="light"][data-style="awwwards"] {
+  --border-thick:       1px solid rgba(0, 0, 0, 0.08);
+  --border-medium:      1px solid rgba(0, 0, 0, 0.06);
+  --border-neo:         1px solid rgba(0, 0, 0, 0.08);
+
+  --shadow-hard:        0 20px 40px -10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lift:        0 30px 60px -12px rgba(0, 0, 0, 0.12);
+}

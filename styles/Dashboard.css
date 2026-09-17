@@ -117,7 +117,7 @@
   justify-content: space-between;
   padding: 8px 12px;
   background: var(--surface-cream);
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-sm);
   box-shadow: 2px 2px 0px #000;
 }
@@ -266,7 +266,7 @@
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   box-shadow: 2px 2px 0px #000;
   font-size: 13px;
 }
@@ -307,7 +307,7 @@
 
 .driver-item-card {
   background: var(--surface-card);
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-sm);
   box-shadow: 2px 2px 0px #000;
   padding: 10px 14px;
@@ -340,7 +340,7 @@
 /* Chart Tooltips */
 .custom-chart-tooltip {
   background-color: var(--card-bg);
-  border: 2.5px solid #000;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   box-shadow: 3px 3px 0px #000;
@@ -374,7 +374,7 @@
   gap: 14px;
   padding: 14px 18px;
   background: var(--neo-yellow-soft);
-  border: 2.5px solid #000;
+  border: 2px solid var(--accent-yellow);
   border-radius: var(--radius-sm);
   box-shadow: 3px 3px 0px #000;
   margin-bottom: 20px;
@@ -394,7 +394,7 @@
 /* Neo Table Styling */
 .neo-table-wrapper {
   overflow-x: auto;
-  border: 2.5px solid #000;
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-hard);
   background: var(--card-bg);
@@ -409,7 +409,7 @@
 
 .neo-table thead {
   background: var(--card-bg-soft);
-  border-bottom: 2.5px solid #000;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .neo-table th {
@@ -435,7 +435,7 @@
 }
 
 .neo-table tbody tr:hover {
-  background-color: rgba(255, 230, 0, 0.12);
+  background-color: rgba(245, 197, 24, 0.08);
   /* Subtle high-impact yellow highlight */
 }
 
