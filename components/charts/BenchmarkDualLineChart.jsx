@@ -155,13 +155,13 @@ export default function BenchmarkDualLineChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fill: '#94A3B8', fontSize: 11, fontFamily: 'var(--font-mono)' }}
+              tick={{ fill: '#64748B', fontSize: 11, fontFamily: 'var(--font-mono)' }}
               tickLine={false}
               axisLine={{ stroke: '#E2E8F0' }}
             />
             <YAxis
               tickFormatter={(v) => `₹${v}Cr`}
-              tick={{ fill: '#94A3B8', fontSize: 10.5, fontFamily: 'var(--font-mono)' }}
+              tick={{ fill: '#64748B', fontSize: 10.5, fontFamily: 'var(--font-mono)' }}
               tickLine={false}
               axisLine={false}
             />

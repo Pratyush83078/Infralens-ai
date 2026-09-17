@@ -11,24 +11,26 @@
 }
 
 html {
-  background-color: var(--bg);
-  background-image: radial-gradient(var(--bg-grid) 1.2px, transparent 1.2px);
-  background-size: 20px 20px;
-  color: var(--ink);
-  font-family: var(--font-body);
+  background: #FFFFFF;
+  background-color: #FFFFFF;
+  color: var(--ink, #0F172A);
+  font-family: var(--font-geist-sans), var(--font-body, 'Geist', sans-serif);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
-  background: transparent;
-  color: var(--ink);
+  background: #FFFFFF;
+  background-color: #FFFFFF;
+  color: var(--ink, #0F172A);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
 }
 
 #root {

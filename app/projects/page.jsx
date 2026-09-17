@@ -187,67 +187,86 @@ function ProjectsContent() {
         </p>
       </div>
 
-      {/* Filter Toolbar */}
-      <div className="sm-filter-bar mb-4" style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', flex: 1, minWidth: 320 }}>
-          <div className="sm-search-wrap" style={{ position: 'relative', flex: '1 1 240px', minWidth: 200 }}>
-            <Search size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--ink-secondary, #64748B)' }} />
+      {/* Filter Toolbar (Compact 2-Row Design) */}
+      <div className="sm-filter-bar">
+        {/* Row 1: Search Input (flex: 1) + Export CSV Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <Search
+              size={14}
+              style={{
+                position: 'absolute',
+                left: 10,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: 'var(--ink-secondary, #64748B)',
+              }}
+            />
             <input
               type="text"
-              placeholder="Search by project name, code, or agency..."
+              placeholder="Search 2,059 projects by name, code, or agency..."
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               className="sm-search-input"
-              style={{ width: '100%', paddingLeft: 34, height: 38, fontSize: 12.5 }}
+              style={{ paddingLeft: 30 }}
             />
           </div>
 
+          <button
+            onClick={handleExport}
+            className="sm-export-csv-btn"
+            style={{ height: 34, padding: '0 12px', fontSize: 11.5 }}
+            title="Export current filtered page to CSV"
+          >
+            <Download size={13} className="sm-export-icon" />
+            <span>Export CSV</span>
+          </button>
+        </div>
+
+        {/* Row 2: Inline Dropdowns + Reset */}
+        <div className="sm-select-row">
           <select
-            className="sm-search-input"
-            style={{ height: 38, fontSize: 12, paddingRight: 24, cursor: 'pointer', minWidth: 130 }}
+            className="sm-select-input"
             value={band}
-            onChange={e => setBand(e.target.value)}
+            onChange={(e) => setBand(e.target.value)}
           >
             <option value="">All Risk Bands</option>
-            {BANDS.filter(Boolean).map(b => (
+            {BANDS.filter(Boolean).map((b) => (
               <option key={b} value={b}>{b} Band</option>
             ))}
           </select>
 
           <select
-            className="sm-search-input"
-            style={{ height: 38, fontSize: 12, paddingRight: 24, cursor: 'pointer', maxWidth: 180 }}
+            className="sm-select-input"
             value={ministry}
-            onChange={e => setMinistry(e.target.value)}
+            onChange={(e) => setMinistry(e.target.value)}
           >
             <option value="">All Ministries</option>
-            {ministries.map(m => (
+            {ministries.map((m) => (
               <option key={m} value={m}>
-                {m.replace('Ministry of ', '').replace('Department of ', '').substring(0, 28)}
+                {m.replace('Ministry of ', '').replace('Department of ', '').substring(0, 26)}
               </option>
             ))}
           </select>
 
           <select
-            className="sm-search-input"
-            style={{ height: 38, fontSize: 12, paddingRight: 24, cursor: 'pointer', maxWidth: 140 }}
+            className="sm-select-input"
             value={state}
-            onChange={e => setState(e.target.value)}
+            onChange={(e) => setState(e.target.value)}
           >
             <option value="">All States</option>
-            {states.map(s => (
+            {states.map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
 
           <select
-            className="sm-search-input"
-            style={{ height: 38, fontSize: 12, paddingRight: 24, cursor: 'pointer', maxWidth: 160 }}
+            className="sm-select-input"
             value={driver}
-            onChange={e => setDriver(e.target.value)}
+            onChange={(e) => setDriver(e.target.value)}
           >
             <option value="">All Risk Drivers</option>
-            {DRIVERS.filter(Boolean).map(d => (
+            {DRIVERS.filter(Boolean).map((d) => (
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
@@ -258,33 +277,24 @@ function ProjectsContent() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 5,
-                padding: '0 12px',
-                height: 38,
+                gap: 4,
+                padding: '0 8px',
+                height: 30,
                 background: 'transparent',
-                border: '1px solid var(--border-color, #E2E8F0)',
+                border: '1px solid var(--border-color, #CBD5E1)',
                 borderRadius: '5px',
-                fontSize: 12,
+                fontSize: 11,
+                fontFamily: 'var(--font-geist-mono)',
                 color: 'var(--ink-secondary, #64748B)',
                 cursor: 'pointer',
               }}
+              title="Reset all filters"
             >
-              <RotateCcw size={12} />
+              <RotateCcw size={11} />
               <span>Reset</span>
             </button>
           )}
         </div>
-
-        {/* CSV Export Button */}
-        <button
-          onClick={handleExport}
-          className="sm-btn-secondary"
-          style={{ height: 38, padding: '0 14px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-          title="Export current page to CSV"
-        >
-          <Download size={13} />
-          <span>Export CSV</span>
-        </button>
       </div>
 
       {/* Projects Table Card with Supermemory Framing */}
@@ -303,9 +313,22 @@ function ProjectsContent() {
               {meta.total_projects ? `${meta.total_projects.toLocaleString('en-IN')} total` : ''}
             </span>
           </div>
-          <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ink-secondary, #64748B)' }}>
-            PAGE {page} OF {meta.total_pages || 1}
-          </span>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={handleExport}
+              className="sm-export-csv-btn"
+              style={{ height: 28, padding: '0 10px', fontSize: 11 }}
+              title="Download page records as CSV"
+            >
+              <Download size={12} className="sm-export-icon" />
+              <span>Export CSV</span>
+            </button>
+
+            <span style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--ink-secondary, #64748B)' }}>
+              PAGE {page} OF {meta.total_pages || 1}
+            </span>
+          </div>
         </div>
 
         <div style={{ overflowX: 'auto' }}>

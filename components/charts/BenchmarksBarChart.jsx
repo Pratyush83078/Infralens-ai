@@ -31,29 +31,27 @@ export default function BenchmarksBarChart({ data }) {
         layout="vertical"
         margin={{ left: 10, right: 30, top: 10, bottom: 10 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" horizontal={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" horizontal={false} />
         <XAxis
           type="number"
           tickFormatter={v => `₹${(v / 100000).toFixed(1)}L Cr`}
-          tick={{ fill: '#94A3B8', fontSize: 12, fontFamily: 'var(--font-mono)' }}
-          axisLine={{ stroke: '#000', strokeWidth: 2 }}
-          tickLine={{ stroke: 'rgba(255, 255, 255, 0.2)' }}
+          tick={{ fill: '#64748B', fontSize: 11, fontFamily: 'var(--font-geist-mono)' }}
+          axisLine={{ stroke: '#E2E8F0' }}
+          tickLine={false}
         />
         <YAxis
           type="category"
           dataKey="shortName"
-          width={160}
-          tick={{ fill: '#F8FAFC', fontSize: 12, fontWeight: 700 }}
-          axisLine={{ stroke: '#000', strokeWidth: 2 }}
+          width={170}
+          tick={{ fill: '#0F172A', fontSize: 12, fontWeight: 600, fontFamily: 'var(--font-geist-sans)' }}
+          axisLine={{ stroke: '#E2E8F0' }}
           tickLine={false}
         />
-        <Tooltip content={<BenchmarkTooltip />} cursor={{ fill: 'rgba(255, 213, 0, 0.15)' }} />
+        <Tooltip content={<BenchmarkTooltip />} cursor={{ fill: 'rgba(0, 102, 255, 0.04)' }} />
         <Bar 
           dataKey="total_cost_overrun_cr" 
-          fill="var(--neo-cobalt)" 
-          stroke="#000" 
-          strokeWidth={2}
-          radius={[0, 6, 6, 0]} 
+          fill="#0066FF" 
+          radius={[0, 4, 4, 0]} 
         />
       </BarChart>
     </ResponsiveContainer>

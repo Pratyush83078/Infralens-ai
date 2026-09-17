@@ -1,8 +1,10 @@
-remove theme changer 
-- Fix export button, Action tab button
-- fix drawer panel ui 
-- what-if,backtest(range, compact, 3exmaple)
-- increase gap between left border of screen 
-- Query telemetry radar(cmd+k)
-- use correct font
-- benchmark font-color fix 
+- [x] remove theme changer
+- [x] Fix export button, Action tab button
+- [x] fix drawer panel ui 
+- [x] what-if,backtest(range pill input, compact, 3 examples, remove +/- buttons)
+- [x] increase gap between left border of screen to sidebar
+- [x] Query telemetry radar(cmd+k)
+- [x] use correct font (Geist, Geist_Mono, Geist_Pixel)
+- [x] benchmark font-color fix (high contrast dark ink on white)
+- [x] pure white background (removed radial dots)
+- [x] fix x-direction horizontal scrolling

@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sliders, RotateCcw, AlertTriangle, ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
-import { fmtCr } from '@/lib/api';
+import { Sliders, RotateCcw } from 'lucide-react';
 import PrecisionSlider from '@/components/PrecisionSlider';
 
 const LANDMARK_PRESETS = [
   {
     project_code: '705368',
-    project_name: 'Araria - Supaul (92 km) New Railway Line',
+    project_name: 'Araria - Supaul (92 km) New Rail Line',
     ministry: 'Ministry of Railways',
     state: 'Bihar',
     physical_progress_pct: 40.0,
@@ -21,7 +20,7 @@ const LANDMARK_PRESETS = [
   },
   {
     project_code: '5422',
-    project_name: 'Udhampur-Srinagar-Baramulla Rail Link (USBRL)',
+    project_name: 'USBRL Rail Link (Kashmir Valley)',
     ministry: 'Ministry of Railways',
     state: 'Jammu and Kashmir',
     physical_progress_pct: 88.0,
@@ -34,8 +33,8 @@ const LANDMARK_PRESETS = [
   },
   {
     project_code: '11054',
-    project_name: 'Mumbai Trans Harbour Link (MTHL / Atal Setu)',
-    ministry: 'Ministry of Road Transport & Highways',
+    project_name: 'Mumbai Trans Harbour Link (MTHL)',
+    ministry: 'MoRTH',
     state: 'Maharashtra',
     physical_progress_pct: 96.0,
     cumulative_expenditure_cr: 17843.0,
@@ -48,7 +47,6 @@ const LANDMARK_PRESETS = [
 ];
 
 export default function WhatIfSimulator({ project: externalProject }) {
-  // If externalProject provided, bind directly to it; otherwise allow toggling presets
   const [selectedPresetIndex, setSelectedPresetIndex] = useState(0);
   const activeProject = externalProject || LANDMARK_PRESETS[selectedPresetIndex];
 
@@ -65,7 +63,7 @@ export default function WhatIfSimulator({ project: externalProject }) {
   const [spendPct, setSpendPct] = useState(baselineSpendPct);
   const [delay, setDelay] = useState(baselineDelay);
 
-  // Whenever the bound project changes, re-sync sliders to its real baseline
+  // Re-sync sliders when bound project changes
   useEffect(() => {
     setProgress(Number(activeProject.physical_progress_pct || 40));
     const cost = Number(activeProject.revised_cost_cr || activeProject.original_cost_cr || 1000);
@@ -74,16 +72,12 @@ export default function WhatIfSimulator({ project: externalProject }) {
     setDelay(Number(activeProject.doc_slip_months_so_far || 0));
   }, [activeProject.project_code, activeProject.physical_progress_pct, activeProject.doc_slip_months_so_far]);
 
-  // Engine 1: Deterministic Risk Formula
-  // Recomputes live on every slider movement:
-  // - Physical-financial gap: spend % outpacing progress %
-  // - Schedule variance non-linear compounding
+  // Engine 1 Deterministic Risk Formula
   const currentGap = Math.max(0, spendPct - progress);
   const baselineGap = Math.max(0, baselineSpendPct - baselineProgress);
   const gapDelta = currentGap - baselineGap;
   const delayDelta = delay - baselineDelay;
 
-  // Composite simulated score (clamped 0 to 100)
   const simulatedScore = Math.min(
     100,
     Math.max(
@@ -120,93 +114,116 @@ export default function WhatIfSimulator({ project: externalProject }) {
       <span className="sm-corner-bracket sm-corner-bl" aria-hidden="true" />
       <span className="sm-corner-bracket sm-corner-br" aria-hidden="true" />
 
-      {/* Header Strip with Project Context */}
-      <div className="sm-card-top-strip" style={{ paddingBottom: 12, borderBottom: '1px solid var(--border-color, #E2E8F0)', marginBottom: 16 }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Sliders size={15} className="text-blue-600" />
-            <span style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
-              "WHAT-IF" SENSITIVITY SIMULATOR (ENGINE 1 RE-EVALUATION)
-            </span>
-          </div>
-          <p style={{ fontSize: 12, color: 'var(--ink-secondary, #64748B)', marginTop: 3 }}>
-            Recomputes deterministic risk scores client-side instantly from project baseline telemetry.
-          </p>
+      {/* Compact Header Toolbar */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingBottom: 10,
+          borderBottom: '1px solid var(--border-color, #E2E8F0)',
+          marginBottom: 12,
+          flexWrap: 'wrap',
+          gap: 8,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <Sliders size={14} color="#0066FF" />
+          <span style={{ fontSize: 12.5, fontWeight: 700, fontFamily: 'var(--font-geist-mono), monospace' }}>
+            WHAT-IF SENSITIVITY SIMULATOR
+          </span>
+          <span style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)', fontFamily: 'var(--font-geist-mono)' }}>
+            · Engine 1 Re-evaluation
+          </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleReset}
-          className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1 font-mono transition"
-          style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          title="Restore Project Official Baseline"
-        >
-          <RotateCcw size={12} />
-          <span>Reset to Baseline</span>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {!externalProject && (
+            <div style={{ display: 'flex', gap: 4 }}>
+              {LANDMARK_PRESETS.map((p, idx) => (
+                <button
+                  key={p.project_code}
+                  type="button"
+                  onClick={() => setSelectedPresetIndex(idx)}
+                  style={{
+                    padding: '3px 8px',
+                    borderRadius: 4,
+                    fontSize: 10.5,
+                    fontFamily: 'var(--font-geist-mono), monospace',
+                    fontWeight: selectedPresetIndex === idx ? 700 : 500,
+                    background: selectedPresetIndex === idx ? '#0F172A' : '#FFFFFF',
+                    color: selectedPresetIndex === idx ? '#FFFFFF' : '#475569',
+                    border: selectedPresetIndex === idx ? '1px solid #0F172A' : '1px solid #CBD5E1',
+                    cursor: 'pointer',
+                    transition: 'all 0.12s ease',
+                  }}
+                >
+                  #{p.project_code}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={handleReset}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              fontSize: 11,
+              color: 'var(--ink-secondary, #64748B)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-geist-mono)',
+            }}
+            title="Restore Project Official Baseline"
+          >
+            <RotateCcw size={11} />
+            <span>Reset</span>
+          </button>
+        </div>
       </div>
 
-      {/* Project Selector (Only visible if not hard-bound to an external project in drawer) */}
-      {!externalProject && (
-        <div style={{ marginBottom: 18, background: 'var(--surface-subtle, #F8FAFC)', padding: '10px 14px', borderRadius: 6, border: '1px solid var(--border-color, #E2E8F0)' }}>
-          <span style={{ fontSize: 10, fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--ink-secondary, #64748B)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            SELECT PROJECT TO STRESS-TEST:
-          </span>
-          <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-            {LANDMARK_PRESETS.map((p, idx) => (
-              <button
-                key={p.project_code}
-                type="button"
-                onClick={() => setSelectedPresetIndex(idx)}
-                style={{
-                  padding: '5px 10px',
-                  borderRadius: 4,
-                  fontSize: 11,
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: selectedPresetIndex === idx ? 700 : 500,
-                  background: selectedPresetIndex === idx ? '#FFFFFF' : 'transparent',
-                  color: selectedPresetIndex === idx ? '#0066FF' : 'var(--ink, #0F172A)',
-                  border: selectedPresetIndex === idx ? '1px solid #0066FF' : '1px solid var(--border-color, #CBD5E1)',
-                  boxShadow: selectedPresetIndex === idx ? '0 1px 3px rgba(0,102,255,0.15)' : 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.12s ease',
-                }}
-              >
-                #{p.project_code} · {p.project_name.split('(')[0].trim().substring(0, 24)}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Active Project Baseline Context Banner */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(0,102,255,0.03)', border: '1px solid rgba(0,102,255,0.12)', borderRadius: 6, marginBottom: 18, fontSize: 12 }}>
-        <div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#0066FF' }}>
+      {/* Slim 1-Line Active Project Baseline Context */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '6px 12px',
+          background: 'rgba(0,102,255,0.03)',
+          border: '1px solid rgba(0,102,255,0.12)',
+          borderRadius: 5,
+          marginBottom: 12,
+          fontSize: 11.5,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: '#0066FF' }}>
             #{activeProject.project_code}
           </span>
-          <strong style={{ marginLeft: 6, color: 'var(--ink, #0F172A)' }}>
+          <strong style={{ color: 'var(--ink, #0F172A)' }}>
             {activeProject.project_name}
           </strong>
-          <div style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)', marginTop: 2 }}>
-            {activeProject.ministry} · {activeProject.state}
-          </div>
+          <span style={{ color: 'var(--ink-secondary, #64748B)', fontSize: 11 }}>
+            ({activeProject.ministry} · {activeProject.state})
+          </span>
         </div>
 
-        <div style={{ textAlign: 'right', fontFamily: 'var(--font-mono)' }}>
-          <div style={{ fontSize: 11, color: 'var(--ink-secondary, #64748B)' }}>Official Baseline Score</div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink, #0F172A)' }}>
-            {baselineScore.toFixed(1)} / 100
-          </div>
+        <div style={{ fontFamily: 'var(--font-geist-mono)', fontSize: 11.5, flexShrink: 0, marginLeft: 12 }}>
+          <span style={{ color: 'var(--ink-secondary, #64748B)' }}>Baseline: </span>
+          <strong style={{ color: 'var(--ink, #0F172A)' }}>{baselineScore.toFixed(1)}/100</strong>
         </div>
       </div>
 
+      {/* Sliders and Result Grid */}
       <div className="sm-sim-grid">
-        {/* Sliders Controls Column */}
+        {/* Sliders Column */}
         <div className="sm-sim-controls">
-          {/* Slider 1: Physical Progress */}
           <PrecisionSlider
-            label="Simulated Physical Progress"
+            label="Physical Progress"
             value={progress}
             onChange={setProgress}
             min={5}
@@ -214,12 +231,10 @@ export default function WhatIfSimulator({ project: externalProject }) {
             step={1}
             unit="%"
             baseline={baselineProgress}
-            quickNudge={5}
           />
 
-          {/* Slider 2: Capital Spend */}
           <PrecisionSlider
-            label="Capital Expenditure (% of Outlay)"
+            label="Capital Expenditure"
             value={spendPct}
             onChange={setSpendPct}
             min={10}
@@ -227,12 +242,10 @@ export default function WhatIfSimulator({ project: externalProject }) {
             step={1}
             unit="%"
             baseline={baselineSpendPct}
-            quickNudge={10}
           />
 
-          {/* Slider 3: Schedule Delay */}
           <PrecisionSlider
-            label="Schedule Delay (Months)"
+            label="Schedule Variance Delay"
             value={delay}
             onChange={setDelay}
             min={0}
@@ -241,13 +254,12 @@ export default function WhatIfSimulator({ project: externalProject }) {
             unit=" mos"
             prefix="+"
             baseline={baselineDelay}
-            quickNudge={6}
           />
         </div>
 
-        {/* Live Recomputed Result Gauge */}
+        {/* Compact Result Gauge */}
         <div className="sm-sim-result-card">
-          <div style={{ fontSize: 10, fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--ink-secondary, #64748B)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          <div style={{ fontSize: 10, fontFamily: 'var(--font-geist-mono)', fontWeight: 700, color: 'var(--ink-secondary, #64748B)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             SIMULATED RISK SCORE
           </div>
 
@@ -255,17 +267,17 @@ export default function WhatIfSimulator({ project: externalProject }) {
             {simulatedScore.toFixed(1)}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
+                fontFamily: 'var(--font-geist-mono)',
+                fontSize: '10.5px',
                 fontWeight: 700,
-                padding: '2px 8px',
-                borderRadius: '4px',
+                padding: '1px 6px',
+                borderRadius: '3px',
                 background: `${badgeColor}15`,
                 color: badgeColor,
-                border: `1px solid ${badgeColor}40`,
+                border: `1px solid ${badgeColor}35`,
               }}
             >
               {simBand} Band
@@ -273,28 +285,28 @@ export default function WhatIfSimulator({ project: externalProject }) {
 
             <span
               style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
+                fontFamily: 'var(--font-geist-mono)',
+                fontSize: '10.5px',
                 fontWeight: 700,
                 color: scoreDelta > 0 ? '#DC2626' : scoreDelta < 0 ? '#059669' : '#64748B',
               }}
             >
-              {scoreDelta > 0 ? `+${scoreDelta} Escalation` : scoreDelta < 0 ? `${scoreDelta} Recovery` : 'No Delta'}
+              {scoreDelta > 0 ? `+${scoreDelta} Escalation` : scoreDelta < 0 ? `${scoreDelta} Recovery` : 'Baseline'}
             </span>
           </div>
 
           <div className="sm-sim-narrative">
             {scoreDelta > 0 ? (
               <span>
-                <strong>Negative Variance Trajectory:</strong> Pushing spend to {spendPct}% while progress lags at {progress}% widens the physical-financial decoupling gap to {currentGap}%, driving a +{scoreDelta} escalation over official baseline.
+                <strong>Decoupling Detected:</strong> Spend at {spendPct}% while progress lags at {progress}% widens gap to {currentGap}%, adding +{scoreDelta} risk over official baseline.
               </span>
             ) : scoreDelta < 0 ? (
               <span>
-                <strong>Remediation Trajectory:</strong> Accelerating physical execution to {progress}% while curbing schedule delay to {delay} months restores milestone equilibrium, reducing composite risk by {Math.abs(scoreDelta)} points.
+                <strong>Remediation Track:</strong> Progress at {progress}% with delay capped at {delay} mos recovers milestone equilibrium (-{Math.abs(scoreDelta)} risk).
               </span>
             ) : (
               <span>
-                <strong>Baseline Equilibrium:</strong> Sliders are currently aligned with official MoSPI reported milestones. Nudge progress or delay to simulate sensitivity.
+                <strong>Baseline Equilibrium:</strong> Telemetry matches official reported milestones. Nudge sliders to model trajectory.
               </span>
             )}
           </div>

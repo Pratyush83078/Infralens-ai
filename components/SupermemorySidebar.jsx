@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, ArrowUpRight } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Search } from 'lucide-react';
 
 const primaryLinks = [
   { href: '/', label: 'Dashboard' },
@@ -35,6 +35,54 @@ export default function SupermemorySidebar() {
           </span>
           <span className="sm-brand-text">infralens</span>
         </Link>
+
+        {/* Cmd+K Search Trigger */}
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent('open-cmdk'))}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '6px 10px',
+            marginBottom: 16,
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
+            borderRadius: 5,
+            fontSize: 12,
+            color: 'var(--ink-secondary, #64748B)',
+            cursor: 'pointer',
+            transition: 'all 0.12s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = '#0066FF';
+            e.currentTarget.style.color = '#0066FF';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = '#E2E8F0';
+            e.currentTarget.style.color = 'var(--ink-secondary, #64748B)';
+          }}
+          title="Search radar (⌘K)"
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Search size={13} />
+            <span>Search radar...</span>
+          </div>
+          <kbd
+            style={{
+              fontSize: 10,
+              fontFamily: 'var(--font-geist-mono), monospace',
+              padding: '1px 5px',
+              borderRadius: 3,
+              background: '#F8FAFC',
+              border: '1px solid #CBD5E1',
+              color: 'var(--ink, #0F172A)',
+            }}
+          >
+            ⌘K
+          </kbd>
+        </button>
 
         {/* Primary Nav */}
         <nav className="sm-sidebar-nav" aria-label="Primary navigation">

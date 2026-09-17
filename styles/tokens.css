@@ -100,15 +100,15 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  /* Canvas & Card Surfaces */
-  --bg:                 #F8F9FB;
-  --bg-grid:            rgba(0, 0, 0, 0.04);
+  /* Canvas & Card Surfaces — Pure Crisp White */
+  --bg:                 #FFFFFF;
+  --bg-grid:            transparent;
   --card-bg:            #FFFFFF;
-  --card-bg-soft:       #F1F3F7;
+  --card-bg-soft:       #F8FAFC;
   --surface-dark:       #E2E8F0;
   --surface-card:       #FFFFFF;
-  --surface-cream:      #EAECEF;
-  --surface-soft:       #F1F3F7;
+  --surface-cream:      #FFFFFF;
+  --surface-soft:       #F8FAFC;
 
   /* Inks / Text */
   --ink:                #0F172A;
